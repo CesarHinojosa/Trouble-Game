@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Trouble.PL.Data
+namespace Trouble.PL.Entities
 {
     public class tblPieceGame
     {
@@ -14,6 +14,9 @@ namespace Trouble.PL.Data
 
         public Guid GameId { get; set; }
 
-        public string PieceLocation { get; set; }
+        public int PieceLocation { get; set; }
+
+        public virtual tblPiece Piece { get; set; }
+        public virtual tblGame Game { get; set; }
     }
 }

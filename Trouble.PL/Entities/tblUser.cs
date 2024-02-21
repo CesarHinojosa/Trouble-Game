@@ -1,4 +1,4 @@
-﻿namespace Trouble.PL.Data
+﻿namespace Trouble.PL.Entities
 {
     public class tblUser
     {
@@ -11,5 +11,7 @@
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public virtual ICollection<tblUserGame> tblUserGames { get; set; }
     }
 }

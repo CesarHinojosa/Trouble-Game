@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Trouble.PL.Data
+namespace Trouble.PL.Entities
 {
     public class tblPiece
     {
         public Guid Id { get; set; }
 
         public string Color { get; set; }
+
+        public virtual ICollection<tblPieceGame> tblPieceGames { get; set; }
     }
 }
