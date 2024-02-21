@@ -11,7 +11,5 @@ namespace Trouble.PL.Data
         public Guid Id { get; set; }
 
         public string Color { get; set; }
-
-        public string Location { get; set; }
     }
 }

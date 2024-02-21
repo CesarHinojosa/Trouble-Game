@@ -13,5 +13,7 @@ namespace Trouble.PL.Data
         public Guid PieceId { get; set; }
 
         public Guid GameId { get; set; }
+
+        public string PieceLocation { get; set; }
     }
 }

@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Trouble.PL.Data
 {
-    public class tblPlayer
+    public class tblUserGame
     {
         public Guid Id { get; set; }
 
-        public Guid UserId { get; set; }
+        public Guid PlayerId { get; set; }
+
+        public Guid GameId { get; set; }
     }
 }
