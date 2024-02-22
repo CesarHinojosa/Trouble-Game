@@ -71,5 +71,14 @@ namespace Trouble.PL.Test
             dc.Set<T>().Remove(row);
             return dc.SaveChanges();
         }
+
+        public static string GetHash(string Password)
+        {
+            using (var hasher = new System.Security.Cryptography.SHA1Managed())
+            {
+                var hashbytes = System.Text.Encoding.UTF8.GetBytes(Password);
+                return Convert.ToBase64String(hasher.ComputeHash(hashbytes));
+            }
+        }
     }
 }

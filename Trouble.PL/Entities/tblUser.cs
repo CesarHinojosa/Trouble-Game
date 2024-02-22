@@ -14,4 +14,6 @@
 
         public virtual ICollection<tblUserGame> tblUserGames { get; set; }
     }
+
+    
 }
