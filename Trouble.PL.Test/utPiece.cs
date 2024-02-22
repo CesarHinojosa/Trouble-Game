@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Trouble.PL.Entities;
+using Trouble.PL.Test;
 
 namespace Trouble.PL.Test
 {
@@ -22,10 +23,11 @@ namespace Trouble.PL.Test
         [TestMethod]
         public void InsertTest()
         {
-            tblPiece newRow = new tblPiece();
+            tblPiece piece = new tblPiece();
 
-            newRow.Id = Guid.NewGuid();
-            newRow.Color = "Purple";
+            piece.Id = Guid.NewGuid();
+            piece.Color = "Purple";
+            TestCleanup();
 
         }
 
@@ -41,6 +43,7 @@ namespace Trouble.PL.Test
                 int rowsAffected = UpdateTest(piece);
 
                 Assert.IsTrue(rowsAffected == 1);
+                TestCleanup();
             }
         }
 
@@ -52,6 +55,7 @@ namespace Trouble.PL.Test
             {
                 int rowsAffected = DeleteTest(piece);
                 Assert.IsTrue(rowsAffected == 1);
+                TestCleanup();
             }
         }
     }

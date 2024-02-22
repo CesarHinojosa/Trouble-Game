@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Trouble.PL.Entities;
+using Trouble.PL.Test;
 
 namespace Trouble.PL.Test
 {
@@ -18,8 +19,8 @@ namespace Trouble.PL.Test
         public void LoadTest()
         {
             int expected = 4;
-            var customers = base.LoadTest();
-            Assert.AreEqual(expected, customers.Count());
+            var user = base.LoadTest();
+            Assert.AreEqual(expected, user.Count());
         }
 
         [TestMethod]
@@ -32,6 +33,7 @@ namespace Trouble.PL.Test
             newRow.LastName = "Test2";
             newRow.Username = "Test2UserName";
             newRow.Password = GetHash("TestPassword");
+            TestCleanup();
 
         }
 
@@ -45,6 +47,7 @@ namespace Trouble.PL.Test
                 user.LastName = "Updated Last Name";
                 int rowsAffected = UpdateTest(user);
                 Assert.IsTrue(rowsAffected == 1);
+                TestCleanup();
 
             }
 
@@ -59,8 +62,8 @@ namespace Trouble.PL.Test
                 
                 int rowsAffected = DeleteTest(user);
                 Assert.IsTrue(rowsAffected == 1);
+                TestCleanup();
             }
-
         }
 
         
