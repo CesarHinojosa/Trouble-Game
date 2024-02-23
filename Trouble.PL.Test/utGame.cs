@@ -52,7 +52,7 @@ namespace Trouble.PL.Test
         [TestMethod]
         public void DeleteTest() 
         {
-            tblGame game = base.LoadTest().FirstOrDefault();
+            tblGame game = base.LoadTest().FirstOrDefault(x => x.GameName == "Game2");
 
             if(game != null ) 
             {

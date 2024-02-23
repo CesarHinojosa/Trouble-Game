@@ -41,7 +41,7 @@ namespace Trouble.PL.Test
 
             if(piece != null) 
             {
-                piece.Color = "CornFlower Blue";
+                piece.Color = "Purple";
                 int rowsAffected = UpdateTest(piece);
 
                 Assert.IsTrue(rowsAffected == 1);
