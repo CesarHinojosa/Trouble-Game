@@ -14,7 +14,7 @@ namespace Trouble.PL.Test
         [TestMethod]
         public void LoadTest()
         {
-            int expected = 4;
+            int expected = 16;
             var piecegame = base.LoadTest();
             Assert.AreEqual(expected, piecegame.Count());
         }
@@ -25,11 +25,12 @@ namespace Trouble.PL.Test
             tblPieceGame piecegGame = new tblPieceGame();
 
             piecegGame.Id = Guid.NewGuid();
-            piecegGame.GameId = Guid.NewGuid();
-            piecegGame.PieceId = Guid.NewGuid();
+            piecegGame.GameId = base.LoadTest().FirstOrDefault().GameId;
+            piecegGame.PieceId = base.LoadTest().FirstOrDefault().PieceId;
             piecegGame.PieceLocation = 5;
 
-            TestCleanup();
+            int results = base.InsertTest(piecegGame);
+            Assert.AreEqual(1, results);
 
         }
 
@@ -41,14 +42,13 @@ namespace Trouble.PL.Test
             if(pieceGame != null) 
             {
                 pieceGame.PieceLocation = 14;
-                pieceGame.GameId = Guid.NewGuid();
-                pieceGame.PieceId = Guid.NewGuid();
+                pieceGame.GameId = base.LoadTest().FirstOrDefault().GameId;
+                pieceGame.PieceId = base.LoadTest().FirstOrDefault().PieceId;
 
 
                 int rowsAffected = UpdateTest(pieceGame);
                 Assert.IsTrue(rowsAffected == 1);
             }
-            TestCleanup();
         }
 
         [TestMethod]
@@ -62,7 +62,6 @@ namespace Trouble.PL.Test
                 Assert.IsTrue(rowsAffected == 1);
 
             }
-            TestCleanup();
 
         }
     }

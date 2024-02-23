@@ -30,7 +30,8 @@ namespace Trouble.PL.Test
             game.GameName = "Inserted Game";
             game.GameDate = DateTime.Now;
 
-            TestCleanup();
+            int results = base.InsertTest(game);
+            Assert.AreEqual(1, results);
 
         }
 
@@ -46,10 +47,7 @@ namespace Trouble.PL.Test
 
                 int rowsAffected = UpdateTest(game);
                 Assert.IsTrue(rowsAffected == 1);
-                
-
             }
-            TestCleanup();
         }
         [TestMethod]
         public void DeleteTest() 
@@ -62,7 +60,6 @@ namespace Trouble.PL.Test
                 Assert.IsTrue(rowsAffected == 1);
                 
             }
-            TestCleanup();
         }
     }
 }

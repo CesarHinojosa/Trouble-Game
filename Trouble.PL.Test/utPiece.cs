@@ -27,7 +27,9 @@ namespace Trouble.PL.Test
 
             piece.Id = Guid.NewGuid();
             piece.Color = "Purple";
-            TestCleanup();
+            
+            int results = base.InsertTest(piece);
+            Assert.AreEqual(1, results);
 
         }
 
@@ -43,7 +45,6 @@ namespace Trouble.PL.Test
                 int rowsAffected = UpdateTest(piece);
 
                 Assert.IsTrue(rowsAffected == 1);
-                TestCleanup();
             }
         }
 
@@ -55,7 +56,6 @@ namespace Trouble.PL.Test
             {
                 int rowsAffected = DeleteTest(piece);
                 Assert.IsTrue(rowsAffected == 1);
-                TestCleanup();
             }
         }
     }

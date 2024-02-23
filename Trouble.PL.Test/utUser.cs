@@ -18,7 +18,7 @@ namespace Trouble.PL.Test
         [TestMethod]
         public void LoadTest()
         {
-            int expected = 4;
+            int expected = 5;
             var user = base.LoadTest();
             Assert.AreEqual(expected, user.Count());
         }
@@ -33,7 +33,9 @@ namespace Trouble.PL.Test
             newRow.LastName = "Test2";
             newRow.Username = "Test2UserName";
             newRow.Password = GetHash("TestPassword");
-            TestCleanup();
+
+            int results = InsertTest(newRow);
+            Assert.AreEqual(1, results);
 
         }
 
@@ -47,7 +49,6 @@ namespace Trouble.PL.Test
                 user.LastName = "Updated Last Name";
                 int rowsAffected = UpdateTest(user);
                 Assert.IsTrue(rowsAffected == 1);
-                TestCleanup();
 
             }
 
@@ -56,13 +57,12 @@ namespace Trouble.PL.Test
         [TestMethod]
         public void DeleteTest()
         {
-            tblUser user = base.LoadTest().FirstOrDefault();
+            tblUser user = base.LoadTest().FirstOrDefault(x => x.FirstName == "Test");
             if (user != null)
             {
                 
                 int rowsAffected = DeleteTest(user);
                 Assert.IsTrue(rowsAffected == 1);
-                TestCleanup();
             }
         }
 

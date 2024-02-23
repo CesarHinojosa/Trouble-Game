@@ -10,7 +10,7 @@ namespace Trouble.PL.Data
 {
     public class TroubleEntities : DbContext
     {
-        Guid[] userId = new Guid[4];
+        Guid[] userId = new Guid[5];
         Guid[] gameId = new Guid[2];
         Guid[] pieceId = new Guid[16];
 
@@ -112,6 +112,15 @@ namespace Trouble.PL.Data
                 Password = GetHash("Test")
             });
 
+            modelBuilder.Entity<tblUser>().HasData(new tblUser
+            {
+                Id = userId[4],
+                FirstName = "Test",
+                LastName = "Test",
+                Username = "User5",
+                Password = GetHash("Test")
+            });
+
         }
 
         private void CreatePieces(ModelBuilder modelBuilder)
@@ -130,7 +139,7 @@ namespace Trouble.PL.Data
                 entity.Property(e => e.Id).ValueGeneratedNever();
                 entity.Property(e => e.Color)
                     .IsRequired()
-                    .HasMaxLength(6)
+                    .HasMaxLength(20)
                     .IsUnicode(false);
             });
 
