@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Trouble.PL.Entities
 {
-    public class tblGame
+    public class tblGame : IEntity
     {
         public Guid Id { get; set; }
 

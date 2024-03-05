@@ -1,6 +1,6 @@
 ﻿namespace Trouble.PL.Entities
 {
-    public class tblUser
+    public class tblUser : IEntity
     {
         public Guid Id { get; set; }
 
