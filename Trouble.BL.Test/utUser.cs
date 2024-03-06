@@ -35,6 +35,35 @@ namespace Trouble.Bl.Test
             
         }
 
+        [TestMethod]
+        public void UpdateTest()
+        {
+            User user = new UserManager(options).Load().FirstOrDefault();
+
+            user.FirstName = "Update FirstName BL";
+
+            Assert.IsTrue(new UserManager(options).Update(user, true) > 0);
+        }
+
+        [TestMethod]
+        public void DeleteTest()
+        {
+            User user = new UserManager(options).Load().FirstOrDefault();
+
+            Assert.IsTrue(new UserManager(options).Delete(user.Id, true) > 0);
+        }
+
+        [TestMethod]
+        public void LoadByIdTest()
+        {
+            User user = new UserManager(options).Load().FirstOrDefault();
+
+            Assert.AreEqual(new UserManager(options).LoadById(user.Id).Id, user.Id);
+        }
+
+
+
+
         public static string GetHash(string Password)
         {
             using (var hasher = new System.Security.Cryptography.SHA1Managed())

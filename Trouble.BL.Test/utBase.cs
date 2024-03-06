@@ -24,7 +24,7 @@ namespace Trouble.Bl.Test
             _configuration = builder.Build();
 
             options = new DbContextOptionsBuilder<TroubleEntities>()
-                .UseSqlServer(_configuration.GetConnectionString("TroubleConnection"))
+                .UseSqlServer(_configuration.GetConnectionString("DatabaseConnection"))
                 .UseLazyLoadingProxies()
                 .Options;
 
