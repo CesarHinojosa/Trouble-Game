@@ -57,6 +57,8 @@
 
                     if (rollback) dbTransaction.Rollback();
                 }
+                //Added this to return results
+                return results;
             }
             catch (Exception)
             {
@@ -81,6 +83,8 @@
 
                     if (rollback) dbTransaction.Rollback();
                 }
+                //Added this to return results
+                return results;
             }
             catch (Exception)
             {
