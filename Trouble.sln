@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trouble.BL.Models", "Troubl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trouble.BL", "Trouble.BL\Trouble.BL.csproj", "{9C2437E9-C9D6-4B0E-BDF9-B7390330CA57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trouble.Bl.Test", "Trouble.Bl.Test\Trouble.Bl.Test.csproj", "{65B3D563-57F1-4511-A888-5B971A520A5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trouble.BL.Test", "Trouble.Bl.Test\Trouble.BL.Test.csproj", "{65B3D563-57F1-4511-A888-5B971A520A5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
