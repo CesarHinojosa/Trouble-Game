@@ -11,5 +11,33 @@ namespace Trouble.BL.Test
     public class UserGame : utBase
     {
 
+        [TestMethod]
+        public void InsertTest()
+        {
+
+
+            Game game = new GameManager(options).Load().FirstOrDefault();
+            //Assert.AreEqual(new UserGameManager(options).LoadById(game.Id).Id, game.Id);
+
+            User user = new UserManager(options).Load().FirstOrDefault();
+            //Assert.AreEqual(new UserGameManager(options).LoadById(user.Id).Id, user.Id);
+
+            int result = new UserGameManager(options).Insert(user.Id, game.Id, true);
+            Assert.IsTrue(result > 0);
+
+        }
+
+        [TestMethod]
+        public void UpdateTest()
+        {
+        }
+
+        [TestMethod]
+        public void DeleteTest()
+        {
+        }
+
+
+
     }
 }
