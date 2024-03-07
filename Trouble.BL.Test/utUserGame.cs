@@ -28,11 +28,6 @@ namespace Trouble.BL.Test
         }
 
         [TestMethod]
-        public void UpdateTest()
-        {
-        }
-
-        [TestMethod]
         public void DeleteTest()
         {
             Guid row = new UserGameManager(options).Load().FirstOrDefault().Id;

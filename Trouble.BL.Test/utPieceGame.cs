@@ -27,27 +27,6 @@ namespace Trouble.BL.Test
         }
 
         [TestMethod]
-        public void UpdateTest()
-        {
-
-            //Game game = new GameManager(options).Load().FirstOrDefault();
-            ////Piece piece = new PieceManager(options).Load().FirstOrDefault();
-            //tblPieceGame pieceGame = 
-
-            //if (pieceGame != null)
-            //{
-            //    pieceGame.PieceLocation = 14;
-            //    pieceGame.GameId = new GameManager(options).Load().FirstOrDefault().Id;
-            //    pieceGame.PieceId = new PieceManager(options).Load().FirstOrDefault().Id;
-
-
-            //    int rowsAffected = UpdateTest(pieceGame);
-            //    Assert.IsTrue(rowsAffected == 1);
-            //}
-
-        }
-
-        [TestMethod]
         public void DeleteTest()
         {   
             Guid row = new PieceGameManager(options).Load().FirstOrDefault().Id;
