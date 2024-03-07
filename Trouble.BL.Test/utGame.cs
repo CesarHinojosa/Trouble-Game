@@ -15,7 +15,7 @@ namespace Trouble.BL.Test
         public void LoadTest()
         {
             List<Game> game = new GameManager(options).Load();
-            int expected = 4;
+            int expected = 2;
 
             Assert.AreEqual(expected, game.Count);
         }

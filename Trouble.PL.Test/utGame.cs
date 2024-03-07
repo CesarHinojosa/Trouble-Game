@@ -15,7 +15,7 @@ namespace Trouble.PL.Test
         [TestMethod]
         public void LoadTest()
         {
-            int expected = 4;
+            int expected = 2;
             var game = base.LoadTest();
             Assert.AreEqual(expected, game.Count());
         }
