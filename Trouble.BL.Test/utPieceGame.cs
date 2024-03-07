@@ -27,36 +27,10 @@ namespace Trouble.BL.Test
         }
 
         [TestMethod]
-        public void UpdateTest()
-        {
-            ////Loads the first Game and changes the game name
-            //Game game = new GameManager(options).Load().FirstOrDefault();
-            //game.GameName = "New Game";
-
-            ////loads the first piece and changes the color
-            //Piece piece = new PieceManager(options).Load().FirstOrDefault();
-            ////piece.Color = "Brownish";
-
-            //Assert.IsTrue(new PieceGameManager(options).Update(piece.Id, game.Id, true) > 0);
-
-
-            //Piece piece = new PieceManager(options).Load().FirstOrDefault();
-
-            //piece.Color = "BrownIsh";
-
-            //tblPieceGame pieceGame = new PieceGameManager(options).Load()FirstOrDefault();
-
-        }
-
-        [TestMethod]
         public void DeleteTest()
-        {
-            //Piece piece = new PieceManager(options).Load().FirstOrDefault();
-
-            //Game game = new GameManager(options).Load().FirstOrDefault(x => x.GameName == "Game2");
-
-
-            //Assert.IsTrue(new PieceGameManager(options).Delete(game.Id, true) > 0);
+        {   
+            Guid row = new PieceGameManager(options).Load().FirstOrDefault().Id;
+            Assert.IsTrue(new PieceGameManager(options).Delete(row, true) > 0);
         }
     }
 }
