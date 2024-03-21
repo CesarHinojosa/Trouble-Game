@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Trouble.Bl.Test;
+using Trouble.BL.Test;
 
 namespace Trouble.BL.Test
 {
@@ -39,6 +39,16 @@ namespace Trouble.BL.Test
             Guid pieceId = new PieceManager(options).Load().FirstOrDefault().Id;
             Guid gameId = new GameManager(options).Load().FirstOrDefault().Id;
             Assert.AreEqual(1, new PieceGameManager(options).MovePiece(pieceId, gameId, 4, true));
+        }
+
+        [TestMethod]
+        public void SendToHomeTest()
+        {
+            Guid gameId = new GameManager(options).Load().FirstOrDefault().Id;
+            Guid pieceId = new PieceGameManager(options).Load().FirstOrDefault(r => r.PieceLocation == 2 && r.GameId == gameId).PieceId;
+
+            int results = new PieceGameManager(options).MovePiece(pieceId, gameId, 3, true);
+            Assert.AreEqual(2, results);
         }
     }
 }

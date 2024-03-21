@@ -105,12 +105,21 @@ namespace Trouble.BL
 
                     tblPieceGame row = dc.tblPieceGames.FirstOrDefault(r => r.GameId == gameId && r.PieceId == pieceId);
 
+                    //If piece is at home and roll is 1 or 6
                     if (row.PieceLocation == 0 && (spaces == 1 || spaces == 6))
                     {
                         row.PieceLocation = 1;
                     }
                     else
                     {
+                        //If piece is on space, send that piece back to home
+                        tblPieceGame row2 = dc.tblPieceGames.FirstOrDefault(r => r.PieceLocation == row.PieceLocation + spaces && r.GameId == gameId);
+                        if(row2 != null)
+                        {
+                            row2.PieceLocation = 0;
+                        }
+
+                        //Move piece forward
                         row.PieceLocation += spaces;
                     }
                     results = dc.SaveChanges();
