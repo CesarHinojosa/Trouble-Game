@@ -58,5 +58,12 @@ namespace Trouble.BL.Test
             Game game = new GameManager(options).Load().FirstOrDefault();
             Assert.AreEqual(new GameManager(options).LoadById(game.Id).Id, game.Id);
         }
+
+        [TestMethod]
+        public void RollTest()
+        {
+            int randomNum = new GameManager(options).Roll();
+            Assert.IsTrue(randomNum <= 6 && randomNum >= 1);
+        }
     }
 }

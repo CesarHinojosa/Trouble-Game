@@ -32,5 +32,13 @@ namespace Trouble.BL.Test
             Guid row = new PieceGameManager(options).Load().FirstOrDefault().Id;
             Assert.IsTrue(new PieceGameManager(options).Delete(row, true) > 0);
         }
+
+        [TestMethod]
+        public void MovePieceTest()
+        {
+            Guid pieceId = new PieceManager(options).Load().FirstOrDefault().Id;
+            Guid gameId = new GameManager(options).Load().FirstOrDefault().Id;
+            Assert.AreEqual(1, new PieceGameManager(options).MovePiece(pieceId, gameId, 4, true));
+        }
     }
 }
