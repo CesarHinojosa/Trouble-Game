@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Trouble.BL;
 
-namespace Trouble.Bl.Test
+namespace Trouble.BL.Test
 {
     [TestClass]
     public class utUser : utBase
@@ -48,7 +48,7 @@ namespace Trouble.Bl.Test
         [TestMethod]
         public void DeleteTest()
         {
-            User user = new UserManager(options).Load().FirstOrDefault();
+            User user = new UserManager(options).Load().FirstOrDefault(r => r.Username == "User5");
 
             Assert.IsTrue(new UserManager(options).Delete(user.Id, true) > 0);
         }

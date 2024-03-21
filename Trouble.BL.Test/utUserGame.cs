@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Trouble.Bl.Test;
+using Trouble.BL.Test;
 
 namespace Trouble.BL.Test
 {

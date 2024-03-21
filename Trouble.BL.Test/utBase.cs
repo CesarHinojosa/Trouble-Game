@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace Trouble.Bl.Test
+namespace Trouble.BL.Test
 {
     //added comment 
     [TestClass]

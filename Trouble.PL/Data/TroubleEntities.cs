@@ -264,7 +264,7 @@ namespace Trouble.PL.Data
             List<tblPieceGame> PieceGames = new List<tblPieceGame>
             {
                 new tblPieceGame { Id = Guid.NewGuid(), GameId = gameId[0], PieceId = pieceId[0], PieceLocation = 5 },
-                new tblPieceGame { Id = Guid.NewGuid(), GameId = gameId[0], PieceId = pieceId[1], PieceLocation = 0 },
+                new tblPieceGame { Id = Guid.NewGuid(), GameId = gameId[0], PieceId = pieceId[1], PieceLocation = 2 },
                 new tblPieceGame { Id = Guid.NewGuid(), GameId = gameId[0], PieceId = pieceId[2], PieceLocation = 0 },
                 new tblPieceGame { Id = Guid.NewGuid(), GameId = gameId[0], PieceId = pieceId[3], PieceLocation = 0 },
                 new tblPieceGame { Id = Guid.NewGuid(), GameId = gameId[0], PieceId = pieceId[4], PieceLocation = 0 },
