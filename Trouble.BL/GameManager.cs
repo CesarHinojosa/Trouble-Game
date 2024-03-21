@@ -121,5 +121,13 @@ namespace Trouble.BL
                 throw;
             }
         }
+
+
+        public int Roll()
+        {
+            Random rnd = new Random();
+            int roll = rnd.Next(1, 7);
+            return roll;
+        }
     }
 }

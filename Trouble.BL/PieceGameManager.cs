@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Azure.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,7 +45,7 @@ namespace Trouble.BL
             }
         }
 
-        public int Update(Guid pieceId, Guid gameId, bool rollback = false)
+        public int Update(Guid pieceId, Guid gameId, int location, bool rollback = false)
         {
             try
             {
@@ -54,12 +55,13 @@ namespace Trouble.BL
                     IDbContextTransaction transaction = null;
                     if (rollback) transaction = dc.Database.BeginTransaction();
 
-                    tblPieceGame row = dc.tblPieceGames.FirstOrDefault(r => r.PieceId == pieceId && r.GameId == gameId);
+                    tblPieceGame row = dc.tblPieceGames.FirstOrDefault(r => r.GameId == gameId && r.PieceId == pieceId);
 
                     if (row != null)
                     {
                         row.PieceId = pieceId;
                         row.GameId = gameId;
+                        row.PieceLocation = location;
 
                         results = dc.SaveChanges();
                         if (rollback) transaction.Rollback();
@@ -87,6 +89,37 @@ namespace Trouble.BL
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        public int MovePiece(Guid pieceId, Guid gameId, int spaces, bool rollback = false)
+        {
+            try
+            {
+                int results;
+                using (TroubleEntities dc = new TroubleEntities(options))
+                {
+                    IDbContextTransaction transaction = null;
+                    if (rollback) transaction = dc.Database.BeginTransaction();
+
+                    tblPieceGame row = dc.tblPieceGames.FirstOrDefault(r => r.GameId == gameId && r.PieceId == pieceId);
+
+                    if (row.PieceLocation == 0 && (spaces == 1 || spaces == 6))
+                    {
+                        row.PieceLocation = 1;
+                    }
+                    else
+                    {
+                        row.PieceLocation += spaces;
+                    }
+                    results = dc.SaveChanges();
+                    if (rollback) transaction.Rollback();
+                    return results;
+                }
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }
