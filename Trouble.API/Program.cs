@@ -1,7 +1,9 @@
-using Serilog.Ui.Web;
+using Microsoft.EntityFrameworkCore;
+using Trouble.PL.Data;
 using Serilog;
 using Serilog.Ui.MsSqlServerProvider;
 using Serilog.Ui.Web;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
