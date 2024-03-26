@@ -5,6 +5,7 @@ using Serilog.Ui.MsSqlServerProvider;
 using Serilog.Ui.Web;
 using System.Reflection;
 
+//Need to work on API
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
