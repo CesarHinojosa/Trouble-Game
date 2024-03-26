@@ -24,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trouble.WPFUI", "Trouble.WP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trouble.API", "Trouble.API\Trouble.API.csproj", "{8DE9CD8B-1E7D-4DA9-9E7B-8AC73AAEC5BC}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Python Trouble UI", "..\Users\cesar\OneDrive\School\Python Trouble UI\Python Trouble UI.pyproj", "{FC899FAC-B62F-4129-A358-9174ECD4240D}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Trouble.PythonUI", "Python.UI\Trouble.PythonUI.pyproj", "{FC899FAC-B62F-4129-A358-9174ECD4240D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
