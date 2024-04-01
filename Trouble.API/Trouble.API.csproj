@@ -17,6 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Trouble.BL.Models\Trouble.BL.Models.csproj" />
+    <ProjectReference Include="..\Trouble.BL\Trouble.BL.csproj" />
     <ProjectReference Include="..\Trouble.PL\Trouble.PL.csproj" />
   </ItemGroup>
 

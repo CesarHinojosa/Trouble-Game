@@ -26,6 +26,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trouble.API", "Trouble.API\
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Trouble.PythonUI", "Python.UI\Trouble.PythonUI.pyproj", "{FC899FAC-B62F-4129-A358-9174ECD4240D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trouble.API.Test", "Trouble.API.Test\Trouble.API.Test.csproj", "{0C88BAD0-53C6-4F91-A5D3-BE5F77ED7753}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,10 @@ Global
 		{8DE9CD8B-1E7D-4DA9-9E7B-8AC73AAEC5BC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FC899FAC-B62F-4129-A358-9174ECD4240D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FC899FAC-B62F-4129-A358-9174ECD4240D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C88BAD0-53C6-4F91-A5D3-BE5F77ED7753}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C88BAD0-53C6-4F91-A5D3-BE5F77ED7753}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C88BAD0-53C6-4F91-A5D3-BE5F77ED7753}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C88BAD0-53C6-4F91-A5D3-BE5F77ED7753}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
