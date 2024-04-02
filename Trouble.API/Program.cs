@@ -5,10 +5,10 @@ using Serilog.Ui.MsSqlServerProvider;
 using Serilog.Ui.Web;
 using System.Reflection;
 
-public class Program
-{
-    private static void Main(string[] args)
-    {
+//public class Program
+//{
+//    private static void Main(string[] args)
+//    {
         //Need to work on API
         var builder = WebApplication.CreateBuilder(args);
 
@@ -64,5 +64,5 @@ public class Program
 
 
         app.Run();
-    }
-}
+//    }
+//}
