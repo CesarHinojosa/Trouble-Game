@@ -4,15 +4,12 @@ using Trouble.BL.Models;
 namespace Trouble.API.Test
 {
     [TestClass]
-    public class utGame 
+    public class utGame : utBase
     {
         [TestMethod]
-        public void utGameGame() { }
-        //public async Task LoadTestAsync()
-        //{
-        //    int x = 1;
-        //    Assert.AreEqual(1, x);
-        //    //await base.LoadTestAsync<Game>();
-        //}
+        public async Task LoadTestAsync()
+        {
+            await base.LoadTestAsync<Format>();
+        }
     }
 }
