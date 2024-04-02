@@ -6,6 +6,8 @@ using Trouble.PL.Data;
 
 namespace Trouble.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> logger;
@@ -19,6 +21,7 @@ namespace Trouble.API.Controllers
             logger.LogWarning("I was here!");
         }
 
+        [HttpGet]
         public IEnumerable<User> Get()
         {
             logger.LogWarning("Game-->");
