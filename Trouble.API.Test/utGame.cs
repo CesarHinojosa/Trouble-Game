@@ -26,7 +26,7 @@ namespace Trouble.API.Test
         {
 
             //Game name has to match what is in the API
-            await base.DeleteTestAsync1<Game>(new KeyValuePair<string, string>("GameName", "Game1"));
+            await base.DeleteTestAsync1<Game>(new KeyValuePair<string, string>("GameName", "Game2"));
         }
 
         [TestMethod]
@@ -38,7 +38,7 @@ namespace Trouble.API.Test
         [TestMethod]
         public async Task UpdateTestAsync()
         {
-            Game game = new Game { GameName = "Test" };
+            Game game = new Game { GameName = "Test", GameDate = DateTime.Now };
             await base.UpdateTestAsync<Game>(new KeyValuePair<string, string>("GameName", "Game1"), game);
 
         }
