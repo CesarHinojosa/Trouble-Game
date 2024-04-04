@@ -21,13 +21,13 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        string connectionString = GetSecret("WebAPIKey").Result;
+        //string connectionString = GetSecret("WebAPIKey").Result;
 
         // Add Connection Information
         builder.Services.AddDbContextPool<TroubleEntities>(options =>
         {
-            //options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection"));
-            options.UseSqlServer(connectionString);
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection"));
+            //options.UseSqlServer(connectionString);
             options.UseLazyLoadingProxies();
         });
 
