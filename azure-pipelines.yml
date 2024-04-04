@@ -35,6 +35,13 @@ steps:
     projects: 'Trouble.BL.Test/Trouble.BL.Test.csproj'
     arguments: '--configuration $(BuildConfiguration) --collect "XPlat Code coverage" -- RunConfiguration.DisableAppDomain=true'
     
+- task: DotNetCoreCLI@2
+  displayName: Test API
+  inputs:
+    command: test
+    projects: 'Trouble.API.Test/Trouble.API.Test.csproj'
+    arguments: '--configuration $(BuildConfiguration) --collect "XPlat Code coverage" -- RunConfiguration.DisableAppDomain=true'
+    
 - script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.1.19'  
   displayName: 'Install ReportGenerator tool'  
   
