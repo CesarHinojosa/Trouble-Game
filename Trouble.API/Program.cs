@@ -6,6 +6,7 @@ using Serilog.Ui.Web;
 using System.Reflection;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
+using Trouble.API.Hubs;
 
 public class Program
 {
@@ -15,6 +16,11 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
+        builder.Services.AddSignalR()
+            .AddJsonProtocol(options =>
+            {
+                options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+            });
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -72,31 +78,13 @@ public class Program
         app.UseRouting();
         app.UseAuthorization();
 
-        app.MapControllers();
-
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            endpoints.MapHub<TroubleHub>("/troublehub");
+        });
 
         app.Run();
-    }
-
-    public static async Task<string> GetSecret(string secretName)
-    {
-        try
-        {
-            var keyVaultName = "kv-300077578";
-            var kvUri = $"https://{keyVaultName}.vault.azure.net";
-
-            var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
-            //using var client = GetClient();
-            var secret = await client.GetSecretAsync(secretName);
-            Console.WriteLine(secret.Value.Value.ToString());
-            return secret.Value.Value.ToString();
-            //return (await client.GetSecretAsync(kvUri, secretName)).Value.ToString();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            return null;
-        }
     }
 }
 
