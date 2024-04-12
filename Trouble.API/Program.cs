@@ -68,7 +68,7 @@ public class Program
         //---------------------------------------------------------------- Logging from plumbing
 
         // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
+        if (app.Environment.IsDevelopment() || true)
         {
             app.UseSwagger();
             app.UseSwaggerUI();
@@ -78,10 +78,12 @@ public class Program
         app.UseRouting();
         app.UseAuthorization();
 
+        app.UseWebSockets();
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
-            endpoints.MapHub<TroubleHub>("/troublehub");
+            endpoints.MapHub<TroubleHub>("/TroubleHub");
         });
 
         app.Run();
