@@ -8,7 +8,5 @@ namespace Trouble.API.Hubs
             await Clients.All.SendAsync("ReceiveMessage", user, message);
 
         }
-
-        
     }
 }

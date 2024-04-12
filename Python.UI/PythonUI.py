@@ -9,11 +9,19 @@ from signalrcore.hub_connection_builder import HubConnectionBuilder
 
 #packing or .grid is the best (absolute)
 
+hubaddress = "https://localhost:7081/TroubleHub"
+hub_connection = HubConnectionBuilder().with_url(hubaddress, options={"verify_ssl": False}).build()
+hub_connection.on("ReceiveMessage", lambda msg: print("Received message back from hub." + msg[0]))
+hub_connection.start()
+
+def on_button_click():
+#roll the dice  
+    hub_connection.send("SendMessage", ["Cesar", " has connected"])
+
 class TroubleBoard:
-    
     #need a .send for testing so it sends from Python to Console app
 
-    def __init__(self, master, hub_connection):
+    def __init__(self, master):
         self.master = master
         self.hub_connection = hub_connection
         master.title("Trouble Game Board")
@@ -79,25 +87,18 @@ class TroubleBoard:
                 square_size = self.square_size // 2
                 self.canvas.create_rectangle(center_x - square_size, center_y - square_size, center_x + square_size, center_y + square_size, fill=self.colors[zone_type], outline="black")
 
-    def on_button_click(self):
-        #roll the dice  
-        self.hub_connection.send("ReceiveMessage", ["Cesar", " has connected"])
+    
     
     def button(self):
-        button = tk.Button(self.master, text="Roll!", command=self.on_button_click)
-        button.grid(row=0, column=0, padx=0, pady=0) 
+        button = tk.Button(self.master, text="Roll!", command=on_button_click)
+        button.grid(row=0, column=0, padx=0, pady=0)   
         
-    
-            
 
 def main():
-    hubaddress = "https://localhost:7081/TroubleHub"
-    hub_connection = HubConnectionBuilder().with_url(hubaddress, options={"verify_ssl": False}).build()
-    hub_connection.on("ReceiveMessage", lambda msg: print("Received message back from hub." + msg[0]))
-    hub_connection.start()
+  
     
     root = tk.Tk()
-    app = TroubleBoard(root, hub_connection)
+    app = TroubleBoard(root)
     root.mainloop()
 
 if __name__ == "__main__":
