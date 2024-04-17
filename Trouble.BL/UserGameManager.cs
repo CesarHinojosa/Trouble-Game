@@ -13,6 +13,59 @@ namespace Trouble.BL
 
         }
 
+        public List<UserGame> Load()
+        {
+            try
+            {
+                List<UserGame> rows = new List<UserGame>();
+                base.Load()
+                    .ForEach(d => rows.Add(
+                        new UserGame
+                        {
+                            Id = d.Id,
+                            UserId = d.UserId,
+                            GameId = d.GameId
+
+                        }));
+
+                return rows;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public UserGame LoadById(Guid id)
+        {
+            try
+            {
+                tblUserGame row = base.LoadById(id);
+
+                if (row != null)
+                {
+                    UserGame userGame = new UserGame
+                    {
+                        Id = row.Id,
+                        UserId = row.UserId,
+                        GameId = row.GameId
+                    };
+                    return userGame;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public int Insert(Guid userId, Guid gameId, bool rollback = false)
         {
             try

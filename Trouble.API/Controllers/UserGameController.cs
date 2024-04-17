@@ -21,6 +21,19 @@ namespace Trouble.API.Controllers
             logger.LogWarning("I was here!");
         }
 
+        [HttpGet]
+        public IEnumerable<UserGame> Get()
+        {
+            logger.LogWarning("UserGame-->");
+            return new UserGameManager(options).Load();
+        }
+
+        [HttpGet("{id}")]
+        public UserGame Get(Guid id)
+        {
+            return new UserGameManager(options).LoadById(id);
+        }
+
         [HttpPost("{rollback?}")]
         //needs to be Guid or int (public Guid)??
         //Guid user?

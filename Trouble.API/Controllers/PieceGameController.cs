@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Trouble.BL;
+using Trouble.BL.Models;
 using Trouble.PL.Data;
 
 namespace Trouble.API.Controllers
@@ -18,6 +19,19 @@ namespace Trouble.API.Controllers
             this.logger = logger;
             this.options = options;
             logger.LogWarning("I was here!");
+        }
+
+        [HttpGet]
+        public IEnumerable<PieceGame> Get()
+        {
+            logger.LogWarning("PieceGame-->");
+            return new PieceGameManager(options).Load();
+        }
+
+        [HttpGet("{id}")]
+        public PieceGame Get(Guid id)
+        {
+            return new PieceGameManager(options).LoadById(id);
         }
 
         [HttpPost("{rollback?}")]
