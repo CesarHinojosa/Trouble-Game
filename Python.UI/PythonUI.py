@@ -26,6 +26,8 @@ def on_button_click():
     
     #Send a message to the Login Method on the Server
     
+    #userfails = "Cesar"
+    #passfails = "ZAqyuuB77cTBY/Z5p0b3q3+10fo="
     
     
     userworks = "User1"
