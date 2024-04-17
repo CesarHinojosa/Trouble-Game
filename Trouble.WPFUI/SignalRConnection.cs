@@ -63,5 +63,22 @@ namespace Trouble.ConsoleApp
                 Console.WriteLine(ex.ToString());
             }
         }
+
+        public void MovePiece(Guid pieceId, Guid gameId, int spaces)
+        {
+            if (_connection == null)
+            {
+                Start();
+            }
+
+            try
+            {
+                _connection.InvokeAsync("MovePiece", pieceId, gameId, spaces);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
     }
 }

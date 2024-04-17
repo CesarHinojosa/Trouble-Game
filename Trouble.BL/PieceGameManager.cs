@@ -14,21 +14,29 @@ namespace Trouble.BL
 
         }
 
-        public List<PieceGame> Load()
+        public List<PieceGame> Load(Guid? gameId = null)
         {
             try
             {
                 List<PieceGame> rows = new List<PieceGame>();
-                base.Load()
-                    .ForEach(d => rows.Add(
-                        new PieceGame
-                        {
-                            Id = d.Id,
-                            PieceId = d.PieceId,
-                            GameId = d.GameId,
-                            PieceLocation = d.PieceLocation
-                            
-                        }));
+
+                using (TroubleEntities dc = new TroubleEntities(options)) 
+                {
+                    rows = (from pg in dc.tblPieceGames
+                            join p in dc.tblPieces on pg.PieceId equals p.Id
+                            where pg.GameId == gameId || gameId == null
+                            select new PieceGame
+                            {
+                                Id = pg.Id,
+                                PieceId = pg.PieceId,
+                                GameId = pg.GameId,
+                                PieceLocation = pg.PieceLocation,
+                                PieceColor = p.Color
+
+                            })
+                            .Distinct()
+                            .ToList();
+                }
 
                 return rows;
             }

@@ -28,6 +28,15 @@ namespace Trouble.API.Hubs
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
 
+        public async Task MovePiece(Guid pieceId, Guid gameId, int spaces)
+        {
+            PieceGameManager pieceGameManager = new PieceGameManager(options);
+            pieceGameManager.MovePiece(pieceId, gameId, spaces);
+            string message = "Moved piece " + pieceId + " " + spaces + " spaces";
+            await Clients.All.SendAsync("ReceiveMessage", "System", message);
+
+        }
+
         public async Task Login(string username, string password)
         {
             try

@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:Trouble.WPFUI"
         mc:Ignorable="d"
         Title="MainWindow" Height="576" Width="710" HorizontalAlignment="Center" VerticalAlignment="Center">
-    <Grid Background="#FFBBBBBB">
+    <Grid Background="#FFBBBBBB" Loaded="GameStart">
         <Ellipse HorizontalAlignment="Center" Height="541" Stroke="Black" VerticalAlignment="Center" Width="541"/>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="116,371,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space23" HorizontalAlignment="Left" Height="38" Margin="116,371,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -18,7 +18,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="40" Margin="390,499,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space17" HorizontalAlignment="Left" Height="40" Margin="390,499,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -28,7 +28,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="435,483,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space16" HorizontalAlignment="Left" Height="39" Margin="435,483,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -38,7 +38,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="88,0,0,0" Stroke="#FFFF2929" VerticalAlignment="Center" Width="40" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space25" HorizontalAlignment="Left" Height="39" Margin="88,0,0,0" Stroke="#FFFF2929" VerticalAlignment="Center" Width="40" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -48,7 +48,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="143,416,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="Space22" HorizontalAlignment="Left" Height="38" Margin="143,416,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -58,7 +58,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="556,158,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space9" HorizontalAlignment="Left" Height="39" Margin="556,158,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -68,7 +68,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="98,317,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space24" HorizontalAlignment="Left" Height="39" Margin="98,317,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -78,7 +78,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="227,42,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space2" HorizontalAlignment="Left" Height="39" Margin="227,42,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -88,7 +88,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="281,23,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space3" HorizontalAlignment="Left" Height="38" Margin="281,23,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -98,7 +98,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Center" Height="38" Stroke="#FF38C340" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Margin="0,14,0,0">
+        <Ellipse x:Name="Space4" HorizontalAlignment="Center" Height="38" Stroke="#FF38C340" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Margin="0,14,0,0">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -108,7 +108,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="575,210,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space10" HorizontalAlignment="Left" Height="39" Margin="575,210,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -118,7 +118,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="40" Margin="183,453,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space21" HorizontalAlignment="Left" Height="40" Margin="183,453,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -128,7 +128,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="37" Margin="228,483,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space20" HorizontalAlignment="Left" Height="37" Margin="228,483,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -138,7 +138,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="40" Margin="279,499,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space19" HorizontalAlignment="Left" Height="40" Margin="279,499,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -148,7 +148,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse Height="38" Margin="482,69,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="38">
+        <Ellipse x:Name="Space7" Height="38" Margin="482,69,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="38">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -158,7 +158,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="437,42,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space6" HorizontalAlignment="Left" Height="38" Margin="437,42,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -168,7 +168,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="40" Margin="390,24,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space5" HorizontalAlignment="Left" Height="40" Margin="390,24,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -178,7 +178,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="582,0,0,0" Stroke="#FFFFEE39" VerticalAlignment="Center" Width="39" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space11" HorizontalAlignment="Left" Height="39" Margin="582,0,0,0" Stroke="#FFFFEE39" VerticalAlignment="Center" Width="39" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -188,7 +188,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="40" Margin="143,110,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space28" HorizontalAlignment="Left" Height="40" Margin="143,110,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -198,7 +198,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="40" Margin="116,157,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space27" HorizontalAlignment="Left" Height="40" Margin="116,157,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -208,7 +208,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="97,210,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space26" HorizontalAlignment="Left" Height="39" Margin="97,210,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -218,7 +218,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="527,416,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space14" HorizontalAlignment="Left" Height="38" Margin="527,416,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -228,7 +228,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="555,371,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space13" HorizontalAlignment="Left" Height="38" Margin="555,371,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -238,7 +238,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="574,317,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space12" HorizontalAlignment="Left" Height="39" Margin="574,317,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -248,7 +248,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Center" Height="39" Margin="0,511,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="Space18" HorizontalAlignment="Center" Height="39" Margin="0,511,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -258,7 +258,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="527,111,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="Space8" HorizontalAlignment="Left" Height="38" Margin="527,111,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -268,7 +268,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="479,454,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="Space15" HorizontalAlignment="Left" Height="39" Margin="479,454,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -278,7 +278,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="183,69,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="Space1" HorizontalAlignment="Left" Height="39" Margin="183,69,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -288,7 +288,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="189,113,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="GreenHome1" HorizontalAlignment="Left" Height="39" Margin="189,113,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -298,7 +298,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="225,152,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="GreenHome2" HorizontalAlignment="Left" Height="39" Margin="225,152,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -308,7 +308,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="40" Margin="260,190,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="GreenHome3" HorizontalAlignment="Left" Height="40" Margin="260,190,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -318,7 +318,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="298,230,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="GreenHome4" HorizontalAlignment="Left" Height="38" Margin="298,230,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -328,7 +328,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="188,411,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="RedHome1" HorizontalAlignment="Left" Height="38" Margin="188,411,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -338,7 +338,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="224,374,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="RedHome2" HorizontalAlignment="Left" Height="38" Margin="224,374,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -348,7 +348,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="259,337,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="RedHome3" HorizontalAlignment="Left" Height="38" Margin="259,337,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -358,7 +358,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="297,294,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="RedHome4" HorizontalAlignment="Left" Height="38" Margin="297,294,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -368,7 +368,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="482,113,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="YellowHome1" HorizontalAlignment="Left" Height="38" Margin="482,113,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -378,7 +378,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="444,158,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="YellowHome2" HorizontalAlignment="Left" Height="38" Margin="444,158,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -388,7 +388,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="409,191,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="YellowHome3" HorizontalAlignment="Left" Height="38" Margin="409,191,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -398,7 +398,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="365,230,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="YellowHome4" HorizontalAlignment="Left" Height="38" Margin="365,230,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -408,7 +408,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="482,410,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="BlueHome1" HorizontalAlignment="Left" Height="39" Margin="482,410,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -418,7 +418,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="445,373,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="BlueHome2" HorizontalAlignment="Left" Height="39" Margin="445,373,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -428,7 +428,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="410,336,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="BlueHome3" HorizontalAlignment="Left" Height="39" Margin="410,336,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -438,7 +438,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="365,294,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
+        <Ellipse x:Name="BlueHome4" HorizontalAlignment="Left" Height="39" Margin="365,294,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="Black" StrokeThickness="2">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -448,7 +448,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="68,411,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FFFF2929">
+        <Ellipse x:Name="Piece16" HorizontalAlignment="Left" Height="39" Margin="68,411,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FFFF2929" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -458,7 +458,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="97,454,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FFFF2929">
+        <Ellipse x:Name="Piece15" HorizontalAlignment="Left" Height="39" Margin="97,454,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FFFF2929" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -468,7 +468,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="136,489,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="#FFFF2929">
+        <Ellipse x:Name="Piece14" HorizontalAlignment="Left" Height="39" Margin="136,489,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="#FFFF2929" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -478,7 +478,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="179,512,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FFFF2929">
+        <Ellipse x:Name="Piece13" HorizontalAlignment="Left" Height="39" Margin="179,512,0,0" Stroke="#FFFF2929" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FFFF2929" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -488,7 +488,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="502,512,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="#FF2985FF">
+        <Ellipse x:Name="Piece12" HorizontalAlignment="Left" Height="39" Margin="502,512,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="#FF2985FF" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -498,7 +498,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="546,489,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="#FF2985FF">
+        <Ellipse x:Name="Piece11" HorizontalAlignment="Left" Height="39" Margin="546,489,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="#FF2985FF" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -508,7 +508,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="582,454,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FF2985FF">
+        <Ellipse x:Name="Piece10" HorizontalAlignment="Left" Height="39" Margin="582,454,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FF2985FF" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -518,7 +518,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="608,410,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5" Fill="#FF2985FF">
+        <Ellipse x:Name="Piece9" HorizontalAlignment="Left" Height="39" Margin="608,410,0,0" Stroke="#FF2985FF" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5" Fill="#FF2985FF" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -528,7 +528,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="478,4,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FFFFEE39">
+        <Ellipse x:Name="Piece5" HorizontalAlignment="Left" Height="39" Margin="478,4,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FFFFEE39" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -538,7 +538,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="594,113,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="#FFFFEE39">
+        <Ellipse x:Name="Piece8" HorizontalAlignment="Left" Height="39" Margin="594,113,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="38" RenderTransformOrigin="0.5,0.5" Fill="#FFFFEE39" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -548,7 +548,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="562,69,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5" Fill="#FFFFEE39">
+        <Ellipse x:Name="Piece7" HorizontalAlignment="Left" Height="39" Margin="562,69,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.5,0.5" Fill="#FFFFEE39" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -558,7 +558,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="522,33,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FFFFEE39">
+        <Ellipse x:Name="Piece6" HorizontalAlignment="Left" Height="39" Margin="522,33,0,0" Stroke="#FFFFEE39" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FFFFEE39" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -568,7 +568,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="183,5,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FF38C340">
+        <Ellipse x:Name="Piece4" HorizontalAlignment="Left" Height="39" Margin="183,5,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FF38C340" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -578,7 +578,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="143,33,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FF38C340">
+        <Ellipse x:Name="Piece3" HorizontalAlignment="Left" Height="39" Margin="143,33,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FF38C340" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -588,7 +588,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="38" Margin="107,64,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FF38C340">
+        <Ellipse x:Name="Piece2" HorizontalAlignment="Left" Height="38" Margin="107,64,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FF38C340" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -598,7 +598,7 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
-        <Ellipse HorizontalAlignment="Left" Height="39" Margin="77,107,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FF38C340">
+        <Ellipse x:Name="Piece1" HorizontalAlignment="Left" Height="39" Margin="77,107,0,0" Stroke="#FF38C340" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FF38C340" MouseDown="MovePiece">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
