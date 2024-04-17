@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Trouble.ConsoleApp;
 
 namespace Trouble.WPFUI
 {
@@ -22,6 +23,16 @@ namespace Trouble.WPFUI
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void btnRoll_Click(object sender, RoutedEventArgs e)
+        {
+            string user = "Luke";
+            string hubAddress = "https://localhost:7081/TroubleHub";
+
+            var signalRConnection = new SignalRConnection(hubAddress);
+
+            signalRConnection.RollDice(user);
         }
     }
 }
