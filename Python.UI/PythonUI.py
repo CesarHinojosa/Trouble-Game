@@ -18,12 +18,20 @@ def on_button_click():
 #roll the dice  
     #hub_connection.send("SendMessage", ["Cesar", " has connected"])
     
+    # Send a message to the RollDice method on the server
     # Define the user and roll message
     user = "Cesar"
-    #roll_message = "Cesar rolled a dice."
-    
-    # Send a message to the RollDice method on the server
     hub_connection.send("RollDice", [user])
+    
+    
+    #Send a message to the Login Method on the Server
+    
+    
+    
+    userworks = "User1"
+    passwordworks = "Test"
+    
+    hub_connection.send("Login", [userworks, passwordworks])
 
 class TroubleBoard:
     #need a .send for testing so it sends from Python to Console app
