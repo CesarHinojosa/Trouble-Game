@@ -34,6 +34,13 @@ namespace Trouble.API.Controllers
             return new PieceGameManager(options).LoadById(id);
         }
 
+        [HttpGet("{gameId}")]
+        public IEnumerable<PieceGame> GetByGame(Guid gameId)
+        {
+            logger.LogWarning("PieceGame-->");
+            return new PieceGameManager(options).Load(gameId);
+        }
+
         [HttpPost("{rollback?}")]
         //needs to be Guid or int (public Guid)??
         //Guid user?
