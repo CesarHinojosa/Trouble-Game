@@ -49,7 +49,7 @@ namespace Trouble.ConsoleApp
 
         public void RollDice(string user)
         {
-            if(_connection == null)
+            if (_connection == null)
             {
                 Start();
             }

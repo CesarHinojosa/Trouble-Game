@@ -9,13 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="arrow.png" />
-    <None Remove="arrow.webp" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="arrow.png" />
-    <Resource Include="arrow.webp" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.3" />
   </ItemGroup>
 
 </Project>
