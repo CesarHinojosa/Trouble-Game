@@ -33,6 +33,9 @@ def on_button_click():
     passwordworks = "Test"
     
     hub_connection.send("Login", [userworks, passwordworks])
+    
+    hub_connection.send("Logout", [userworks])
+    
 
 class TroubleBoard:
     #need a .send for testing so it sends from Python to Console app

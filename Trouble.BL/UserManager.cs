@@ -102,6 +102,17 @@ namespace Trouble.BL
             }
         }
 
+        public void Logout(User user)
+        {
+            user.Id = Guid.Empty;
+            user.Username = null;
+            user.Password = null;
+            user.FirstName = null;
+            user.LastName = null;
+        }
+
+        
+
         public List<User> Load()
         {
             try

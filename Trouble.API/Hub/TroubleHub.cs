@@ -62,5 +62,25 @@ namespace Trouble.API.Hubs
                 await Clients.Caller.SendAsync("ReceiveMessage", username, "Error occurred during login: " + ex.Message);
             }
         }
+
+        public async Task Logout(string username)
+        {
+            try
+            {
+                User user = new User
+                {
+                    Username = username,
+                };
+
+                new UserManager(options).Logout(user);
+
+                await Clients.Caller.SendAsync("ReceiveMessage", username, "Logout Successful");
+            }
+            catch (Exception ex) 
+            {
+                await Clients.Caller.SendAsync("ReceiveMessage", username, "Error occurred during logout: " + ex.Message);
+            }
+        }
+        
     }
 }
