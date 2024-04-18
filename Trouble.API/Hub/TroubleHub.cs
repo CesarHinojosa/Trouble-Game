@@ -47,10 +47,14 @@ namespace Trouble.API.Hubs
                 if (loginResult)
                 {
                     await Clients.Caller.SendAsync("ReceiveMessage", username, "Login Successful");
+                    await Clients.Caller.SendAsync("LoginResult", loginResult);
                 }
                 else
                 {
+                    //We dont get in here because LoginFailureException executes first
+                    //We probably don't need this
                     await Clients.Caller.SendAsync("ReceiveMessage", username, "Login Failed: Incorrect username or password");
+                    await Clients.Caller.SendAsync("LoginResult", loginResult);
                 }
             }
             catch (LoginFailureException ex)
