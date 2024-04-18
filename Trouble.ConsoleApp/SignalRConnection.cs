@@ -25,12 +25,23 @@ namespace Trouble.ConsoleApp
                 .Build();
 
             _connection.On<string, string>("ReceiveMessage", (s1, s2) => OnSend(s1, s2));
+            _connection.On<bool>("LoginResult", (b1) => LoginResult(b1));
             _connection.StartAsync();
         }
 
         private void OnSend(string user, object message)
         {
             Console.WriteLine(user + ": " + message);
+        }
+
+        private void LoginResult(bool result)
+        {
+            if (result)
+            {
+                //Set user in session
+            }
+
+            Console.WriteLine("Login " + result);
         }
 
         public void ConnectToChannel(string user)

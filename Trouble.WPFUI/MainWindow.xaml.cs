@@ -34,7 +34,6 @@ namespace Trouble.WPFUI
         private void btnRoll_Click(object sender, RoutedEventArgs e)
         {
             string user = "Luke";
-            string hubAddress = "https://localhost:7081/TroubleHub";
 
             var signalRConnection = new SignalRConnection(hubAddress);
 
