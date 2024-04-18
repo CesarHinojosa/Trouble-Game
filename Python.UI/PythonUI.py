@@ -34,6 +34,7 @@ def on_button_click():
     
     hub_connection.send("Login", [userworks, passwordworks])
     
+    #added Logout
     hub_connection.send("Logout", [userworks])
     
 
