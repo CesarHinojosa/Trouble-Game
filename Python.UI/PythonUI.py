@@ -17,7 +17,7 @@ hub_connection.start()
 
 def on_button_click():
     # Roll the dice
-    user = "Cesar"
+    user = "User1"
     hub_connection.send("RollDice", [user])
 
 class LoginScreen:
@@ -30,9 +30,9 @@ class LoginScreen:
 
         # Creating widgets for login screen
         self.login_label = tk.Label(self.frame, text="Login", font=("Arial", 20))
-        self.username_label = tk.Label(self.frame, text="Username", font=("Arial", 16) )
+        self.username_label = tk.Label(self.frame, text="Username", font=("Arial", 16))
         self.username_entry = tk.Entry(self.frame)
-        self.password_label = tk.Label(self.frame, text="Password", font=("Arial", 16) )
+        self.password_label = tk.Label(self.frame, text="Password", font=("Arial", 16))
         self.password_entry = tk.Entry(self.frame, show="*")
         self.login_button = tk.Button(self.frame, text="Login", command=self.login)
 
@@ -45,11 +45,8 @@ class LoginScreen:
         self.login_button.grid(row=3, column=0, columnspan=2, pady=30)
 
     def login(self):
-        #userfails = "Cesar"
-        #passfails = "ZAqyuuB77cTBY/Z5p0b3q3+10fo="
         userworks = "User1"
         passwordworks = "Test"
-        #hub_connection.send("Login", [userworks, passwordworks])
         if self.username_entry.get() == userworks and self.password_entry.get() == passwordworks:
             hub_connection.send("Login", [userworks, passwordworks])
             messagebox.showinfo(title="Login Success", message="You successfully logged in")
@@ -60,19 +57,22 @@ class LoginScreen:
             messagebox.showinfo(title="Error", message="Invalid Login")
 
 class TroubleBoard:
+    def button(self):
+        button = tk.Button(self.master, text="Roll!", command=on_button_click)
+        button.grid(row=0, column=0, padx=0, pady=0)
+
+    def label(self):
+        global label
+        label = tk.Label(self.master, text="You rolled: ", font=("Arial", 40))
+        label.grid(row=1, column=0, padx=0, pady=0)
+
     def __init__(self, master):
         self.master = master
         self.master.title("Trouble Game Board")
-
-        # Define board width and height (in squares)
         self.board_size = 19
         self.square_size = 40  # Adjust for desired square size
-
-        # Create canvas
         self.canvas = tk.Canvas(master, width=self.board_size * self.square_size, height=self.board_size * self.square_size, bg="white")
         self.canvas.grid()
-
-        # Define colors using a dictionary
         self.colors = {
             'safe_zone': "black",
             'draw_green_zone': "green",
@@ -80,7 +80,6 @@ class TroubleBoard:
             'draw_blue_zone': "blue",
             'draw_yellow_zone': "yellow"
         }
-        # Draw game board squares
         for i in range(self.board_size):
             for j in range(self.board_size):
                 x1 = i * self.square_size
@@ -88,46 +87,87 @@ class TroubleBoard:
                 x2 = x1 + self.square_size
                 y2 = y1 + self.square_size
                 self.canvas.create_rectangle(x1, y1, x2, y2, outline="black", fill="white")
-                
-        # Draw safe zones
-        self.draw_safe_zones()  # No need to pass color as argument
-        
-        # Draw color zones
+
         self.draw_zones()
-        
         self.button()
-
-    def draw_safe_zones(self):
-        # Define safe zone coordinates (center of squares)
-        safe_zones = [(2, 10), (9, 3), (16, 10), (9, 17)]
-
-        # Draw squares with a different fill color
-        for zone in safe_zones:
-            x, y = zone
-            center_x = x * self.square_size + self.square_size // 2
-            center_y = y * self.square_size + self.square_size // 2
-            square_size = self.square_size // 2
-            self.canvas.create_rectangle(center_x - square_size, center_y - square_size, center_x + square_size, center_y + square_size, fill=self.colors['safe_zone'], outline="black")
+        self.label()
 
     def draw_zones(self):
         zones = {
-            #first 6 are the board zones                                           # second set are the finish zones      # last set are the home zones
-            'draw_green_zone': [(3,11), (4,12), (5,13),(5,7),(4,8),(3,9),          (3,10),(4,10),(5,10),(6,10),          (1,8),(1,9),(1,11),(1,12) ],
-            'draw_red_zone': [(6,14),(7,15),(8,16),(10,16), (11,15), (12,14),      (9,13), (9,14), (9,15), (9,16),       (7,18), (8,18), (10,18), (11,18) ],
-            'draw_blue_zone': [(13,13), (14,12), (15,11),(13,7), (14,8), (15,9),   (15,10),(14,10),(13,10),(12,10),      (17,8),(17,9),(17,11),(17,12)],
-            'draw_yellow_zone': [(10,4), (11,5), (12,6), (8,4), (7,5), (6,6),      (9,4), (9,5), (9,6), (9,7),           (7,2), (8,2), (10,2), (11,2)]
+            
+            'draw_green_zone': [(3,10),(3, 11), (4, 12), (5, 13), (5, 7), (4, 8), (3, 9), #right to left
+                                
+                                
+                                (4, 10), (5, 10), (6, 10), (7, 10),  #Finish Game Zones
+                                
+                                
+                                (1, 8), (1, 9), (1, 11), (1, 12)],   #Starting Zones
+            
+            
+
+                                
+            'draw_red_zone': [(6, 14), (7, 15), (8, 16), (9,16), (10, 16), (11, 15), (12, 14),  #left to right
+                              
+                              
+                              (9, 12), (9, 13), (9, 14), (9, 15),  #Finish Game Zones
+                              
+                              
+                              (7, 18), (8, 18), (10, 18), (11, 18)],   #Starting Zones
+            
+            
+                              
+            'draw_blue_zone': [(13, 13), (14, 12), (15, 11), (15,10), (13, 7), (14, 8), (15, 9), #left to right
+                               
+
+                               
+                               (11, 10), (12, 10), (13, 10), (14, 10),  #Finish Game Zones
+                                 
+                               
+
+                               
+                              (17, 8), (17, 9), (17, 11), (17, 12)],  #Starting Zones
+                              
+            
+            
+
+            'draw_yellow_zone': [(10, 4), (11, 5), (12, 6), (9,4), (8, 4), (7, 5), (6, 6), #right to left 
+                                 
+                                 
+                                 (9, 5), (9, 6), (9, 7), (9, 8), #Finish Game Zones
+                                 
+
+
+                                 (7, 2), (8, 2), (10, 2), (11, 2)] #Starting Zones
         }
+        
+        #coordinate_mapping = {}
+        
         for zone_type, zone_list in zones.items():
             for zone in zone_list:
                 x, y = zone
                 center_x = x * self.square_size + self.square_size // 2
                 center_y = y * self.square_size + self.square_size // 2
                 square_size = self.square_size // 2
-                self.canvas.create_rectangle(center_x - square_size, center_y - square_size, center_x + square_size, center_y + square_size, fill=self.colors[zone_type], outline="black")
+                self.canvas.create_rectangle(center_x - square_size, center_y - square_size, center_x + square_size,
+                                              center_y + square_size, fill=self.colors[zone_type], outline="black")
+        
+         # Iterate over each zone and convert its coordinates to integers
+#     for zone_type, coordinate_list in zones.items():
+#         integer_coordinates = []
+#         for coordinate in coordinate_list:
+#             # Convert each coordinate to integers
+#             integer_coordinate = tuple(int(coord) for coord in coordinate)
+#             integer_coordinates.append(integer_coordinate)
+#         coordinate_mapping[zone_type] = integer_coordinates
 
-    def button(self):
-        button = tk.Button(self.master, text="Roll!", command=on_button_click)
-        button.grid(row=0, column=0, padx=0, pady=0)   
+#     # Print the updated zones
+#     for zone_type, integer_coordinates in coordinate_mapping.items():
+#         print(zone_type, integer_coordinates)
+
+# # Example usage
+# draw_zones()
+
+    
 
 def main():
     root = tk.Tk()
