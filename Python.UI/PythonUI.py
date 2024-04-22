@@ -45,9 +45,13 @@ class LoginScreen:
         self.login_button.grid(row=3, column=0, columnspan=2, pady=30)
 
     def login(self):
-        username = "Cesar"
-        password = "Hinojosa"
-        if self.username_entry.get() == username and self.password_entry.get() == password:
+        #userfails = "Cesar"
+        #passfails = "ZAqyuuB77cTBY/Z5p0b3q3+10fo="
+        userworks = "User1"
+        passwordworks = "Test"
+        #hub_connection.send("Login", [userworks, passwordworks])
+        if self.username_entry.get() == userworks and self.password_entry.get() == passwordworks:
+            hub_connection.send("Login", [userworks, passwordworks])
             messagebox.showinfo(title="Login Success", message="You successfully logged in")
             self.master.withdraw()  # Hide login window
             game_window = tk.Toplevel(self.master)  # Open game window as Toplevel
