@@ -30,9 +30,9 @@ class LoginScreen:
 
         # Creating widgets for login screen
         self.login_label = tk.Label(self.frame, text="Login", font=("Arial", 20))
-        self.username_label = tk.Label(self.frame, text="Username" )
+        self.username_label = tk.Label(self.frame, text="Username", font=("Arial", 16) )
         self.username_entry = tk.Entry(self.frame)
-        self.password_label = tk.Label(self.frame, text="Password" )
+        self.password_label = tk.Label(self.frame, text="Password", font=("Arial", 16) )
         self.password_entry = tk.Entry(self.frame, show="*")
         self.login_button = tk.Button(self.frame, text="Login", command=self.login)
 
@@ -124,8 +124,6 @@ class TroubleBoard:
     def button(self):
         button = tk.Button(self.master, text="Roll!", command=on_button_click)
         button.grid(row=0, column=0, padx=0, pady=0)   
-
-   
 
 def main():
     root = tk.Tk()
