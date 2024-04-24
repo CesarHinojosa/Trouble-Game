@@ -76,7 +76,8 @@ namespace Trouble.BL
                                 }
                                 else
                                 {
-                                    throw new LoginFailureException("Cannot log in with these credentials");
+                                    //Incorrect Username or password
+                                    return false;
                                 }
                             }
                             else

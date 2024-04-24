@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Trouble.WPFUI;
 
 namespace Trouble.ConsoleApp
 {
@@ -12,10 +15,12 @@ namespace Trouble.ConsoleApp
         private string hubAddress;
         HubConnection _connection;
         string user;
+        Window window;
 
-        public SignalRConnection(string hubAddress)
+        public SignalRConnection(string hubAddress, Window window)
         {
             this.hubAddress = hubAddress;
+            this.window = window;
         }
 
         public void Start()
@@ -25,7 +30,7 @@ namespace Trouble.ConsoleApp
                 .Build();
 
             _connection.On<string, string>("ReceiveMessage", (s1, s2) => OnSend(s1, s2));
-            _connection.On<bool>("LoginResult", (b1) => LoginResult(b1));
+            _connection.On<bool, string>("LoginResult", (b1, s1) => LoginResult(b1, s1));
             _connection.StartAsync();
         }
 
@@ -34,14 +39,17 @@ namespace Trouble.ConsoleApp
             Console.WriteLine(user + ": " + message);
         }
 
-        private void LoginResult(bool result)
+        private void LoginResult(bool result, string username)
         {
-            if(result)
+            if (result)
             {
-                //Set user in session
+                user = username;
+                window.Title = username;
             }
-
-            Console.WriteLine("Login " + result);
+            else
+            {
+                MessageBox.Show("Incorrect Username or Password");
+            }
         }
 
         public void ConnectToChannel(string user)

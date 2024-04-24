@@ -47,15 +47,15 @@ namespace Trouble.PL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            GameDate = new DateTime(2024, 3, 21, 17, 25, 50, 353, DateTimeKind.Local).AddTicks(7909),
+                            Id = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            GameDate = new DateTime(2024, 4, 24, 14, 46, 1, 516, DateTimeKind.Local).AddTicks(4078),
                             GameName = "Game1",
                             TurnNum = 0
                         },
                         new
                         {
-                            Id = new Guid("fac944a2-36cd-43ff-9c21-8c63a90e6160"),
-                            GameDate = new DateTime(2024, 3, 21, 17, 25, 50, 353, DateTimeKind.Local).AddTicks(7957),
+                            Id = new Guid("ffb33984-9bf9-4b4c-9668-c9883c780a83"),
+                            GameDate = new DateTime(2024, 4, 24, 14, 46, 1, 516, DateTimeKind.Local).AddTicks(4114),
                             GameName = "Game2",
                             TurnNum = 0
                         });
@@ -80,82 +80,82 @@ namespace Trouble.PL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5fe75ac6-a73e-432c-9c17-6095af2d4aef"),
+                            Id = new Guid("42387750-418a-4f64-89ff-74b0c39f2b26"),
                             Color = "Red"
                         },
                         new
                         {
-                            Id = new Guid("1f3f10b6-9b51-4e53-b478-561a0f55fefc"),
+                            Id = new Guid("cb11515d-5b07-4180-9533-3df19aab7ee2"),
                             Color = "Red"
                         },
                         new
                         {
-                            Id = new Guid("b2430105-0289-45fc-95fc-7115c14393ed"),
+                            Id = new Guid("fc9c24aa-8efa-43e3-9e8d-83338625372f"),
                             Color = "Red"
                         },
                         new
                         {
-                            Id = new Guid("904bc09b-d190-4745-a667-d2eac333bcfe"),
+                            Id = new Guid("09e29f5d-1482-480d-8da1-9ab63fb69f7f"),
                             Color = "Red"
                         },
                         new
                         {
-                            Id = new Guid("10279fe5-a3dd-4770-afb6-82a4f350cea5"),
+                            Id = new Guid("e991a08a-34d7-467a-8deb-a3d8e82c2fec"),
                             Color = "Blue"
                         },
                         new
                         {
-                            Id = new Guid("27fbed5f-b6de-4b93-9a4d-6eaae598d157"),
+                            Id = new Guid("cdbbf73c-2775-41ee-9acf-a84a98af1d6e"),
                             Color = "Blue"
                         },
                         new
                         {
-                            Id = new Guid("d21b8cd5-ec32-4893-96e4-199312480fa6"),
+                            Id = new Guid("6c634491-9525-4cd8-bccd-5577e33598bf"),
                             Color = "Blue"
                         },
                         new
                         {
-                            Id = new Guid("9c041be6-0049-4060-8c3d-0a1711dff500"),
+                            Id = new Guid("57406578-e967-4fad-bf96-23357089199e"),
                             Color = "Blue"
                         },
                         new
                         {
-                            Id = new Guid("04605c78-c0f0-4713-869d-96235dadea16"),
+                            Id = new Guid("3eba5e4b-fbbe-484f-856d-c15e19f3c0c4"),
                             Color = "Green"
                         },
                         new
                         {
-                            Id = new Guid("d556e30c-6d87-48c3-97c9-3ae6335a2cb0"),
+                            Id = new Guid("4ea9180d-4603-4893-aea1-6f8dac7cfb37"),
                             Color = "Green"
                         },
                         new
                         {
-                            Id = new Guid("0e041e67-51c3-4d6e-a7b8-3684c5a9a793"),
+                            Id = new Guid("201c3dbc-a481-4634-b353-f51708250be2"),
                             Color = "Green"
                         },
                         new
                         {
-                            Id = new Guid("33231a13-5152-4ead-b34f-7c903d4bac54"),
+                            Id = new Guid("af39def9-b6a5-45bc-ab46-ac572807a8c9"),
                             Color = "Green"
                         },
                         new
                         {
-                            Id = new Guid("f479f108-fffb-472a-80b2-3d4b00b7b4d0"),
+                            Id = new Guid("7ea1db8a-7199-4d24-a4cd-aa1d8b7d71a3"),
                             Color = "Yellow"
                         },
                         new
                         {
-                            Id = new Guid("42b17ef7-36cf-4a45-b1b7-5595796565cc"),
+                            Id = new Guid("9f1bbe17-debb-4882-9726-6831cdf56100"),
                             Color = "Yellow"
                         },
                         new
                         {
-                            Id = new Guid("b800a56e-863d-4cfc-997b-5ecad5c7c92b"),
+                            Id = new Guid("351d2af1-21af-4ec5-8ce2-e7e5589d9769"),
                             Color = "Yellow"
                         },
                         new
                         {
-                            Id = new Guid("6c2adcf3-7546-459d-a231-bcd0796624bb"),
+                            Id = new Guid("83ee0fcb-75ec-420e-a777-5614b9d47da3"),
                             Color = "Yellow"
                         });
                 });
@@ -186,114 +186,114 @@ namespace Trouble.PL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("878e9d11-48be-4759-8762-e6a71a9eee0d"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("5fe75ac6-a73e-432c-9c17-6095af2d4aef"),
+                            Id = new Guid("7511583b-1a94-44de-b5d2-fa1f1195ef38"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("42387750-418a-4f64-89ff-74b0c39f2b26"),
                             PieceLocation = 5
                         },
                         new
                         {
-                            Id = new Guid("0cc3cca0-0921-4db7-adea-fe9239a93f24"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("1f3f10b6-9b51-4e53-b478-561a0f55fefc"),
+                            Id = new Guid("8288ad83-e67a-46b3-b8d3-36fa94b3686a"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("cb11515d-5b07-4180-9533-3df19aab7ee2"),
                             PieceLocation = 2
                         },
                         new
                         {
-                            Id = new Guid("c0b6c1fd-15df-4868-8072-ef54d0a925ca"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("b2430105-0289-45fc-95fc-7115c14393ed"),
+                            Id = new Guid("d215dc4a-bdd2-4dd1-85eb-35528d197d73"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("fc9c24aa-8efa-43e3-9e8d-83338625372f"),
                             PieceLocation = 0
                         },
                         new
                         {
-                            Id = new Guid("588a0cf6-5ca6-4d54-8aec-1d49ed748e2d"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("904bc09b-d190-4745-a667-d2eac333bcfe"),
+                            Id = new Guid("ed48f325-83a2-48dc-b34d-b35c3183f93f"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("09e29f5d-1482-480d-8da1-9ab63fb69f7f"),
                             PieceLocation = 0
                         },
                         new
                         {
-                            Id = new Guid("c4414ced-ef84-44e6-a222-dd3114041a1d"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("10279fe5-a3dd-4770-afb6-82a4f350cea5"),
+                            Id = new Guid("5e0a857c-8bf7-4a19-8c26-b2746260d0c6"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("e991a08a-34d7-467a-8deb-a3d8e82c2fec"),
                             PieceLocation = 0
                         },
                         new
                         {
-                            Id = new Guid("d12ff279-0ccb-49f2-a398-96ad6702a1f5"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("27fbed5f-b6de-4b93-9a4d-6eaae598d157"),
+                            Id = new Guid("02fa0cf7-5cb2-49c3-921b-eb5481a500c7"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("cdbbf73c-2775-41ee-9acf-a84a98af1d6e"),
                             PieceLocation = 0
                         },
                         new
                         {
-                            Id = new Guid("19ad4e4c-066e-4c80-b826-c9508e94c295"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("d21b8cd5-ec32-4893-96e4-199312480fa6"),
+                            Id = new Guid("899acd33-9d67-4dc2-b7b4-a8508959e1df"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("6c634491-9525-4cd8-bccd-5577e33598bf"),
                             PieceLocation = 0
                         },
                         new
                         {
-                            Id = new Guid("b4b08fb2-b436-4b3a-8fdb-b67b61926a3b"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("9c041be6-0049-4060-8c3d-0a1711dff500"),
+                            Id = new Guid("cf456720-51e3-4112-bec7-e94da7adbc35"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("57406578-e967-4fad-bf96-23357089199e"),
                             PieceLocation = 0
                         },
                         new
                         {
-                            Id = new Guid("9d6c13e4-9c37-4462-b155-34fc40e1727d"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("04605c78-c0f0-4713-869d-96235dadea16"),
+                            Id = new Guid("0f6c19cf-8063-466d-9207-c0f75712c527"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("3eba5e4b-fbbe-484f-856d-c15e19f3c0c4"),
                             PieceLocation = 0
                         },
                         new
                         {
-                            Id = new Guid("986f4b4e-63c7-4c8d-b301-524463eade8e"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("d556e30c-6d87-48c3-97c9-3ae6335a2cb0"),
+                            Id = new Guid("922cbef6-64ef-4cc6-9bc7-ab19ac2a7ec3"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("4ea9180d-4603-4893-aea1-6f8dac7cfb37"),
                             PieceLocation = 0
                         },
                         new
                         {
-                            Id = new Guid("ef0a462a-6858-4c47-920c-0ea86b81c542"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("0e041e67-51c3-4d6e-a7b8-3684c5a9a793"),
+                            Id = new Guid("7c3402c8-2ac4-443e-9e2f-37b28f6a98eb"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("201c3dbc-a481-4634-b353-f51708250be2"),
                             PieceLocation = 0
                         },
                         new
                         {
-                            Id = new Guid("e2e08cef-f9bc-43a0-b178-3634a3cf0548"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("33231a13-5152-4ead-b34f-7c903d4bac54"),
+                            Id = new Guid("1df61e2a-25d8-49a2-af52-fd8f67689405"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("af39def9-b6a5-45bc-ab46-ac572807a8c9"),
                             PieceLocation = 0
                         },
                         new
                         {
-                            Id = new Guid("1405a4e3-2a27-4c95-b2e7-b6c308f122b3"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("f479f108-fffb-472a-80b2-3d4b00b7b4d0"),
+                            Id = new Guid("bc54024f-39bd-46be-bae7-5426a94a4b71"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("7ea1db8a-7199-4d24-a4cd-aa1d8b7d71a3"),
                             PieceLocation = 0
                         },
                         new
                         {
-                            Id = new Guid("a95d0af4-6a9b-4504-8187-ee68b222517d"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("42b17ef7-36cf-4a45-b1b7-5595796565cc"),
+                            Id = new Guid("2bc05284-51b0-45a4-af35-1d563a5d392f"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("9f1bbe17-debb-4882-9726-6831cdf56100"),
                             PieceLocation = 0
                         },
                         new
                         {
-                            Id = new Guid("fdfb81d8-03c8-4d28-9df0-432a11981383"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("b800a56e-863d-4cfc-997b-5ecad5c7c92b"),
+                            Id = new Guid("49014f9f-33e6-409c-9f19-5559d9b9fb87"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("351d2af1-21af-4ec5-8ce2-e7e5589d9769"),
                             PieceLocation = 0
                         },
                         new
                         {
-                            Id = new Guid("452219fe-a33f-4324-ba70-68fc7c07f948"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            PieceId = new Guid("6c2adcf3-7546-459d-a231-bcd0796624bb"),
+                            Id = new Guid("c87f3b50-58d1-4f3f-bd25-4ea6d2076779"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            PieceId = new Guid("83ee0fcb-75ec-420e-a777-5614b9d47da3"),
                             PieceLocation = 0
                         });
                 });
@@ -335,7 +335,7 @@ namespace Trouble.PL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("83063991-18b4-431b-9944-39e1d41c104d"),
+                            Id = new Guid("0e65103e-af27-4657-9a65-2a21957d55f9"),
                             FirstName = "Bob",
                             LastName = "Bob",
                             Password = "ZAqyuuB77cTBY/Z5p0b3q3+10fo=",
@@ -343,7 +343,7 @@ namespace Trouble.PL.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7b5db418-8974-4dae-9d39-c44aa4bc08c3"),
+                            Id = new Guid("e03f19b7-e8aa-4b73-8b74-e1baa5532b58"),
                             FirstName = "Joe",
                             LastName = "Joe",
                             Password = "ZAqyuuB77cTBY/Z5p0b3q3+10fo=",
@@ -351,7 +351,7 @@ namespace Trouble.PL.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4aef32ba-570e-449d-b1fc-14f18c2823aa"),
+                            Id = new Guid("34b435a4-1c4c-4671-987f-ca0d6d51cd95"),
                             FirstName = "Susan",
                             LastName = "Susan",
                             Password = "ZAqyuuB77cTBY/Z5p0b3q3+10fo=",
@@ -359,7 +359,7 @@ namespace Trouble.PL.Migrations
                         },
                         new
                         {
-                            Id = new Guid("886eef82-fe91-4483-a32c-8b10f0a569be"),
+                            Id = new Guid("525d567f-dbbd-4576-b4ea-eb9a3452c0e1"),
                             FirstName = "Sally",
                             LastName = "Sally",
                             Password = "ZAqyuuB77cTBY/Z5p0b3q3+10fo=",
@@ -367,7 +367,7 @@ namespace Trouble.PL.Migrations
                         },
                         new
                         {
-                            Id = new Guid("29a8209c-bc1e-45fb-975a-b3be403c8eb7"),
+                            Id = new Guid("921b3ceb-a6c6-43e1-a353-d8a4f3047412"),
                             FirstName = "Test",
                             LastName = "Test",
                             Password = "ZAqyuuB77cTBY/Z5p0b3q3+10fo=",
@@ -398,27 +398,27 @@ namespace Trouble.PL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("80a923ca-3a79-4187-8b4c-c85188961d97"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            UserId = new Guid("83063991-18b4-431b-9944-39e1d41c104d")
+                            Id = new Guid("52669b8e-34b2-496e-9564-ef46e3baac50"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            UserId = new Guid("0e65103e-af27-4657-9a65-2a21957d55f9")
                         },
                         new
                         {
-                            Id = new Guid("a92b4470-4f9e-47be-b5f5-37aa25492db0"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            UserId = new Guid("7b5db418-8974-4dae-9d39-c44aa4bc08c3")
+                            Id = new Guid("da9c5fb9-e55e-42d3-b666-c00a1ea004c1"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            UserId = new Guid("e03f19b7-e8aa-4b73-8b74-e1baa5532b58")
                         },
                         new
                         {
-                            Id = new Guid("3849a90a-f2e0-485a-a0e2-bc239e6d3e66"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            UserId = new Guid("4aef32ba-570e-449d-b1fc-14f18c2823aa")
+                            Id = new Guid("0d23ab6b-10a2-4f4e-a02f-a5f1db12690d"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            UserId = new Guid("34b435a4-1c4c-4671-987f-ca0d6d51cd95")
                         },
                         new
                         {
-                            Id = new Guid("8f3434e3-8952-44ee-8864-ee697f345122"),
-                            GameId = new Guid("c225c4f3-f378-467b-9722-7c5852cb584e"),
-                            UserId = new Guid("886eef82-fe91-4483-a32c-8b10f0a569be")
+                            Id = new Guid("d41e79f8-cb12-4efe-8d13-18ad9678330b"),
+                            GameId = new Guid("d20228c1-e0b5-4dc7-b7dd-014414397feb"),
+                            UserId = new Guid("525d567f-dbbd-4576-b4ea-eb9a3452c0e1")
                         });
                 });
 

@@ -1,8 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,20 +27,19 @@ namespace Trouble.WPFUI
     public partial class MainWindow : Window
     {
         private string hubAddress = "https://localhost:7081/TroubleHub";
+        private HubConnection _connection;
         private int TurnNum = 1;
+        private string user;
 
-        public MainWindow()
+        public MainWindow(string username)
         {
             InitializeComponent();
+            user = username;
         }
 
         private void btnRoll_Click(object sender, RoutedEventArgs e)
         {
-            string user = "Luke";
-
-            var signalRConnection = new SignalRConnection(hubAddress);
-
-            signalRConnection.RollDice(user);
+            RollDice(user);
         }
 
         private async void GameStart(object sender, RoutedEventArgs e)
@@ -61,8 +63,13 @@ namespace Trouble.WPFUI
                         {
                             Ellipse piece = (Ellipse)FindName("Piece" + i);
 
+                            //Move pieces location if it is not at start
                             if (pieceGame.PieceLocation != 0) piece.Margin = (Thickness)FindName("Space" + pieceGame.PieceLocation).GetType().GetProperty("Margin").GetValue(FindName("Space" + pieceGame.PieceLocation));
+
+                            //Sets piece specific data onto piece element on UI
                             piece.Resources.Add("PieceId", pieceGame.PieceId.ToString());
+                            piece.Resources.Add("PieceLocation", pieceGame.PieceLocation.ToString());
+                            piece.Resources.Add("Color", pieceGame.PieceColor.ToString());
 
                             //piece.GetType().GetProperty("Name").SetValue(piece, responseObject[i].PieceId);
 
@@ -81,15 +88,94 @@ namespace Trouble.WPFUI
             }
         }
 
-        private void MovePiece(object sender, MouseButtonEventArgs e)
+        private void MovePieceClick(object sender, MouseButtonEventArgs e)
         {
             Ellipse piece = (Ellipse)sender;
-            string user = "Luke";
             string hubAddress = "https://localhost:7081/TroubleHub";
 
-            var signalRConnection = new SignalRConnection(hubAddress);
+            MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), Guid.Parse("d20228c1-e0b5-4dc7-b7dd-014414397feb"), 1);
+        }
 
-            signalRConnection.MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), Guid.Parse("c225c4f3-f378-467b-9722-7c5852cb584e"), 1);
+        public void RollDice(string user)
+        {
+            if (_connection == null)
+            {
+                Start();
+            }
+
+            try
+            {
+                _connection.InvokeAsync("RollDice", user);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        public void MovePiece(Guid pieceId, Guid gameId, int spaces)
+        {
+            if (_connection == null)
+            {
+                Start();
+            }
+
+            try
+            {
+                _connection.InvokeAsync("MovePiece", pieceId, gameId, spaces);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        public void ConnectToChannel(string user)
+        {
+            Start();
+            string message = user + " Connected";
+            try
+            {
+                _connection.InvokeAsync("SendMessage", "System", message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        public void Start()
+        {
+            _connection = new HubConnectionBuilder()
+                .WithUrl(hubAddress)
+                .Build();
+
+            _connection.On<string, string>("ReceiveMessage", (s1, s2) => OnSend(s1, s2));
+            _connection.On<Guid, int>("MovePieceReturn", (g1, i1) => MovePieceReturn(g1, i1));
+            _connection.StartAsync();
+        }
+
+        private void OnSend(string user, object message)
+        {
+            Console.WriteLine(user + ": " + message);
+        }
+
+        private void MovePieceReturn(Guid pieceId, int newLocation)
+        {
+            for (int i = 1; i < 17; i++)
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    Ellipse piece = (Ellipse)FindName("Piece" + i);
+                    Guid id = Guid.Parse(piece.FindResource("PieceId").ToString());
+                    piece.Resources.Remove("PieceLocation");
+                    piece.Resources.Add("PieceLocation", newLocation.ToString());
+                    if (id == pieceId)
+                    {
+                        piece.Margin = (Thickness)FindName("Space" + newLocation).GetType().GetProperty("Margin").GetValue(FindName("Space" + newLocation));
+                    }
+                });
+            }
         }
     }
 }
