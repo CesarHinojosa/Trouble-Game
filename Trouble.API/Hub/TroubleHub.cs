@@ -40,9 +40,10 @@ namespace Trouble.API.Hubs
 
         public async Task Login(string username, string password)
         {
-
-            User user = new User { Username = username, Password = password };
-            bool loginResult = UserManager.Login(user);
+            try
+            {
+                User user = new User { Username = username, Password = password };
+                bool loginResult = UserManager.Login(user);
 
                 if (loginResult)
                 {
