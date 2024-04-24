@@ -63,7 +63,10 @@ namespace Trouble.WPFUI
                         {
                             Ellipse piece = (Ellipse)FindName("Piece" + i);
 
+                            //Move pieces location if it is not at start
                             if (pieceGame.PieceLocation != 0) piece.Margin = (Thickness)FindName("Space" + pieceGame.PieceLocation).GetType().GetProperty("Margin").GetValue(FindName("Space" + pieceGame.PieceLocation));
+
+                            //Sets piece specific data onto piece element on UI
                             piece.Resources.Add("PieceId", pieceGame.PieceId.ToString());
                             piece.Resources.Add("PieceLocation", pieceGame.PieceLocation.ToString());
                             piece.Resources.Add("Color", pieceGame.PieceColor.ToString());
