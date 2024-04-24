@@ -39,32 +39,11 @@ namespace Trouble.API.Hubs
 
         public async Task Login(string username, string password)
         {
-            try
-            {
-                User user = new User { Username = username, Password = password };
-                bool loginResult = UserManager.Login(user);
 
-                if (loginResult)
-                {
-                    await Clients.Caller.SendAsync("ReceiveMessage", username, "Login Successful");
-                    await Clients.Caller.SendAsync("LoginResult", loginResult);
-                }
-                else
-                {
-                    //We dont get in here because LoginFailureException executes first
-                    //We probably don't need this
-                    await Clients.Caller.SendAsync("ReceiveMessage", username, "Login Failed: Incorrect username or password");
-                    await Clients.Caller.SendAsync("LoginResult", loginResult);
-                }
-            }
-            catch (LoginFailureException ex)
-            {
-                await Clients.Caller.SendAsync("ReceiveMessage", username, "Login Failed: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                await Clients.Caller.SendAsync("ReceiveMessage", username, "Error occurred during login: " + ex.Message);
-            }
+            User user = new User { Username = username, Password = password };
+            bool loginResult = UserManager.Login(user);
+
+            await Clients.All.SendAsync("ReceiveMessage", username, "Login Successful");
         }
 
         public async Task Logout(string username)
@@ -78,7 +57,7 @@ namespace Trouble.API.Hubs
 
                 new UserManager(options).Logout(user);
 
-                await Clients.Caller.SendAsync("ReceiveMessage", username, "Logout Successful");
+                await Clients.All.SendAsync("ReceiveMessage", username, "Logout Successful");
             }
             catch (Exception ex) 
             {
