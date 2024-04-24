@@ -28,11 +28,11 @@ namespace Trouble.API.Controllers
             return new PieceGameManager(options).Load();
         }
 
-        [HttpGet("{id}")]
+        /*[HttpGet("{id}")]
         public PieceGame Get(Guid id)
         {
             return new PieceGameManager(options).LoadById(id);
-        }
+        }*/
 
         [HttpGet("{gameId}")]
         public IEnumerable<PieceGame> GetByGame(Guid gameId)

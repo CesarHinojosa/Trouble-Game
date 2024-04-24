@@ -24,7 +24,7 @@ namespace Trouble.BL
                 {
                     rows = (from pg in dc.tblPieceGames
                             join p in dc.tblPieces on pg.PieceId equals p.Id
-                            where pg.GameId == gameId || gameId == null
+                            where pg.GameId == gameId|| gameId == null
                             select new PieceGame
                             {
                                 Id = pg.Id,
@@ -185,9 +185,9 @@ namespace Trouble.BL
                         //Move piece forward
                         row.PieceLocation += spaces;
                     }
-                    results = dc.SaveChanges();
+                    dc.SaveChanges();
                     if (rollback) transaction.Rollback();
-                    return results;
+                    return row.PieceLocation;
                 }
             }
             catch (Exception)

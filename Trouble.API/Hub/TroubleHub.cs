@@ -31,9 +31,10 @@ namespace Trouble.API.Hubs
         public async Task MovePiece(Guid pieceId, Guid gameId, int spaces)
         {
             PieceGameManager pieceGameManager = new PieceGameManager(options);
-            pieceGameManager.MovePiece(pieceId, gameId, spaces);
+            int location = pieceGameManager.MovePiece(pieceId, gameId, spaces);
             string message = "Moved piece " + pieceId + " " + spaces + " spaces";
             await Clients.All.SendAsync("ReceiveMessage", "System", message);
+            await Clients.All.SendAsync("MovePieceReturn", pieceId, location);
 
         }
 
@@ -47,14 +48,14 @@ namespace Trouble.API.Hubs
                 if (loginResult)
                 {
                     await Clients.Caller.SendAsync("ReceiveMessage", username, "Login Successful");
-                    await Clients.Caller.SendAsync("LoginResult", loginResult);
+                    await Clients.Caller.SendAsync("LoginResult", loginResult, username);
                 }
                 else
                 {
                     //We dont get in here because LoginFailureException executes first
                     //We probably don't need this
                     await Clients.Caller.SendAsync("ReceiveMessage", username, "Login Failed: Incorrect username or password");
-                    await Clients.Caller.SendAsync("LoginResult", loginResult);
+                    await Clients.Caller.SendAsync("LoginResult", loginResult, username);
                 }
             }
             catch (LoginFailureException ex)
