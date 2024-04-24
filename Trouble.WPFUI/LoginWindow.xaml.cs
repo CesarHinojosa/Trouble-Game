@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.SignalR.Client;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Trouble.ConsoleApp;
 
 namespace Trouble.WPFUI
 {
@@ -21,10 +9,12 @@ namespace Trouble.WPFUI
     public partial class LoginWindow : Window
     {
         private string hubAddress = "https://localhost:7081/TroubleHub";
+        HubConnection _connection = null;
 
         public LoginWindow()
         {
             InitializeComponent();
+            Start();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -32,8 +22,70 @@ namespace Trouble.WPFUI
             string username = txtUsername.Text;
             string password = txtPassword.Text;
 
-            var signalRConnection = new SignalRConnection(hubAddress);
-            signalRConnection.Login(username, password);
+            Login(username, password);
+        }
+
+        public void Start()
+        {
+            _connection = new HubConnectionBuilder()
+                .WithUrl(hubAddress)
+                .Build();
+
+            _connection.On<string, string>("ReceiveMessage", (s1, s2) => OnSend(s1, s2));
+            _connection.On<bool, string>("LoginResult", (b1, s1) => LoginResult(b1, s1));
+            _connection.StartAsync();
+        }
+
+        private void OnSend(string user, object message)
+        {
+            Console.WriteLine(user + ": " + message);
+        }
+
+        private void LoginResult(bool result, string username)
+        {
+            if (result)
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    Title = "Login Successful";
+                    MainWindow window = new MainWindow(username);
+                    window.Show();
+                    this.Close();
+                });
+            }
+            else
+            {
+                MessageBox.Show("Incorrect Username or Password");
+            }
+        }
+
+        public void ConnectToChannel(string user)
+        {
+            Start();
+            string message = user + " Connected";
+            try
+            {
+                _connection.InvokeAsync("SendMessage", "System", message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        public void Login(string username, string password)
+        {
+            if (_connection == null) Start();
+
+            try
+            {
+                _connection.InvokeAsync("Login", username, password);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
