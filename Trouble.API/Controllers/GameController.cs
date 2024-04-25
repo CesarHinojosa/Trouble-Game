@@ -27,17 +27,21 @@ namespace Trouble.API.Controllers
         public IEnumerable<Game> Get()
         {
             logger.LogWarning("Game-->");
-
-            //When Do I know if it just needs options or both Logger and options?
             return new GameManager(options).Load();
         }
+
         [HttpGet("{id}")]
         public Game Get(Guid id)
         {
             return new GameManager(options).LoadById(id);
         }
 
-        //needs to be Guid (public Guid)??
+        [HttpGet("GetByUser/{userId}")]
+        public IEnumerable<Game> GetByUserId(Guid userId)
+        {
+            return new GameManager(options).LoadByUserId(userId);
+        }
+
         [HttpPost("{rollback?}")]
         public int Post([FromBody] Game game, bool rollback = false)
         {
@@ -51,7 +55,6 @@ namespace Trouble.API.Controllers
             }
         }
 
-        //needs to be Guid (public Guid)??
         [HttpPut("{id}/{rollback?}")]
         public int Put(Guid id, [FromBody] Game game, bool rollback = false)
         {
@@ -65,7 +68,6 @@ namespace Trouble.API.Controllers
             }
         }
 
-        //needs to be Guid (public Guid)??
         [HttpDelete("{id}/{rollback?}")]
         public int Delete(Guid id, bool rollback = false)
         {

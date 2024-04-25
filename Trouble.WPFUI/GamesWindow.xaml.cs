@@ -22,15 +22,15 @@ namespace Trouble.WPFUI
     /// </summary>
     public partial class GamesWindow : Window
     {
-        string url = "https://localhost:7081/api/Game";
+        string url = "https://localhost:7081/api/Game/GetByUser/";
         List<Game> games = new List<Game>();
-        string username;
+        User user;
 
-        public GamesWindow(string username)
+        public GamesWindow(User user)
         {
             InitializeComponent();
-            this.username = username;
-            Title = "Games for " + username;
+            this.user = user;
+            Title = "Games for " + user.Username;
             RebindGames();
         }
 
@@ -40,7 +40,7 @@ namespace Trouble.WPFUI
             {
                 try
                 {
-                    HttpResponseMessage response = await client.GetAsync(url);
+                    HttpResponseMessage response = await client.GetAsync(url + user.Id.ToString());
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -73,7 +73,7 @@ namespace Trouble.WPFUI
             if(grid != null)
             {
                 Game selectedGmae = dgGames.SelectedItem as Game;
-                MainWindow window = new MainWindow(username, selectedGmae.Id);
+                MainWindow window = new MainWindow(user.Username, selectedGmae.Id);
                 window.Show();
             }
         }
