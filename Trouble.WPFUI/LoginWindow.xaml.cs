@@ -50,8 +50,8 @@ namespace Trouble.WPFUI
                 this.Dispatcher.Invoke(() =>
                 {
                     Title = "Login Successful";
-                    MainWindow window = new MainWindow(username);
-                    window.Show();
+                    GamesWindow games = new GamesWindow(username);
+                    games.Show();
                     this.Close();
                 });
             }
