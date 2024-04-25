@@ -167,11 +167,16 @@ namespace Trouble.BL
                     if (rollback) transaction = dc.Database.BeginTransaction();
 
                     tblPieceGame row = dc.tblPieceGames.FirstOrDefault(r => r.GameId == gameId && r.PieceId == pieceId);
+                    PieceGame pieceGame = Load(gameId).FirstOrDefault(pg => pg.PieceId == pieceId);
+
 
                     //If piece is at home and roll is 1 or 6
                     if (row.PieceLocation == 0 && (spaces == 1 || spaces == 6))
                     {
-                        row.PieceLocation = 1;
+                        if (pieceGame.PieceColor == "Green") row.PieceLocation = 1;
+                        else if (pieceGame.PieceColor == "Yellow") row.PieceLocation = 8;
+                        else if (pieceGame.PieceColor == "Blue") row.PieceLocation = 15;
+                        else row.PieceLocation = 22;
                     }
                     else
                     {
@@ -184,6 +189,7 @@ namespace Trouble.BL
 
                         //Move piece forward
                         row.PieceLocation += spaces;
+                        if(row.PieceLocation > 28) row.PieceLocation -= 28;
                     }
                     dc.SaveChanges();
                     if (rollback) transaction.Rollback();
