@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Trouble.BL.Models;
 
 namespace Trouble.BL
 {
@@ -59,6 +60,37 @@ namespace Trouble.BL
                     throw new Exception();
                 }
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public List<Game> LoadByUserId(Guid userId)
+        {
+            try
+            {
+                List<Game> rows = new List<Game>();
+
+                using (TroubleEntities dc = new TroubleEntities(options))
+                {
+                    rows = (from g in dc.tblGames
+                            join p in dc.tblUserGames on g.Id equals p.GameId
+                    where p.UserId == userId || userId == null
+                            select new Game
+                            {
+                                Id = g.Id,
+                                GameName = g.GameName,
+                                GameDate = g.GameDate,
+                                TurnNum = g.TurnNum
+                            })
+                            .Distinct()
+                            .ToList();
+                }
+
+                return rows;
             }
             catch (Exception)
             {

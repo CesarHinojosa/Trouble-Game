@@ -48,7 +48,7 @@ namespace Trouble.API.Hubs
                 if (loginResult)
                 {
                     await Clients.Caller.SendAsync("ReceiveMessage", username, "Login Successful");
-                    await Clients.Caller.SendAsync("LoginResult", loginResult, username);
+                    await Clients.Caller.SendAsync("LoginResult", loginResult, user);
                 }
                 else
                 {

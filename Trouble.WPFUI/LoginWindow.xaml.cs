@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using System.Windows;
+using Trouble.BL.Models;
 
 namespace Trouble.WPFUI
 {
@@ -34,7 +35,7 @@ namespace Trouble.WPFUI
                 .Build();
 
             _connection.On<string, string>("ReceiveMessage", (s1, s2) => OnSend(s1, s2));
-            _connection.On<bool, string>("LoginResult", (b1, s1) => LoginResult(b1, s1));
+            _connection.On<bool, User>("LoginResult", (b1, u1) => LoginResult(b1, u1));
             _connection.StartAsync();
         }
 
@@ -43,14 +44,14 @@ namespace Trouble.WPFUI
             Console.WriteLine(user + ": " + message);
         }
 
-        private void LoginResult(bool result, string username)
+        private void LoginResult(bool result, User user)
         {
             if (result)
             {
                 this.Dispatcher.Invoke(() =>
                 {
                     Title = "Login Successful";
-                    GamesWindow games = new GamesWindow(username);
+                    GamesWindow games = new GamesWindow(user);
                     games.Show();
                     this.Close();
                 });

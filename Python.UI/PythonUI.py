@@ -185,7 +185,11 @@ class TroubleBoard:
             color = self.canvas.itemcget(circle_id, "fill")
             
             piece_id = "0e041e67-51c3-4d6e-a7b8-3684c5a9a793"
+            #piece_id = "9f1bbe17-debb-4882-9726-6831cdf56100"
+                
+            # Assuming the game ID is stored somewhere accessible
             game_id = "c225c4f3-f378-467b-9722-7c5852cb584e"
+            #game_id = "d20228c1-e0b5-4dc7-b7dd-014414397feb"
             
            
 
@@ -353,4 +357,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
