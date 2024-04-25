@@ -17,12 +17,14 @@ namespace Trouble.WPFUI
         //private string hubAddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
         private HubConnection _connection;
         private int TurnNum = 1;
+        private Guid gameId;
         private string user;
 
-        public MainWindow(string username)
+        public MainWindow(string username, Guid gameId)
         {
             InitializeComponent();
             user = username;
+            this.gameId = gameId;
         }
 
         private void btnRoll_Click(object sender, RoutedEventArgs e)
@@ -32,7 +34,7 @@ namespace Trouble.WPFUI
 
         private async void GameStart(object sender, RoutedEventArgs e)
         {
-            string url = "https://localhost:7081/api/PieceGame/d20228c1-e0b5-4dc7-b7dd-014414397feb";
+            string url = "https://localhost:7081/api/PieceGame/" + gameId.ToString();
 
             //string url = "https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/";
 
@@ -82,13 +84,8 @@ namespace Trouble.WPFUI
         {
             Ellipse piece = (Ellipse)sender;
 
-            /*if (int.Parse(piece.FindResource("PieceLocation").ToString()) != 28)
-            {
-                //MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), Guid.Parse("c225c4f3-f378-467b-9722-7c5852cb584e"), 1); //Remote
-                MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), Guid.Parse("d20228c1-e0b5-4dc7-b7dd-014414397feb"), 1); //Local
-            }*/
+            MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), gameId, 1);
 
-            MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), Guid.Parse("d20228c1-e0b5-4dc7-b7dd-014414397feb"), 1); //Local
         }
 
         public void RollDice(string user)
