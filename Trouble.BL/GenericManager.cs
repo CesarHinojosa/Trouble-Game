@@ -49,6 +49,7 @@
                 {
                     IDbContextTransaction dbTransaction = null;
                     if (rollback) dbTransaction = dc.Database.BeginTransaction();
+                    
 
                     entity.Id = Guid.NewGuid();
 
@@ -80,6 +81,7 @@
                     dc.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
                     results = dc.SaveChanges();
+
 
                     if (rollback) dbTransaction.Rollback();
                 }
