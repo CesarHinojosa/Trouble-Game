@@ -17,7 +17,8 @@ internal class Program
     {
         string user = "Luke";
         string hubAddress = "https://localhost:7081/TroubleHub";
-        string operation = DrawMenu();
+        //string hubAddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
+    string operation = DrawMenu();
 
         var signalRConnection = new SignalRConnection(hubAddress);
 

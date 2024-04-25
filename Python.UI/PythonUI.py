@@ -4,6 +4,7 @@ from tkinter import messagebox
 from signalrcore.hub_connection_builder import HubConnectionBuilder
 
 hubaddress = "https://localhost:7081/TroubleHub"
+
 hub_connection = HubConnectionBuilder().with_url(hubaddress, options={"verify_ssl": False}).build()
 hub_connection.on("ReceiveMessage", lambda msg: print("Received message back from hub." + msg[1]))
 hub_connection.start()
@@ -164,10 +165,12 @@ class TroubleBoard:
     
     def on_piece_click(x , y):
         
-        piece_id = "0e041e67-51c3-4d6e-a7b8-3684c5a9a793"
+        #piece_id = "0e041e67-51c3-4d6e-a7b8-3684c5a9a793"
+        piece_id = "9f1bbe17-debb-4882-9726-6831cdf56100"
                 
         # Assuming the game ID is stored somewhere accessible
-        game_id = "c225c4f3-f378-467b-9722-7c5852cb584e"
+        #game_id = "c225c4f3-f378-467b-9722-7c5852cb584e"
+        game_id = "d20228c1-e0b5-4dc7-b7dd-014414397feb"
         
         print(f"Clicked at coordinates: ({x}, {y})")
 

@@ -1,23 +1,10 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Trouble.BL.Models;
-using Trouble.ConsoleApp;
 
 namespace Trouble.WPFUI
 {
@@ -27,6 +14,7 @@ namespace Trouble.WPFUI
     public partial class MainWindow : Window
     {
         private string hubAddress = "https://localhost:7081/TroubleHub";
+        //private string hubAddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
         private HubConnection _connection;
         private int TurnNum = 1;
         private string user;
@@ -44,7 +32,9 @@ namespace Trouble.WPFUI
 
         private async void GameStart(object sender, RoutedEventArgs e)
         {
-            string url = "https://localhost:7081/api/PieceGame/";
+            string url = "https://localhost:7081/api/PieceGame/d20228c1-e0b5-4dc7-b7dd-014414397feb";
+
+            //string url = "https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/";
 
             using (HttpClient client = new HttpClient())
             {
@@ -91,9 +81,14 @@ namespace Trouble.WPFUI
         private void MovePieceClick(object sender, MouseButtonEventArgs e)
         {
             Ellipse piece = (Ellipse)sender;
-            string hubAddress = "https://localhost:7081/TroubleHub";
 
-            MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), Guid.Parse("d20228c1-e0b5-4dc7-b7dd-014414397feb"), 1);
+            /*if (int.Parse(piece.FindResource("PieceLocation").ToString()) != 28)
+            {
+                //MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), Guid.Parse("c225c4f3-f378-467b-9722-7c5852cb584e"), 1); //Remote
+                MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), Guid.Parse("d20228c1-e0b5-4dc7-b7dd-014414397feb"), 1); //Local
+            }*/
+
+            MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), Guid.Parse("d20228c1-e0b5-4dc7-b7dd-014414397feb"), 1); //Local
         }
 
         public void RollDice(string user)
@@ -168,10 +163,10 @@ namespace Trouble.WPFUI
                 {
                     Ellipse piece = (Ellipse)FindName("Piece" + i);
                     Guid id = Guid.Parse(piece.FindResource("PieceId").ToString());
-                    piece.Resources.Remove("PieceLocation");
-                    piece.Resources.Add("PieceLocation", newLocation.ToString());
                     if (id == pieceId)
                     {
+                        piece.Resources.Remove("PieceLocation");
+                        piece.Resources.Add("PieceLocation", newLocation.ToString());
                         piece.Margin = (Thickness)FindName("Space" + newLocation).GetType().GetProperty("Margin").GetValue(FindName("Space" + newLocation));
                     }
                 });
