@@ -9,26 +9,6 @@ hub_connection = HubConnectionBuilder().with_url(hubaddress, options={"verify_ss
 hub_connection.on("ReceiveMessage", lambda msg: print("Received message back from hub." + msg[1]))
 hub_connection.start()
 
-def on_button_click():
-    # Roll the dice
-    user = "User1"
-    hub_connection.send("RollDice", [user])
-        
-def StartGame(master):
-    master.withdraw()
-    game_window = tk.Toplevel(master)
-    game_screen = TroubleBoard(game_window)
-    
-#hit database
-def LogOut(master):
-    user = "User1"
-    hub_connection.send("Logout",[user])
-    master.withdraw()
-    
-    login_window = tk.Toplevel(master)
-    login_screen = LoginScreen(login_window)
-    
-
 class LoginScreen:
     def __init__(self, master):
         self.master = master
@@ -86,6 +66,7 @@ class LoginScreen:
         else:
             messagebox.showinfo(title="Error", message="Invalid Login")
             
+
 class OptionsScreen():
     def __init__(self, master):
         self.master = master
@@ -102,25 +83,67 @@ class OptionsScreen():
         #Grid Layout
         self.option_label.grid(row=0, column=0, columnspan=2, pady=40)
         self.game_button.grid(row=1, column=0)
-        self.logout_button.grid(row=1, column=1, pady=20)     
+        self.logout_button.grid(row=1, column=1, pady=20)   
+                     
+#hit database
+def LogOut(master):
+    user = "User1"
+    hub_connection.send("Logout",[user])
+    master.withdraw()
+    
+    login_window = tk.Toplevel(master)
+    login_screen = LoginScreen(login_window)
+    
+
+
+
+#-----------------------------------------Game Aspect-------------------------------------
+
+def StartGame(master):
+    master.withdraw()
+    game_window = tk.Toplevel(master)
+    game_screen = TroubleBoard(game_window)
+
+def on_button_click():
+    # Roll the dice
+    user = "User1"
+    hub_connection.send("RollDice", [user])
+    
+def TupleFinder(zones):
+        coordinates = []
+        for zone_type, zone_list in zones.items():
+            for coordinate in zone_list:
+                coordinates.append(coordinate)
+        return coordinates
+       
 
 class TroubleBoard:
     def button(self):
         button = tk.Button(self.master, text="Roll!", command=on_button_click)
         button.grid(row=0, column=0, padx=0, pady=0)
 
-
-
     def __init__(self, master):
         self.master = master
         self.master.title("Trouble Game Board")
         self.board_size = 19
-        self.square_size = 40  # Adjust for desired square size
+        self.square_size = 35  # Adjust for desired square size
         self.canvas = tk.Canvas(master, width=self.board_size * self.square_size, height=self.board_size * self.square_size, bg="white")
         self.canvas.grid()
         self.canvas.bind("<Button-1>", self.on_piece_click)
         
+        #need this to store the ID of the tuple in a dictionary 
+        #this is for the spots around 
+        self.coordinate_mapping = {}  # Dictionary to store mapping of tuples to integers
+        self.current_id = 1  # Start the ID from 1
         
+        for i in range(self.board_size):
+            for j in range(self.board_size):
+                x1 = i * self.square_size
+                y1 = j * self.square_size
+                x2 = x1 + self.square_size
+                y2 = y1 + self.square_size
+                self.canvas.create_rectangle(x1, y1, x2, y2, outline="black", fill="white")
+                
         
         #might need to modify this as well in order to add the colors for the specific spaces
         self.colors = {
@@ -145,40 +168,75 @@ class TroubleBoard:
             'draw_yellow_starting_zones' : "yellow",
         }
         
-        #need this to store the ID of the tuple in a dictionary 
-        #this is for the spots around 
-        self.coordinate_mapping = {}  # Dictionary to store mapping of tuples to integers
-        self.current_id = 1  # Start the ID from 1
-
-        for i in range(self.board_size):
-            for j in range(self.board_size):
-                x1 = i * self.square_size
-                y1 = j * self.square_size
-                x2 = x1 + self.square_size
-                y2 = y1 + self.square_size
-                self.canvas.create_rectangle(x1, y1, x2, y2, outline="black", fill="white")
-
-        self.draw_zones()
+        self.draw_board()
         self.button()
-
-        #modify this
-    
-    def on_piece_click(x , y):
         
-        #piece_id = "0e041e67-51c3-4d6e-a7b8-3684c5a9a793"
-        piece_id = "9f1bbe17-debb-4882-9726-6831cdf56100"
+    def reset_ids(self):
+            self.coordinate_mapping = {}
+            self.current_id = 1
+            # Redraw the board
+            self.draw_board()
+        
+
+    def TuplePieceMover(self, circle_id):
+            # Retrieve the piece ID and color of the clicked circle
+            #piece_id = self.canvas.itemcget(circle_id, "tags").split(" ")[0]
+            
+            color = self.canvas.itemcget(circle_id, "fill")
+            
+            piece_id = "0e041e67-51c3-4d6e-a7b8-3684c5a9a793"
+            game_id = "c225c4f3-f378-467b-9722-7c5852cb584e"
+            
+           
+
+            # Print the information about the clicked circle
+            #print(f"Clicked on circle with ID: {circle_id}, Piece ID: {piece_id}, Color: {color}")
+
+            # Send the information to the server or perform any other necessary actions
+            hub_connection.send("MovePiece", [piece_id, game_id, 1])
+            
+
+    def on_piece_click(self, event):
+            clicked_object = self.canvas.find_closest(event.x, event.y)[0]
+            if "circle" in self.canvas.gettags(clicked_object):
+                 self.TuplePieceMover(clicked_object)
+            else:
+                 print("Clicked on empty space") 
+                 # Get the ID of the clicked object
+                 clicked_object = self.canvas.find_closest(event.x, event.y)[0]
+                 # Check if the clicked object is a circle
+                 if "circle" in self.canvas.gettags(clicked_object):
+                     # Call TupleMover method with the ID of the clicked circle
+                     self.TupleMover(clicked_object)
+                 else:
+                     print("Clicked on empty space")
+            
+
+    # def on_piece_click(self, event):
+    #     piece_id = "0e041e67-51c3-4d6e-a7b8-3684c5a9a793"  # Example piece ID
+    #     game_id = "c225c4f3-f378-467b-9722-7c5852cb584e"  # Example game ID
+    #     #print(f"Clicked at coordinates: ({x}, {y})")
+    #     # Send SignalR message to move the piece
+    #     hub_connection.send("MovePiece", [piece_id, game_id, 1])  # Assuming 1 space to move
+
+        
+    
+
+
+    # def on_piece_click(x , y):
+        
+    #     piece_id = "0e041e67-51c3-4d6e-a7b8-3684c5a9a793"
                 
-        # Assuming the game ID is stored somewhere accessible
-        #game_id = "c225c4f3-f378-467b-9722-7c5852cb584e"
-        game_id = "d20228c1-e0b5-4dc7-b7dd-014414397feb"
-        
-        print(f"Clicked at coordinates: ({x}, {y})")
+    #     # Assuming the game ID is stored somewhere accessible
+    #     game_id = "c225c4f3-f378-467b-9722-7c5852cb584e"
+    #             
+    #     print(f"Clicked at coordinates: ({x}, {y})")
 
-        # Send SignalR message to move the piece
-        hub_connection.send("MovePiece", [piece_id, game_id, 1])  # Assuming 1 spaces to move 
-    
-    
-    def draw_zones(self):
+    #     # Send SignalR message to move the piece
+    #     hub_connection.send("MovePiece", [piece_id, game_id, 1])  # Assuming 1 spaces to move 
+        
+   
+    def draw_board(self):
         game_zones = {
             
             'draw_green_zone_right': [(3,10),(3, 11), (4, 12), (5, 13)], 
@@ -198,7 +256,6 @@ class TroubleBoard:
             'draw_green_zone_left': [(5,7), (4,8), (3,9)]
                                 
         }
-        
         starting_zones = {
             'draw_green_starting_zones' : [(1,8), (1,9), (1,11), (1,12)],
             
@@ -209,7 +266,6 @@ class TroubleBoard:
             'draw_yellow_starting_zones' : [(7, 2), (8, 2), (10, 2), (11, 2)],
             
         }
-
         home_zones = {
             'draw_green_home_zones': [(7, 10), (6, 10), (5, 10), (4, 10)],
             
@@ -219,9 +275,17 @@ class TroubleBoard:
             'draw_yellow_home_zones' : [(9, 8), (9, 7), (9, 6), (9, 5)]
         }
         
-       
+
+        # Call TupleFinder to get the coordinates for each zone
+        game_zone_coordinates = TupleFinder(game_zones)
+        starting_zone_coordinates = TupleFinder(starting_zones)
+        home_zone_coordinates = TupleFinder(home_zones)
+
+        print("Game Zone Coordinates:", game_zone_coordinates)
+        print("Starting Zone Coordinates:", starting_zone_coordinates)
+        print("Home Zone Coordinates:", home_zone_coordinates)
+
                 
-        #drawing the game circle shape
         for zone_type, zone_list in game_zones.items():
             for game_zone in zone_list:
                 #this code adds the ID to the specific tuple
@@ -246,60 +310,26 @@ class TroubleBoard:
         for zone_type, zone_list in starting_zones.items():
             for i, starting_zone in enumerate(zone_list, start=1):
                 x, y = starting_zone
-            
+        
                 # Add piece ID to the coordinate mapping
                 self.coordinate_mapping[(x, y)] = self.current_id
                 self.current_id += 1
                 piece_id = self.coordinate_mapping[(x, y)]
-            
+        
                 # Draw circular piece
                 center_x = x * self.square_size + self.square_size // 2
                 center_y = y * self.square_size + self.square_size // 2
                 radius = self.square_size // 2
-                
-                #I need to click on the circle
-                
-                circle = self.canvas.create_oval(center_x - radius, center_y - radius, center_x + radius,
-                                        center_y + radius, fill=self.colors[zone_type], outline="Orange")
-                
-                
-                text = f"{i}"  # Example: "Piece 1"
-                self.canvas.create_text(center_x, center_y, text=text, font=("Arial", 5, "bold"))
-            
-
-                
-                
-
-
-        #STARTING ZONES PIECES
-        # for zone_type, zone_list in starting_zones.items():
-        #     for i, starting_zone in enumerate(zone_list, start=1):
-        #         x, y = starting_zone
-        #         # Just draw a circle
-        #         center_x = x * self.square_size + self.square_size // 2
-        #         center_y = y * self.square_size + self.square_size // 2
-        #         radius = self.square_size // 2
-        #         # Create the oval representing the starting zone
-        #         self.canvas.create_oval(center_x - radius, center_y - radius, center_x + radius,
-        #                                 center_y + radius, fill=self.colors[zone_type], outline="black")
-                
-        #         # Create text showing only the piece ID
-        #         text = f"{i}"  # Example: "Piece 1"
-        #         self.canvas.create_text(center_x, center_y, text=text, font=("Arial", 5, "bold"))
-               
-
-        #         # Set button background color to match zone color
-        #         #button_color = self.colors[zone_type]
-        #         # Calculate button dimensions based on circle radius
-        #         #button_radius = radius // 2
-        #         # Create the button with the same text as the zone, set its background color, and adjust its dimensions
-        #         #button = tk.Button(self.master, text=text, bg=button_color, command=lambda x=x, y=y: self.on_piece_click(x, y))
-        #         # #button.place(x=center_x - button_radius, y=center_y - button_radius, width=button_radius*2, height=button_radius*2)
-                
         
+                # Create a circle and tag it as "circle" to identify it later
+                circle = self.canvas.create_oval(center_x - radius, center_y - radius, center_x + radius,
+                                                  center_y + radius, fill=self.colors[zone_type], outline="Orange", tags="circle")
+        
+                text = f"{i}"  # Example: "1"
+                self.canvas.create_text(center_x, center_y, text=text, font=("Arial", 5, "bold"))
                 
-                
-        #HOME ZONES TO WIN THE GAME
+
+            #HOME ZONES TO WIN THE GAME
         for zone_type, zone_list in home_zones.items():
                 for i, starting_zone in enumerate(zone_list, start=1):
                     x, y = starting_zone
@@ -310,9 +340,13 @@ class TroubleBoard:
                     self.canvas.create_rectangle(center_x - square_size, center_y - square_size, center_x + square_size,
                                                   center_y + square_size, fill=self.colors[zone_type], outline="black")    
                     self.canvas.create_text(center_x, center_y, text=str(i), font=("Arial", 10, "bold"))
-                    
+                        
 
 def main():
+    
+    # def reset_game():
+    #     TroubleBoard.reset_ids() 
+        
     root = tk.Tk()
     login_screen = LoginScreen(root)
     root.mainloop()
