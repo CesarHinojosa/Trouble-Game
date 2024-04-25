@@ -161,18 +161,20 @@ class TroubleBoard:
         self.draw_zones()
         self.button()
 
-        #modify this
-    
-    def on_piece_click(x , y):
-        
-        #piece_id = "0e041e67-51c3-4d6e-a7b8-3684c5a9a793"
-        piece_id = "9f1bbe17-debb-4882-9726-6831cdf56100"
+    def TuplePieceMover(self, circle_id):
+            # Retrieve the piece ID and color of the clicked circle
+            #piece_id = self.canvas.itemcget(circle_id, "tags").split(" ")[0]
+            
+            color = self.canvas.itemcget(circle_id, "fill")
+            
+            #piece_id = "0e041e67-51c3-4d6e-a7b8-3684c5a9a793"
+            piece_id = "9f1bbe17-debb-4882-9726-6831cdf56100"
                 
-        # Assuming the game ID is stored somewhere accessible
-        #game_id = "c225c4f3-f378-467b-9722-7c5852cb584e"
-        game_id = "d20228c1-e0b5-4dc7-b7dd-014414397feb"
-        
-        print(f"Clicked at coordinates: ({x}, {y})")
+            # Assuming the game ID is stored somewhere accessible
+            #game_id = "c225c4f3-f378-467b-9722-7c5852cb584e"
+            game_id = "d20228c1-e0b5-4dc7-b7dd-014414397feb"
+            
+           
 
         # Send SignalR message to move the piece
         hub_connection.send("MovePiece", [piece_id, game_id, 1])  # Assuming 1 spaces to move 
