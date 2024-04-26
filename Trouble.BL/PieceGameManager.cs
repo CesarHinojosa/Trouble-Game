@@ -191,6 +191,16 @@ namespace Trouble.BL
                         row.PieceLocation += spaces;
                         if(row.PieceLocation > 28) row.PieceLocation -= 28;
                     }
+
+                    if(spaces != 6)
+                    {
+                        GameManager gm = new GameManager(options);
+                        Game game = gm.LoadById(gameId);
+                        game.TurnNum++;
+                        if (game.TurnNum > 3) game.TurnNum = 0;
+                        gm.Update(game);
+
+                    }
                     dc.SaveChanges();
                     if (rollback) transaction.Rollback();
                     return row.PieceLocation;

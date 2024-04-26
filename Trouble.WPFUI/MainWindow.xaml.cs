@@ -16,15 +16,24 @@ namespace Trouble.WPFUI
         private string hubAddress = "https://localhost:7081/TroubleHub";
         //private string hubAddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
         private HubConnection _connection;
-        private int TurnNum = 1;
-        private Guid gameId;
+        private enum Color
+        {
+            Green = 0,
+            Yellow = 1,
+            Blue = 2,
+            Red = 3
+        };
+        private Color TurnNum;
+        private int lastRoll;
+        private Game game;
         private string user;
 
-        public MainWindow(string username, Guid gameId)
+        public MainWindow(string username, Game game)
         {
             InitializeComponent();
             user = username;
-            this.gameId = gameId;
+            this.game = game;
+            TurnNum = (Color)game.TurnNum;
         }
 
         private void btnRoll_Click(object sender, RoutedEventArgs e)
@@ -34,9 +43,9 @@ namespace Trouble.WPFUI
 
         private async void GameStart(object sender, RoutedEventArgs e)
         {
-            string url = "https://localhost:7081/api/PieceGame/" + gameId.ToString();
+            string url = "https://localhost:7081/api/PieceGame/" + game.Id.ToString();
 
-            //string url = "https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/";
+            //string url = "https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/" + game.Id.ToString();
 
             using (HttpClient client = new HttpClient())
             {
@@ -51,7 +60,7 @@ namespace Trouble.WPFUI
 
                         int i = 1;
 
-                        foreach(var pieceGame in responseObject ) 
+                        foreach (var pieceGame in responseObject)
                         {
                             Ellipse piece = (Ellipse)FindName("Piece" + i);
 
@@ -66,11 +75,13 @@ namespace Trouble.WPFUI
                             //piece.GetType().GetProperty("Name").SetValue(piece, responseObject[i].PieceId);
 
                             i++;
-                        }       
+                        }
 
                         // Handle unsuccessful response
                         Console.WriteLine("Failed to call the API. Status code: " + response.StatusCode);
                     }
+                    lblDirections.Content = TurnNum.ToString() + " Player, Roll the Dice";
+                    lblTurn.Content = "Turn: " + TurnNum.ToString();
                 }
                 catch (Exception)
                 {
@@ -84,7 +95,10 @@ namespace Trouble.WPFUI
         {
             Ellipse piece = (Ellipse)sender;
 
-            MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), gameId, 1);
+            if (piece.FindResource("Color").ToString() == TurnNum.ToString())
+            {
+                MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), game.Id, 1);
+            }
 
         }
 
@@ -144,6 +158,7 @@ namespace Trouble.WPFUI
 
             _connection.On<string, string>("ReceiveMessage", (s1, s2) => OnSend(s1, s2));
             _connection.On<Guid, int>("MovePieceReturn", (g1, i1) => MovePieceReturn(g1, i1));
+            _connection.On<int>("DiceRolled", (i1) => lastRoll = i1);
             _connection.StartAsync();
         }
 
@@ -168,6 +183,25 @@ namespace Trouble.WPFUI
                     }
                 });
             }
+            this.Dispatcher.Invoke(() =>
+            {
+
+                if (lastRoll != 6)
+                {
+
+                    TurnNum++;
+                    if (TurnNum > (Color)3)
+                    {
+                        TurnNum = 0;
+                    }
+                    lblDirections.Content = TurnNum.ToString() + " Player, Roll the Dice";
+                    lblTurn.Content = "Turn: " + TurnNum.ToString();
+                }
+                else
+                {
+                    lblDirections.Content = "Roll the Dice Again";
+                }
+            });
         }
     }
 }
