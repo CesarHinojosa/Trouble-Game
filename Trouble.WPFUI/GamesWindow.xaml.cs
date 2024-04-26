@@ -73,7 +73,7 @@ namespace Trouble.WPFUI
             if(grid != null)
             {
                 Game selectedGmae = dgGames.SelectedItem as Game;
-                MainWindow window = new MainWindow(user.Username, selectedGmae.Id);
+                MainWindow window = new MainWindow(user.Username, selectedGmae);
                 window.Show();
             }
         }

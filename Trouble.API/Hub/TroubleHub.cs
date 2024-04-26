@@ -24,8 +24,10 @@ namespace Trouble.API.Hubs
 
         public async Task RollDice(string user)
         {
-            string message = ("Rolled a " + new GameManager(options).Roll().ToString());
+            int roll = new GameManager(options).Roll();
+            string message = ("Rolled a " + roll.ToString());
             await Clients.All.SendAsync("ReceiveMessage", user, message);
+            await Clients.All.SendAsync("DiceRolled", roll);
         }
 
         public async Task MovePiece(Guid pieceId, Guid gameId, int spaces)

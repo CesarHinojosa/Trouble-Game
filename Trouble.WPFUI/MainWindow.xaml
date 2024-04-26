@@ -609,6 +609,9 @@
             </Ellipse.RenderTransform>
         </Ellipse>
         <Button x:Name="btnRoll" Content="Roll" Margin="310,151,310,363" Height="46" Width="90" Click="btnRoll_Click"/>
+        <Label x:Name="lblTurn" Content="Turn: Green" HorizontalAlignment="Left" Margin="866,10,0,0" VerticalAlignment="Top" Height="25" Width="124"/>
+        <Label x:Name="lblRoll" Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="lblDirections" Content="Roll The Dice" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
