@@ -9,6 +9,8 @@ hub_connection = HubConnectionBuilder().with_url(hubaddress, options={"verify_ss
 hub_connection.on("ReceiveMessage", lambda msg: print("Received message back from hub." + msg[1]))
 hub_connection.start()
 
+
+
 class LoginScreen:
     def __init__(self, master):
         self.master = master
@@ -147,7 +149,6 @@ class TroubleBoard:
         
         #might need to modify this as well in order to add the colors for the specific spaces
         self.colors = {
-            'safe_zone': "black",
             'draw_green_zone_left': "green", 
             'draw_red_zone_left': "red",
             'draw_red_zone_right': "red",
@@ -184,6 +185,7 @@ class TroubleBoard:
             
             color = self.canvas.itemcget(circle_id, "fill")
             
+            #method for piece_id and game_id using JSON
             piece_id = "0e041e67-51c3-4d6e-a7b8-3684c5a9a793"
             game_id = "c225c4f3-f378-467b-9722-7c5852cb584e"
             
@@ -218,9 +220,6 @@ class TroubleBoard:
     #     #print(f"Clicked at coordinates: ({x}, {y})")
     #     # Send SignalR message to move the piece
     #     hub_connection.send("MovePiece", [piece_id, game_id, 1])  # Assuming 1 space to move
-
-        
-    
 
 
     # def on_piece_click(x , y):
@@ -285,7 +284,8 @@ class TroubleBoard:
         print("Starting Zone Coordinates:", starting_zone_coordinates)
         print("Home Zone Coordinates:", home_zone_coordinates)
 
-                
+             
+       #spots on the game board
         for zone_type, zone_list in game_zones.items():
             for game_zone in zone_list:
                 #this code adds the ID to the specific tuple
@@ -307,6 +307,7 @@ class TroubleBoard:
                 self.canvas.create_text(center_x, center_y, text=str(spot_id), font=("Arial", 10, "bold"))
                 
 
+        #cicle pieces
         for zone_type, zone_list in starting_zones.items():
             for i, starting_zone in enumerate(zone_list, start=1):
                 x, y = starting_zone
@@ -329,7 +330,7 @@ class TroubleBoard:
                 self.canvas.create_text(center_x, center_y, text=text, font=("Arial", 5, "bold"))
                 
 
-            #HOME ZONES TO WIN THE GAME
+        #HOME ZONES TO WIN THE GAME
         for zone_type, zone_list in home_zones.items():
                 for i, starting_zone in enumerate(zone_list, start=1):
                     x, y = starting_zone
