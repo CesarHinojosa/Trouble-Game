@@ -22,7 +22,7 @@ namespace Trouble.BL.Test
             User user = new UserManager(options).Load().FirstOrDefault();
             //Assert.AreEqual(new UserGameManager(options).LoadById(user.Id).Id, user.Id);
 
-            int result = new UserGameManager(options).Insert(user.Id, game.Id, true);
+            int result = new UserGameManager(options).Insert(user.Id, game.Id, "Green", true);
             Assert.IsTrue(result > 0);
 
         }

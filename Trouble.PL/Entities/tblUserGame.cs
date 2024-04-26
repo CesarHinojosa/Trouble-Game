@@ -14,6 +14,8 @@ namespace Trouble.PL.Entities
 
         public Guid GameId { get; set; }
 
+        public string PlayerColor { get; set; }
+
         public virtual tblUser User { get; set; }
         public virtual tblGame Game { get; set; }
     }

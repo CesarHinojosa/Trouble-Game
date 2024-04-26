@@ -37,11 +37,11 @@ namespace Trouble.API.Controllers
         [HttpPost("{rollback?}")]
         //needs to be Guid or int (public Guid)??
         //Guid user?
-        public int Post([FromBody] Guid userId, Guid gameId, bool rollback = false)
+        public int Post([FromBody] Guid userId, Guid gameId, string playerColor, bool rollback = false)
         {
             try
             {
-                return new UserGameManager(options).Insert(userId, gameId, rollback);
+                return new UserGameManager(options).Insert(userId, gameId, playerColor, rollback);
             }
             catch (Exception)
             {
@@ -50,11 +50,11 @@ namespace Trouble.API.Controllers
         }
 
         [HttpPut("{id}/{rollback?}")]
-        public int Put(Guid id, [FromBody] Guid userId, Guid gameId, bool rollback = false)
+        public int Put(Guid id, [FromBody] Guid userId, Guid gameId, string playerColor, bool rollback = false)
         {
             try
             {
-                return new UserGameManager(options).Update(userId, gameId, rollback);
+                return new UserGameManager(options).Update(userId, gameId, playerColor, rollback);
             }
             catch (Exception)
             {
