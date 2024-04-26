@@ -24,7 +24,8 @@ namespace Trouble.BL
                         {
                             Id = d.Id,
                             UserId = d.UserId,
-                            GameId = d.GameId
+                            GameId = d.GameId,
+                            PlayerColor = d.PlayerColor
 
                         }));
 
@@ -49,7 +50,8 @@ namespace Trouble.BL
                     {
                         Id = row.Id,
                         UserId = row.UserId,
-                        GameId = row.GameId
+                        GameId = row.GameId,
+                        PlayerColor = row.PlayerColor
                     };
                     return userGame;
                 }
@@ -66,7 +68,7 @@ namespace Trouble.BL
             }
         }
 
-        public int Insert(Guid userId, Guid gameId, bool rollback = false)
+        public int Insert(Guid userId, Guid gameId, string playerColor, bool rollback = false)
         {
             try
             {
@@ -80,6 +82,7 @@ namespace Trouble.BL
                     row.Id = Guid.NewGuid();
                     row.GameId = gameId;
                     row.UserId = userId;
+                    row.PlayerColor = playerColor;
 
                     dc.tblUserGames.Add(row);
 
@@ -97,7 +100,7 @@ namespace Trouble.BL
             }
         }
 
-        public int Update(Guid userId, Guid gameId, bool rollback = false)
+        public int Update(Guid userId, Guid gameId, string playerColor, bool rollback = false)
         {
             try
             {
@@ -113,6 +116,7 @@ namespace Trouble.BL
                     {
                         row.UserId = userId;
                         row.GameId = gameId;
+                        row.PlayerColor = playerColor;
 
                         results = dc.SaveChanges();
                         if (rollback) transaction.Rollback();

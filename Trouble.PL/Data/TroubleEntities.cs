@@ -228,14 +228,19 @@ namespace Trouble.PL.Data
                 .HasForeignKey(u => u.GameId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_tblUserGame_GameId");
+
+                entity.Property(e => e.PlayerColor)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
             });
 
             List<tblUserGame> UserGames = new List<tblUserGame>
             {
-                new tblUserGame {Id = Guid.NewGuid(), UserId = userId[0], GameId = gameId[0]},
-                new tblUserGame {Id = Guid.NewGuid(), UserId = userId[1], GameId = gameId[0]},
-                new tblUserGame {Id = Guid.NewGuid(), UserId = userId[2], GameId = gameId[0]},
-                new tblUserGame {Id = Guid.NewGuid(), UserId = userId[3], GameId = gameId[0]},
+                new tblUserGame {Id = Guid.NewGuid(), UserId = userId[0], GameId = gameId[0], PlayerColor = "Green"},
+                new tblUserGame {Id = Guid.NewGuid(), UserId = userId[1], GameId = gameId[0], PlayerColor = "Yellow"},
+                new tblUserGame {Id = Guid.NewGuid(), UserId = userId[2], GameId = gameId[0], PlayerColor = "Blue"},
+                new tblUserGame {Id = Guid.NewGuid(), UserId = userId[3], GameId = gameId[0], PlayerColor = "Red"},
             };
             modelBuilder.Entity<tblUserGame>().HasData(UserGames);
         }

@@ -28,6 +28,7 @@ namespace Trouble.PL.Test
             usergame.Id = Guid.NewGuid();
             usergame.GameId = Guid.NewGuid();
             usergame.UserId = Guid.NewGuid();
+            usergame.PlayerColor = "Green";
 
         }
 
@@ -42,6 +43,7 @@ namespace Trouble.PL.Test
                 
                 usergame.GameId = Guid.NewGuid();
                 usergame.UserId = Guid.NewGuid();
+                usergame.PlayerColor = "Blue";
 
                 int rowsAffected = UpdateTest(usergame);
                 Assert.IsTrue(rowsAffected == 1);
