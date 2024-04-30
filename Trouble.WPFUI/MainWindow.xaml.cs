@@ -28,6 +28,16 @@ namespace Trouble.WPFUI
         private Game game;
         private string user;
 
+
+        private static int ComparePieceColor(PieceGame x, PieceGame y)
+        {
+            Enum.TryParse(x.PieceColor, out Color color1);
+            Enum.TryParse(y.PieceColor, out Color color2);
+            if (color1 == color2) return 0;
+            else if (color1 > color2) return 1;
+            else return -1;
+        }
+
         public MainWindow(string username, Game game)
         {
             InitializeComponent();
@@ -57,6 +67,8 @@ namespace Trouble.WPFUI
                     {
                         string responseBody = await response.Content.ReadAsStringAsync();
                         var responseObject = JsonConvert.DeserializeObject<List<PieceGame>>(responseBody);
+
+                        responseObject.Sort(ComparePieceColor);
 
                         int i = 1;
 
