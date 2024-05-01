@@ -1,4 +1,5 @@
 from ast import Global
+import signal
 import tkinter as tk
 from turtle import circle, color
 from urllib import response
@@ -9,18 +10,22 @@ from enum import Enum
 from tkinter import INSERT, Canvas, messagebox
 from signalrcore.hub_connection_builder import HubConnectionBuilder
 
-hubaddress = "https://localhost:7081/TroubleHub"
-#hubaddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
 
-hub_connection = HubConnectionBuilder().with_url(hubaddress, options={"verify_ssl": False}).build()
-hub_connection.on("ReceiveMessage", lambda msg: print("Received message back from hub." + msg[1]))
-#hub_connection.on()
-hub_connection.start()
-circle_id = 1 
+class SignalR:
 
+    hubaddress = "https://localhost:7081/TroubleHub"
+    #hubaddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
 
-
+    hub_connection = HubConnectionBuilder().with_url(hubaddress, options={"verify_ssl": False}).build()
+    hub_connection.start()
     
+    hub_connection.on("ReceiveMessage", lambda msg: print("Received message back from hub." + msg[1]))
+    
+    def send_message(self, message):
+        self.hub_connection.send("SendMessage", [message])
+    
+signalr = SignalR()
+circle_id = 1 
 
 class LoginScreen:
     def __init__(self, master):
@@ -69,7 +74,7 @@ class LoginScreen:
         userworks = "User1"
         passwordworks = "Test"
         if self.username_entry.get() == userworks and self.password_entry.get() == passwordworks:
-            hub_connection.send("Login", [userworks, passwordworks])
+            signalr.hub_connection.send("Login", [userworks, passwordworks])
             messagebox.showinfo(title="Login Success", message="You successfully logged in")
             self.master.withdraw()  # Hide login window
             
@@ -105,7 +110,7 @@ class OptionsScreen():
 #hit database
 def LogOut(master):
     user = "User1"
-    hub_connection.send("Logout",[user])
+    signalr.hub_connection.send("Logout",[user])
     master.withdraw()
     
     login_window = tk.Toplevel(master)
@@ -124,10 +129,7 @@ def StartGame(master):
     game_window = tk.Toplevel(master)
     game_screen = TroubleBoard(game_window)
 
-def on_button_click():
-    user = "User1"
-    hub_connection.send("RollDice", [user])
-    
+ 
 def TupleFinder(zones):
         coordinates = []
         for zone_type, zone_list in zones.items():
@@ -153,24 +155,14 @@ def print_circles(canvas):
             circle_info.append((circle_id, None, None))
     return circle_info
 
-
-
 class TroubleBoard:
     
-    
-    
-
-    def button(self):
-        button = tk.Button(self.master, text="Roll!", command=on_button_click)
-        button.grid(row=0, column=0, padx=0, pady=0)
-        
-
     def assign_pieces_to_circles(self, circle_ids):
         #response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/")
         response = requests.get("https://localhost:7081/api/PieceGame/", verify=False)
         data = response.json()
         
-         # Sort the data by piece color (Guids)
+            # Sort the data by piece color (Guids)
         data.sort(key=lambda x: x['pieceColor'])
         
         # Sort the circle IDs based on piece colors
@@ -233,9 +225,31 @@ class TroubleBoard:
 
                 #print(f"Circle ID: {circle_id}, Piece ID: {piece_id}")
                 #print(f"Circle ID: {circle_id}, Piece ID: {piece_id}, Spot ID: {spot_id}")
-            else:
-                print(f"Item with ID {circle_id} is not a circle.")
-      
+            # else:
+            #     print(f"Item with ID {circle_id} is not a circle.")
+            
+    def on_button_click(self):
+        user = "User1"
+        #signalr.hub_connection.send("RollDice", [user])
+        signalr.hub_connection.on("DiceRolled", lambda msg: self.text_dice_roll(msg))
+        signalr.hub_connection.send("RollDice", [user])
+        #signalr.hub_connection.send("RollDice", )
+        #self.text_dice_roll()
+       
+        
+    def text_dice_roll(self, msg):
+        
+         # Convert the integer to a string
+        result_str = str(msg[0])
+        # Update the label text with the rolled dice result
+        self.dice_result_label.config(text="You rolled a: " + result_str, font=("Arial", 16, "bold"))
+
+   
+    
+    def button(self):
+        button = tk.Button(self.master, text="Roll!", command=self.on_button_click)
+        button.grid(row=0, column=0, padx=0, pady=0)   
+
     def __init__(self, master):
         self.master = master
         self.master.title("Trouble Game Board")
@@ -244,15 +258,19 @@ class TroubleBoard:
         self.canvas = tk.Canvas(master, width=self.board_size * self.square_size, height=self.board_size * self.square_size, bg="white")
         self.canvas.grid()
         self.canvas.bind("<Button-1>", self.on_piece_click)
+
+        self.dice_result_label = tk.Label(master, text="Dice Roll Result: ", font=("Arial", 16, "bold"))
+        self.dice_result_label.grid(row=1, column=0)
         
+        self.button()
+       
+
         #need this to store the ID of the tuple in a dictionary 
         #this is for the spots around 
         self.coordinate_mapping = {}  #Dictionary to store mapping of tuples to integers   
         self.current_id = 1  # Start the ID from 1
 
 
-        
-        # self.circle_mapping = {}
         
         for i in range(self.board_size):
             for j in range(self.board_size):
@@ -286,7 +304,6 @@ class TroubleBoard:
         }
         
         self.draw_board()
-        self.button()
        
         
     def TuplePieceMover(self, circle_id):
@@ -305,7 +322,7 @@ class TroubleBoard:
             
         print(f"Clicked on circle with ID: {circle_id}, Piece ID: {piece_id}")
             
-        hub_connection.send("MovePiece", [piece_id, game_id, 1])
+        signalr.hub_connection.send("MovePiece", [piece_id, game_id, 1])
             
             
     def on_piece_click(self, event):
