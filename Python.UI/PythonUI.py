@@ -1,11 +1,12 @@
 from ast import Global
 import tkinter as tk
+from turtle import circle, color
 from urllib import response
 import json
 import requests
 from functools import partial
 from enum import Enum
-from tkinter import Canvas, messagebox
+from tkinter import INSERT, Canvas, messagebox
 from signalrcore.hub_connection_builder import HubConnectionBuilder
 
 hubaddress = "https://localhost:7081/TroubleHub"
@@ -85,14 +86,18 @@ class OptionsScreen():
 
         # Creating widgets for Option screen
         self.option_label = tk.Label(self.frame, text="Choose an Option", font=("Arial", 20))
-        self.game_button = tk.Button(self.frame, text="Start Game", command=lambda: StartGame(master))
+        self.game_button = tk.Button(self.frame, text="Choose Game", command=lambda: StartGame(master))
         self.logout_button = tk.Button(self.frame, text="Log Out", command=lambda: LogOut(master))
 
         #Grid Layout
         self.option_label.grid(row=0, column=0, columnspan=2, pady=40)
         self.game_button.grid(row=1, column=0)
         self.logout_button.grid(row=1, column=1, pady=20)   
-                     
+       
+
+#create class for selecting game        
+
+
 #hit database
 def LogOut(master):
     user = "User1"
@@ -118,7 +123,6 @@ def StartGame(master):
     game_screen = TroubleBoard(game_window)
 
 def on_button_click():
-    # Roll the dice
     user = "User1"
     hub_connection.send("RollDice", [user])
     
@@ -147,23 +151,6 @@ def print_circles(canvas):
             circle_info.append((circle_id, None, None))
     return circle_info
 
-# def print_circles(canvas):
-#     circles = canvas.find_withtag("circle")
-#     for circle_id in circles:
-#         tags = canvas.gettags(circle_id)
-#         color = None
-#         piece_id = None
-#         for tag in tags:
-#             if tag.startswith("color_"):
-#                 color = tag.split("_")[1]
-#             elif tag.startswith("id_"):
-#                 piece_id = tag.split("_")[1]
-#         if color and piece_id:
-#             print(f"Circle ID: {circle_id}, Color: {color}, Piece ID: {piece_id}")
-#         else:
-#             print(f"Circle ID: {circle_id}, Color or Piece ID not found")
-       
-
 class TroubleBoard:
 
     def button(self):
@@ -175,53 +162,38 @@ class TroubleBoard:
         response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/")
         data = response.json()
         
+         # Sort the data by piece color (Guids)
+        data.sort(key=lambda x: x['pieceColor'])
+        
+        # Sort the circle IDs based on piece colors
+        circle_ids.sort(key=lambda circle_id: self.canvas.itemcget(circle_id, "fill"))
+        
+        self.circle_piece_mapping = {}
 
         for item, circle_id in zip(data, circle_ids):
             piece_id = item['pieceId']
-            # gameId = item['gameId']
-            Location = item['pieceLocation']
             Color = item['pieceColor']
+            gameId = item['gameId']
+            Location = item['pieceLocation']
 
             # Check if the circle_id corresponds to a circle
             if "circle" in self.canvas.gettags(circle_id):
                 # Update the color of the circle on the canvas
                 self.canvas.itemconfig(circle_id, fill=Color)
+                
+                #circle ID
+                #self.canvas.itemconfig(circle_id, tags=(self.canvas.gettags(circle_id) + piece_id))
 
                 # Store the piece ID in the circle mapping
                 self.coordinate_mapping[circle_id] = piece_id
+                
+                # Add the piece ID to the circle tags
+                self.canvas.itemconfig(circle_id, tags=(self.canvas.gettags(circle_id) + (f"id_{piece_id}",)))
 
                 print(f"Circle ID: {circle_id}, Piece ID: {piece_id}")
             else:
                 print(f"Item with ID {circle_id} is not a circle.")
-
-        # for item, circle_id in zip(data, circle_ids):
-        #     piece_id = item['pieceId']
-        #     # gameId = item['gameId']
-        #     Location = item['pieceLocation']
-        #     Color = item['pieceColor']
-
-        #     # Update the color of the circle on the canvas
-        #     self.canvas.itemconfig(circle_id, fill=Color)
-
-        #     # Store the piece ID in the circle mapping
-        #     self.coordinate_mapping[circle_id] = piece_id
-
-        #     print(f"Circle ID: {circle_id}, Piece ID: {piece_id}")
-
-        # Loop through the JSON data
-        # for item in data:
-        #     piece_id = item['pieceId']
-        #     #gameId = item['gameId']
-        #     Location = item['pieceLocation']
-        #     Color = item['pieceColor']
-            
-
-        #     self.canvas.itemconfig(circle_id, fill=Color)
-            
-        #     self.coordinate_mapping[circle_id] = piece_id
-        #     print(f"Circle ID: {circle_id}, Piece ID: {piece_id}")
-            
-              
+      
     def __init__(self, master):
         self.master = master
         self.master.title("Trouble Game Board")
@@ -275,47 +247,23 @@ class TroubleBoard:
         
 
     def TuplePieceMover(self, circle_id):
-            # Retrieve the piece ID and color of the clicked circle
-            #piece_id = self.canvas.itemcget(circle_id, "tags").split(" ")[0]
+        tags = self.canvas.gettags(circle_id)
+        piece_id = None
+        
+        for tag in tags:
+            if "-" in tag:
+                piece_id = tag.split("_")[1]
             
-            color = self.canvas.itemcget(circle_id, "fill")
+        if piece_id is None:
+            print ("Piece ID was not found")
+            return
+
+        game_id = "3d02117a-4051-460a-ba4d-baf5d4e583be"
             
-            #method for piece_id and game_id using JSON
-            piece_id = "195b292c-0605-484f-a5b4-4f6c4e0db940"
-            #piece_id = "9f1bbe17-debb-4882-9726-6831cdf56100"
-                
-            # Assuming the game ID is stored somewhere accessible
-            game_id = "3d02117a-4051-460a-ba4d-baf5d4e583be"
-            #game_id = "d20228c1-e0b5-4dc7-b7dd-014414397feb"
+        print(f"Clicked on circle with ID: {circle_id}, Piece ID: {piece_id}")
             
-           
-
-            # Print the information about the clicked circle
-            #print(f"Clicked on circle with ID: {circle_id}, Piece ID: {piece_id}, Color: {color}")
-
-            # Send the information to the server or perform any other necessary actions
-            hub_connection.send("MovePiece", [piece_id, game_id, 1])
+        hub_connection.send("MovePiece", [piece_id, game_id, 1])
             
-            #don't need
-    # def move_piece(self, circle_id):
-    #         # Retrieve the piece ID associated with the clicked circle
-    #         piece_id = self.coordinate_mapping.get(circle_id)
-    #         if piece_id is None:
-    #             print("Piece ID not found for the clicked circle.")
-    #             return
-
-    #         # Check if the clicked circle is within the game zones
-    #         x, y = circle_id % self.board_size, circle_id // self.board_size
-    #         if (x, y) not in self.coordinate_mapping:
-    #             print("Clicked circle is not within the game zones.")
-    #             return
-
-    #         # Assuming the game ID is stored somewhere accessible
-    #         game_id = "your_game_id_here"
-
-    #         # Send a message to the server indicating the intention to move the piece
-    #         hub_connection.send("MovePiece", [piece_id, game_id, 1])
-    #         # You may want to handle the response from the server to update the game state accordingly
             
     def on_piece_click(self, event):
             clicked_object = self.canvas.find_closest(event.x, event.y)[0]
@@ -331,13 +279,7 @@ class TroubleBoard:
                      self.TupleMover(clicked_object)
                  # else:
                  #     print("Clicked on empty space")
-                 
-            # tags = self.canvas.gettags(clicked_object)
-            # for tag in tags:
-            #     if tag.startswith("guid_"):
-            #         # Extract the GUID from the tag
-            #         guid = tag.split("_")[1]
-            #         print("Clicked on circle with GUID:", guid)
+
              
     def draw_board(self):
         
@@ -412,40 +354,7 @@ class TroubleBoard:
                 
                 self.canvas.create_text(center_x, center_y, text=str(spot_id), font=("Arial", 10, "bold"))       
         
-        #circle_ids = []
-        #circle_id = 1  # Start the circle ID from 1
 
-        # for zone_type, zone_list in starting_zones.items():
-        #     for i, starting_zone in enumerate(zone_list, start=1):
-        #         x, y = starting_zone
-
-        #         # Add piece ID to the coordinate mapping
-        #         self.coordinate_mapping[(x, y)] = self.current_id
-        #         piece_id = self.circle_id  # Assign piece ID before accessing it
-
-        #         # Draw circular piece
-        #         center_x = x * self.square_size + self.square_size // 2
-        #         center_y = y * self.square_size + self.square_size // 2
-        #         radius = self.square_size // 2
-
-        #         # Create a circle and tag it as "circle" to identify it later
-        #         circle = self.canvas.create_oval(center_x - radius, center_y - radius, center_x + radius,
-        #                 center_y + radius, fill=self.colors[zone_type], outline="Orange", tags=("circle", f"color_{self.colors[zone_type]}"))
-
-        #         # Add additional tags for color and piece ID
-        #         self.canvas.itemconfig(circle, tags=("circle", f"color_{zone_type}", f"id_{piece_id}"))
-
-        #         # Store the circle ID
-        #         circle_ids.append(circle_id)
-
-        #         text = f"{i}"  # Example: "1"
-        #         self.canvas.create_text(center_x, center_y, text=text, font=("Arial", 5, "bold"))
-
-        #         self.current_id += 1  # Increment the circle ID for the next circle
-
-        # print("Circle IDs:", circle_ids)
-        # #self.assign_pieces_to_circles(circle_id)
-        
         #---------------------------------------------------------------------------------------------------------------------------------------------------------
         #Initialize an empty list to store circle IDs
         circle_ids = []
