@@ -10,13 +10,17 @@ from tkinter import INSERT, Canvas, messagebox
 from signalrcore.hub_connection_builder import HubConnectionBuilder
 
 hubaddress = "https://localhost:7081/TroubleHub"
+#hubaddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
 
 hub_connection = HubConnectionBuilder().with_url(hubaddress, options={"verify_ssl": False}).build()
 hub_connection.on("ReceiveMessage", lambda msg: print("Received message back from hub." + msg[1]))
+#hub_connection.on()
 hub_connection.start()
 circle_id = 1 
 
 
+
+    
 
 class LoginScreen:
     def __init__(self, master):
@@ -109,8 +113,6 @@ def LogOut(master):
     
 
 #-----------------------------------------Game Aspect-------------------------------------
-
-
 class Color(Enum):
      Green = 0
      Yellow = 1
@@ -151,7 +153,12 @@ def print_circles(canvas):
             circle_info.append((circle_id, None, None))
     return circle_info
 
+
+
 class TroubleBoard:
+    
+    
+    
 
     def button(self):
         button = tk.Button(self.master, text="Roll!", command=on_button_click)
@@ -159,7 +166,8 @@ class TroubleBoard:
         
 
     def assign_pieces_to_circles(self, circle_ids):
-        response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/")
+        #response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/")
+        response = requests.get("https://localhost:7081/api/PieceGame/", verify=False)
         data = response.json()
         
          # Sort the data by piece color (Guids)
@@ -167,9 +175,7 @@ class TroubleBoard:
         
         # Sort the circle IDs based on piece colors
         circle_ids.sort(key=lambda circle_id: self.canvas.itemcget(circle_id, "fill"))
-        
-        self.circle_piece_mapping = {}
-
+       
         for item, circle_id in zip(data, circle_ids):
             piece_id = item['pieceId']
             Color = item['pieceColor']
@@ -181,16 +187,52 @@ class TroubleBoard:
                 # Update the color of the circle on the canvas
                 self.canvas.itemconfig(circle_id, fill=Color)
                 
+                # Add the piece ID to the circle tags
+                self.canvas.itemconfig(circle_id, tags=(self.canvas.gettags(circle_id) + (f"id_{piece_id}",)))
+                
+            # Move the circle to the correct location
+            if Location != 0:
+                # Get the coordinates of the corresponding spot
+                coordinate1 = list(self.coordinate_mapping)
+                pieceLocation = coordinate1[Location - 1]
+                
+                # Calculate the center coordinates of the circle
+                center_x = pieceLocation[0] * self.square_size + self.square_size // 2
+                center_y = pieceLocation[1] * self.square_size + self.square_size // 2
+                
+                # Move the circle to the correct location
+                self.canvas.coords(circle_id, center_x - self.square_size // 2, center_y - self.square_size // 2,
+                                    center_x + self.square_size // 2, center_y + self.square_size // 2)
+                
+
+              
+                
+
+                #spot_id = self.coordinate_mapping[Location]
+                #print(spot_id)
+                
                 #circle ID
                 #self.canvas.itemconfig(circle_id, tags=(self.canvas.gettags(circle_id) + piece_id))
 
                 # Store the piece ID in the circle mapping
-                self.coordinate_mapping[circle_id] = piece_id
+                #self.coordinate_mapping[circle_id] = piece_id
                 
-                # Add the piece ID to the circle tags
-                self.canvas.itemconfig(circle_id, tags=(self.canvas.gettags(circle_id) + (f"id_{piece_id}",)))
+               
+                
+                #Add the piece ID and spot ID to the circle tags
+                #spot_id = self.coordinate_mapping[Location]
+                #self.canvas.itemconfig(circle_id, tags=(self.canvas.gettags(circle_id) + (f"id_{spot_id}",)))
+                
+                
+        
+                #prints out the value 1
+                #coordinate = list(self.coordinate_mapping.values())
+                
+                #print(coordinate[Location - 1])
 
-                print(f"Circle ID: {circle_id}, Piece ID: {piece_id}")
+
+                #print(f"Circle ID: {circle_id}, Piece ID: {piece_id}")
+                #print(f"Circle ID: {circle_id}, Piece ID: {piece_id}, Spot ID: {spot_id}")
             else:
                 print(f"Item with ID {circle_id} is not a circle.")
       
@@ -205,8 +247,10 @@ class TroubleBoard:
         
         #need this to store the ID of the tuple in a dictionary 
         #this is for the spots around 
-        self.coordinate_mapping = {}  # Dictionary to store mapping of tuples to integers
+        self.coordinate_mapping = {}  #Dictionary to store mapping of tuples to integers   
         self.current_id = 1  # Start the ID from 1
+
+
         
         # self.circle_mapping = {}
         
@@ -245,7 +289,6 @@ class TroubleBoard:
         self.button()
        
         
-
     def TuplePieceMover(self, circle_id):
         tags = self.canvas.gettags(circle_id)
         piece_id = None
@@ -325,13 +368,13 @@ class TroubleBoard:
         
      
         # Call TupleFinder to get the coordinates for each zone
-        game_zone_coordinates = TupleFinder(game_zones)
-        starting_zone_coordinates = TupleFinder(starting_zones)
-        home_zone_coordinates = TupleFinder(home_zones)
+        # game_zone_coordinates = TupleFinder(game_zones)
+        # starting_zone_coordinates = TupleFinder(starting_zones)
+        # home_zone_coordinates = TupleFinder(home_zones)
         
-        print("Game Zone Coordinates:", game_zone_coordinates)
-        print("Starting Zone Coordinates:", starting_zone_coordinates)
-        print("Home Zone Coordinates:", home_zone_coordinates)
+        # print("Game Zone Coordinates:", game_zone_coordinates)
+        # print("Starting Zone Coordinates:", starting_zone_coordinates)
+        # print("Home Zone Coordinates:", home_zone_coordinates)
         
        #spots on the game board
         for zone_type, zone_list in game_zones.items():
@@ -342,7 +385,8 @@ class TroubleBoard:
                 self.current_id += 1
                 spot_id = self.coordinate_mapping[(x, y)]
                 
-                #print(f"Spot at ({x}, {y}) has ID: {spot_id}")
+                print(f"Spot at ({x}, {y}) has ID: {spot_id}")
+                
                 
 
                 #just draws it
@@ -350,9 +394,19 @@ class TroubleBoard:
                 center_y = y * self.square_size + self.square_size // 2
                 square_size = self.square_size // 2
                 self.canvas.create_rectangle(center_x - square_size, center_y - square_size, center_x + square_size,
-                                              center_y + square_size, fill=self.colors[zone_type], outline="black")    
+                                              center_y + square_size, fill=self.colors[zone_type], outline="black", tags=("spot_id"))   
                 
-                self.canvas.create_text(center_x, center_y, text=str(spot_id), font=("Arial", 10, "bold"))       
+                self.canvas.create_text(center_x, center_y, text=str(spot_id), font=("Arial", 10, "bold"))
+        # print(f"Coordinates: {self.coordinate_mapping}")
+        
+
+        # #prints out the tuple (3,10)
+        # coordinate1 = list(self.coordinate_mapping)
+        # print(coordinate1[0])
+        
+        # #prints out the value 1
+        # coordinate = list(self.coordinate_mapping.values())
+        # print(coordinate[0])
         
 
         #---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -386,14 +440,14 @@ class TroubleBoard:
                 # Append the circle ID to the circle_ids list
                 circle_ids.append(circle)  # Append the circle object, not the circle_id
 
-                text = f"{i}"  # Example: "1"
-                self.canvas.create_text(center_x, center_y, text=text, font=("Arial", 5, "bold"))
+                #text = f"{i}"  # Example: "1"
+                #self.canvas.create_text(center_x, center_y, text=text, font=("Arial", 5, "bold"))
 
             # Increment the circle ID by the total number of circles created in the zone
             circle_id += len(zone_list)
 
         # Print the circle IDs for verification
-        print("Circle IDs:", circle_ids)
+        #print("Circle IDs:", circle_ids)
 
         # Call the assign_pieces_to_circles method with the generated circle IDs
         self.assign_pieces_to_circles(circle_ids)
