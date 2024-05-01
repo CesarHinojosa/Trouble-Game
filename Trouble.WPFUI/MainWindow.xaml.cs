@@ -75,14 +75,17 @@ namespace Trouble.WPFUI
                         foreach (var pieceGame in responseObject)
                         {
                             Ellipse piece = (Ellipse)FindName("Piece" + i);
+                            string color = pieceGame.PieceColor;
+                            int location = pieceGame.PieceLocation;
 
                             //Move pieces location if it is not at start
-                            if (pieceGame.PieceLocation != 0) piece.Margin = (Thickness)FindName("Space" + pieceGame.PieceLocation).GetType().GetProperty("Margin").GetValue(FindName("Space" + pieceGame.PieceLocation));
+                            if (location != 0 && location <= 28) piece.Margin = (Thickness)FindName("Space" + location).GetType().GetProperty("Margin").GetValue(FindName("Space" + location));
+                            else if (location > 28) piece.Margin = (Thickness)FindName(color + "Home" + (location - 28)).GetType().GetProperty("Margin").GetValue(FindName(color + "Home" + (location - 28)));
 
                             //Sets piece specific data onto piece element on UI
                             piece.Resources.Add("PieceId", pieceGame.PieceId.ToString());
-                            piece.Resources.Add("PieceLocation", pieceGame.PieceLocation.ToString());
-                            piece.Resources.Add("Color", pieceGame.PieceColor.ToString());
+                            piece.Resources.Add("PieceLocation", location.ToString());
+                            piece.Resources.Add("Color", color);
 
                             //piece.GetType().GetProperty("Name").SetValue(piece, responseObject[i].PieceId);
 
@@ -109,6 +112,7 @@ namespace Trouble.WPFUI
 
             if (piece.FindResource("Color").ToString() == TurnNum.ToString())
             {
+
                 MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), game.Id, 1);
             }
 
@@ -170,7 +174,13 @@ namespace Trouble.WPFUI
 
             _connection.On<string, string>("ReceiveMessage", (s1, s2) => OnSend(s1, s2));
             _connection.On<Guid, int>("MovePieceReturn", (g1, i1) => MovePieceReturn(g1, i1));
-            _connection.On<int>("DiceRolled", (i1) => lastRoll = i1);
+            _connection.On<int>("DiceRolled", (i1) => {
+                lastRoll = i1;
+                this.Dispatcher.Invoke(() =>
+                {
+                    lblRoll.Content = i1;
+                });
+                });
             _connection.StartAsync();
         }
 
@@ -181,24 +191,38 @@ namespace Trouble.WPFUI
 
         private void MovePieceReturn(Guid pieceId, int newLocation)
         {
+            bool pieceMoved = false;
+
             for (int i = 1; i < 17; i++)
             {
                 this.Dispatcher.Invoke(() =>
                 {
                     Ellipse piece = (Ellipse)FindName("Piece" + i);
                     Guid id = Guid.Parse(piece.FindResource("PieceId").ToString());
-                    if (id == pieceId)
+                    if (id == pieceId && newLocation != 0)
                     {
-                        piece.Resources.Remove("PieceLocation");
-                        piece.Resources.Add("PieceLocation", newLocation.ToString());
-                        piece.Margin = (Thickness)FindName("Space" + newLocation).GetType().GetProperty("Margin").GetValue(FindName("Space" + newLocation));
+                        if (piece.FindResource("PieceLocation") != newLocation.ToString()) pieceMoved = true;
+
+                        if (newLocation <= 28)
+                        {
+                            piece.Resources.Remove("PieceLocation");
+                            piece.Resources.Add("PieceLocation", newLocation.ToString());
+                            piece.Margin = (Thickness)FindName("Space" + newLocation).GetType().GetProperty("Margin").GetValue(FindName("Space" + newLocation));
+                        }
+                        else
+                        {
+                            string color = piece.FindResource("Color").ToString();
+                            piece.Resources.Remove("PieceLocation");
+                            piece.Resources.Add("PieceLocation", newLocation.ToString());
+                            piece.Margin = (Thickness)FindName(color + "Home" + (newLocation - 28)).GetType().GetProperty("Margin").GetValue(FindName(color + "Home" + (newLocation - 28)));
+                        }
                     }
                 });
             }
             this.Dispatcher.Invoke(() =>
             {
 
-                if (lastRoll != 6)
+                if (lastRoll != 6 && pieceMoved)
                 {
 
                     TurnNum++;
@@ -209,9 +233,13 @@ namespace Trouble.WPFUI
                     lblDirections.Content = TurnNum.ToString() + " Player, Roll the Dice";
                     lblTurn.Content = "Turn: " + TurnNum.ToString();
                 }
-                else
+                else if (lastRoll == 6)
                 {
                     lblDirections.Content = "Roll the Dice Again";
+                }
+                else
+                {
+                    lblDirections.Content = "Select a Different Piece";
                 }
             });
         }

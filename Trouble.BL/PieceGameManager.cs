@@ -1,7 +1,9 @@
 ﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -158,6 +160,15 @@ namespace Trouble.BL
 
         public int MovePiece(Guid pieceId, Guid gameId, int spaces, bool rollback = false)
         {
+            int greenStart = 1;
+            int yellowStart = 8;
+            int blueStart = 15;
+            int redStart = 22;
+            int greenEnd = 28;
+            int yellowEnd = 7;
+            int blueEnd = 14;
+            int redEnd = 21;
+
             try
             {
                 int results;
@@ -167,32 +178,110 @@ namespace Trouble.BL
                     if (rollback) transaction = dc.Database.BeginTransaction();
 
                     tblPieceGame row = dc.tblPieceGames.FirstOrDefault(r => r.GameId == gameId && r.PieceId == pieceId);
-                    PieceGame pieceGame = Load(gameId).FirstOrDefault(pg => pg.PieceId == pieceId);
+                    List<PieceGame> pieceGames = Load(gameId);
+                    PieceGame pieceGame = pieceGames.FirstOrDefault(pg => pg.PieceId == pieceId);
 
 
                     //If piece is at home and roll is 1 or 6
                     if (row.PieceLocation == 0 && (spaces == 1 || spaces == 6))
                     {
-                        if (pieceGame.PieceColor == "Green") row.PieceLocation = 1;
-                        else if (pieceGame.PieceColor == "Yellow") row.PieceLocation = 8;
-                        else if (pieceGame.PieceColor == "Blue") row.PieceLocation = 15;
-                        else row.PieceLocation = 22;
+                        if (pieceGame.PieceColor == "Green") row.PieceLocation = greenStart;
+                        else if (pieceGame.PieceColor == "Yellow") row.PieceLocation = yellowStart;
+                        else if (pieceGame.PieceColor == "Blue") row.PieceLocation = blueStart;
+                        else row.PieceLocation = redStart;
+
+                        //If piece is on space, send that piece back to home
+                        PieceGame pieceGame2 = pieceGames.FirstOrDefault(r => r.PieceLocation == row.PieceLocation && r.GameId == gameId);
+                        if (pieceGame2 != null && pieceGame2.PieceLocation < 29 && pieceGame2.PieceColor != pieceGame.PieceColor)
+                        {
+                            tblPieceGame row2 = dc.tblPieceGames.FirstOrDefault(r => r.PieceLocation == row.PieceLocation && r.GameId == gameId);
+                            row2.PieceLocation = 0;
+                        }
+                        else if (pieceGame2 != null && pieceGame2.PieceColor == pieceGame.PieceColor)
+                        {
+                            row.PieceLocation = 0;
+                        }
                     }
                     else
                     {
-                        //If piece is on space, send that piece back to home
-                        tblPieceGame row2 = dc.tblPieceGames.FirstOrDefault(r => r.PieceLocation == row.PieceLocation + spaces && r.GameId == gameId);
-                        if(row2 != null)
+                        //Move piece forward
+                        int previousLocation = row.PieceLocation;
+                        row.PieceLocation += spaces;
+
+                        if(row.PieceLocation > greenEnd)
                         {
-                            row2.PieceLocation = 0;
+                            if(previousLocation <= greenEnd)
+                            {
+                                if(pieceGame.PieceColor != "Green")
+                                {
+                                    row.PieceLocation = row.PieceLocation - 28;
+                                }
+                                else
+                                {
+                                    if(row.PieceLocation > 32) row.PieceLocation = previousLocation;
+                                }
+                            }
+
+                            else
+                            {
+                                if (row.PieceLocation > 32) row.PieceLocation = previousLocation;
+                            }
                         }
 
-                        //Move piece forward
-                        row.PieceLocation += spaces;
-                        if(row.PieceLocation > 28) row.PieceLocation -= 28;
+                        if (row.PieceLocation > yellowEnd && pieceGame.PieceColor == "Yellow")
+                        {
+                            if (previousLocation < yellowEnd)
+                            {
+                                row.PieceLocation = 28 + spaces;
+                            }
+
+                            if (row.PieceLocation > 32)
+                            {
+                                row.PieceLocation = previousLocation;
+                            }
+                        }
+
+                        else if (row.PieceLocation > blueEnd && pieceGame.PieceColor == "Blue")
+                        {
+                            if (previousLocation < blueEnd)
+                            {
+                                row.PieceLocation = 28 + spaces;
+                            }
+
+                            if (row.PieceLocation > 32)
+                            {
+                                row.PieceLocation = previousLocation;
+                            }
+                        }
+
+                        else if (row.PieceLocation > redEnd && pieceGame.PieceColor == "Red")
+                        {
+                            if (previousLocation < redEnd)
+                            {
+                                row.PieceLocation = 28 + spaces;
+                            }
+
+                            if (row.PieceLocation > 32)
+                            {
+                                row.PieceLocation = previousLocation;
+                            }
+                        }
+
+
+                        //If piece is on space, send that piece back to home
+                        PieceGame pieceGame2 = pieceGames.FirstOrDefault(r => r.PieceLocation == row.PieceLocation && r.GameId == gameId);
+                        if (pieceGame2 != null && pieceGame2.PieceLocation < 29 && pieceGame2.PieceColor != pieceGame.PieceColor)
+                        {
+                            tblPieceGame row2 = dc.tblPieceGames.FirstOrDefault(r => r.PieceLocation == row.PieceLocation && r.GameId == gameId);
+                            row2.PieceLocation = 0;
+                        }
+                        else if (pieceGame2 != null && pieceGame2.PieceColor == pieceGame.PieceColor)
+                        {
+                            row.PieceLocation = previousLocation;
+                        }
                     }
 
-                    if(spaces != 6)
+                    if(spaces != 6 && row.PieceLocation != pieceGame.PieceLocation)
                     {
                         GameManager gm = new GameManager(options);
                         Game game = gm.LoadById(gameId);
