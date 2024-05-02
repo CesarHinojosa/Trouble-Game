@@ -205,28 +205,33 @@ namespace Trouble.WPFUI
                 {
                     Ellipse piece = (Ellipse)FindName("Piece" + i);
                     Guid id = Guid.Parse(piece.FindResource("PieceId").ToString());
-                    if (id == pieceId && newLocation != 0)
+                if (id == pieceId && newLocation != 0)
+                {
+                    if (piece.FindResource("PieceLocation") != newLocation.ToString())
                     {
-                        if (piece.FindResource("PieceLocation") != newLocation.ToString())
-                        {
-                            pieceMoved = true;
-                            diceRolled = false;
-                        }
+                        pieceMoved = true;
+                        diceRolled = false;
+                    }
 
-                        if (newLocation <= 28)
-                        {
-                            piece.Resources.Remove("PieceLocation");
-                            piece.Resources.Add("PieceLocation", newLocation.ToString());
-                            piece.Margin = (Thickness)FindName("Space" + newLocation).GetType().GetProperty("Margin").GetValue(FindName("Space" + newLocation));
-                        }
-                        else
-                        {
-                            string color = piece.FindResource("Color").ToString();
-                            piece.Resources.Remove("PieceLocation");
-                            piece.Resources.Add("PieceLocation", newLocation.ToString());
-                            piece.Margin = (Thickness)FindName(color + "Home" + (newLocation - 28)).GetType().GetProperty("Margin").GetValue(FindName(color + "Home" + (newLocation - 28)));
-                            if (CheckForWin(color)) gameOver = true;
-                        }
+                    if (newLocation <= 28)
+                    {
+                        piece.Resources.Remove("PieceLocation");
+                        piece.Resources.Add("PieceLocation", newLocation.ToString());
+                        piece.Margin = (Thickness)FindName("Space" + newLocation).GetType().GetProperty("Margin").GetValue(FindName("Space" + newLocation));
+                    }
+                    else
+                    {
+                        string color = piece.FindResource("Color").ToString();
+                        piece.Resources.Remove("PieceLocation");
+                        piece.Resources.Add("PieceLocation", newLocation.ToString());
+                        piece.Margin = (Thickness)FindName(color + "Home" + (newLocation - 28)).GetType().GetProperty("Margin").GetValue(FindName(color + "Home" + (newLocation - 28)));
+                        if (CheckForWin(color)) gameOver = true;
+                    }
+                }
+                else if (int.Parse(piece.FindResource("PieceLocation").ToString()) == 0 && newLocation == 0)
+                    {
+                        pieceMoved = true;
+                        diceRolled = false;
                     }
                 });
             }
