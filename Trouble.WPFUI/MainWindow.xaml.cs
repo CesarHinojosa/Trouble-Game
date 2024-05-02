@@ -27,6 +27,8 @@ namespace Trouble.WPFUI
         private int lastRoll;
         private Game game;
         private string user;
+        private bool diceRolled = false;
+        private bool gameOver = false;
 
 
         private static int ComparePieceColor(PieceGame x, PieceGame y)
@@ -48,7 +50,7 @@ namespace Trouble.WPFUI
 
         private void btnRoll_Click(object sender, RoutedEventArgs e)
         {
-            RollDice(user);
+            if(!diceRolled && !gameOver)RollDice(user);
         }
 
         private async void GameStart(object sender, RoutedEventArgs e)
@@ -92,11 +94,14 @@ namespace Trouble.WPFUI
                             i++;
                         }
 
+                        
                         // Handle unsuccessful response
                         Console.WriteLine("Failed to call the API. Status code: " + response.StatusCode);
                     }
                     lblDirections.Content = TurnNum.ToString() + " Player, Roll the Dice";
                     lblTurn.Content = "Turn: " + TurnNum.ToString();
+                    if (CheckForWin("Green") || CheckForWin("Yellow") || CheckForWin("Blue") || CheckForWin("Red")) gameOver = true;
+
                 }
                 catch (Exception)
                 {
@@ -110,10 +115,10 @@ namespace Trouble.WPFUI
         {
             Ellipse piece = (Ellipse)sender;
 
-            if (piece.FindResource("Color").ToString() == TurnNum.ToString())
+            if (piece.FindResource("Color").ToString() == TurnNum.ToString() && diceRolled && !gameOver)
             {
 
-                MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), game.Id, 1);
+                MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), game.Id, lastRoll);
             }
 
         }
@@ -176,6 +181,7 @@ namespace Trouble.WPFUI
             _connection.On<Guid, int>("MovePieceReturn", (g1, i1) => MovePieceReturn(g1, i1));
             _connection.On<int>("DiceRolled", (i1) => {
                 lastRoll = i1;
+                diceRolled = true;
                 this.Dispatcher.Invoke(() =>
                 {
                     lblRoll.Content = i1;
@@ -201,7 +207,11 @@ namespace Trouble.WPFUI
                     Guid id = Guid.Parse(piece.FindResource("PieceId").ToString());
                     if (id == pieceId && newLocation != 0)
                     {
-                        if (piece.FindResource("PieceLocation") != newLocation.ToString()) pieceMoved = true;
+                        if (piece.FindResource("PieceLocation") != newLocation.ToString())
+                        {
+                            pieceMoved = true;
+                            diceRolled = false;
+                        }
 
                         if (newLocation <= 28)
                         {
@@ -215,6 +225,7 @@ namespace Trouble.WPFUI
                             piece.Resources.Remove("PieceLocation");
                             piece.Resources.Add("PieceLocation", newLocation.ToString());
                             piece.Margin = (Thickness)FindName(color + "Home" + (newLocation - 28)).GetType().GetProperty("Margin").GetValue(FindName(color + "Home" + (newLocation - 28)));
+                            if (CheckForWin(color)) gameOver = true;
                         }
                     }
                 });
@@ -242,6 +253,43 @@ namespace Trouble.WPFUI
                     lblDirections.Content = "Select a Different Piece";
                 }
             });
+        }
+
+        private bool CheckForWin(string color)
+        {
+            int counter;
+            int max;
+
+            if(color == "Green")
+            {
+                counter = 1;
+                max = 5;
+            }
+            else if (color == "Yellow")
+            {
+                counter = 5;
+                max = 9;
+            }
+            else if (color == "Blue")
+            {
+                counter = 9;
+                max = 13;
+            }
+            else
+            {
+                counter = 13;
+                max = 17;
+            }
+
+            for(; counter < max; counter++)
+            {
+                Ellipse piece = (Ellipse)FindName("Piece" + counter);
+                int location = int.Parse(piece.FindResource("PieceLocation").ToString());
+                if (location < 28) return false;
+            }
+
+            lblDirections.Content = color + " Wins!";
+            return true;
         }
     }
 }
