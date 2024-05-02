@@ -190,13 +190,14 @@ namespace Trouble.BL
                         else if (pieceGame.PieceColor == "Blue") row.PieceLocation = blueStart;
                         else row.PieceLocation = redStart;
 
-                        //If piece is on space, send that piece back to home
+                        //If piece is on home space, send that piece back to home
                         PieceGame pieceGame2 = pieceGames.FirstOrDefault(r => r.PieceLocation == row.PieceLocation && r.GameId == gameId);
                         if (pieceGame2 != null && pieceGame2.PieceLocation < 29 && pieceGame2.PieceColor != pieceGame.PieceColor)
                         {
                             tblPieceGame row2 = dc.tblPieceGames.FirstOrDefault(r => r.PieceLocation == row.PieceLocation && r.GameId == gameId);
                             row2.PieceLocation = 0;
                         }
+                        //If piece of same color is at home, Don't move it
                         else if (pieceGame2 != null && pieceGame2.PieceColor == pieceGame.PieceColor)
                         {
                             row.PieceLocation = 0;
