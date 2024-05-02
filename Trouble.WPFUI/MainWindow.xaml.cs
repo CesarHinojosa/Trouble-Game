@@ -46,6 +46,7 @@ namespace Trouble.WPFUI
             user = username;
             this.game = game;
             TurnNum = (Color)game.TurnNum;
+            Start();
         }
 
         private void btnRoll_Click(object sender, RoutedEventArgs e)
