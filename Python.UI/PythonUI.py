@@ -13,7 +13,6 @@ from signalrcore.hub_connection_builder import HubConnectionBuilder
 
 
 class SignalR:
-
     hubaddress = "https://localhost:7081/TroubleHub"
     #hubaddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
 
@@ -26,7 +25,7 @@ class SignalR:
         self.hub_connection.send("SendMessage", [message])
     
 signalr = SignalR()
-circle_id = 1 
+#circle_id = 1 
 
 class LoginScreen:
     def __init__(self, master):
@@ -182,6 +181,7 @@ class TroubleBoard:
                 
                 # Add the piece ID to the circle tags
                 self.canvas.itemconfig(circle_id, tags=(self.canvas.gettags(circle_id) + (f"id_{piece_id}",)))
+                self.canvas.itemconfig(circle_id, tags=(self.canvas.gettags(circle_id) + (f"Location_{Location}",)))
                 
             # Move the circle to the correct location
             if Location != 0:
@@ -198,41 +198,16 @@ class TroubleBoard:
                                     center_x + self.square_size // 2, center_y + self.square_size // 2)
                 
 
-              
-                
-
-                #spot_id = self.coordinate_mapping[Location]
-                #print(spot_id)
-                
-                #circle ID
-                #self.canvas.itemconfig(circle_id, tags=(self.canvas.gettags(circle_id) + piece_id))
-
-                # Store the piece ID in the circle mapping
-                #self.coordinate_mapping[circle_id] = piece_id
-                
-               
-                
-                #Add the piece ID and spot ID to the circle tags
-                #spot_id = self.coordinate_mapping[Location]
-                #self.canvas.itemconfig(circle_id, tags=(self.canvas.gettags(circle_id) + (f"id_{spot_id}",)))
-                
-                
-        
-                #prints out the value 1
-                #coordinate = list(self.coordinate_mapping.values())
-                
-                #print(coordinate[Location - 1])
-
-
-                #print(f"Circle ID: {circle_id}, Piece ID: {piece_id}")
-                #print(f"Circle ID: {circle_id}, Piece ID: {piece_id}, Spot ID: {spot_id}")
-            # else:
-            #     print(f"Item with ID {circle_id} is not a circle.")
             
     def on_button_click(self):
         user = "User1"
         #signalr.hub_connection.send("RollDice", [user])
         signalr.hub_connection.on("DiceRolled", lambda msg: self.text_dice_roll(msg))
+        #lambda msg: print("Received message back from hub."
+       
+        signalr.hub_connection.on("MovePieceReturn", lambda msg: self.move_piece_return(msg[0], msg[1]))
+
+        # signalr.hub_connection.on("MovePieceReturn", lambda piece_Id, location: print(piece_Id + " " + location))
         signalr.hub_connection.send("RollDice", [user])
         #signalr.hub_connection.send("RollDice", )
         #self.text_dice_roll()
@@ -246,9 +221,64 @@ class TroubleBoard:
         self.dice_result_label.config(text="You rolled a: " + result_str, font=("Arial", 16, "bold"))
         
         self.rolled_number = msg[0]
+        
+        #Enable piece movement after the dice is rolled 
+        self.piece_movement_enable = True
+        
+    def move_piece_return(self, piece_Id, newLocation):
+        piece_Moved = False
+        
+        # print("Move_Piece_Return Function Test")
+        print(piece_Id)
+        print(newLocation)
+        for item in self.canvas.find_withtag("circle"):
+            tags = self.canvas.gettags(item)
+            if f"id_{piece_Id}" in tags:
+                #Found the piece with the specfic ID
+                piece = item
+                #piece location from its tags
+                current_location = None
+                print(f"got Piece")
+                for tag in tags:
+                    if tag.startswith("Location_"):
+                        current_location = int(tag.split("_")[1])
+                        print(f"Got Location spot_id{current_location}")
+                        break
+                    #if()
+                if current_location is not None:
+                    #if the piece is moving to a new location 
+                    if newLocation != 0:
+                        if current_location != newLocation:
+                            piece_Moved = True
+                             # Update the piece's location
+                            self.canvas.itemconfig(piece, tags=tuple(tag for tag in tags if not tag.startswith("Location_")) + (f"Location_{newLocation}",))
+                            #self.canvas.itemconfig(piece,tags=(tags - (f"Location_{current_location}",) + (f"Location_{newLocation}",)))
+                            
+                             # Get the coordinates of the corresponding spot
+                            coordinate1 = list(self.coordinate_mapping)
+                            pieceLocation = coordinate1[newLocation - 1 ]
+                            
+                            # Calculate the center coordinates of the circle
+                            center_x = pieceLocation[0] * self.square_size + self.square_size // 2
+                            center_y = pieceLocation[1] * self.square_size + self.square_size // 2
 
-   
-    
+                            self.canvas.coords(item, center_x - self.square_size // 2, center_y - self.square_size // 2,
+                                    center_x + self.square_size // 2, center_y + self.square_size // 2)
+                            
+                            #print(f)
+                            print(f"Got Location spot_id{newLocation}")
+                    else:
+                        #If the piece is returning home (newLocation == 0)
+                        piece_Moved = True
+                        #Remove the piece's current location tag
+                        self.canvas.itemconfig(piece, tags = (tag for tag in tags if not tag.startswith("Location_")))
+                break # Break out of the loop since we found the piece
+            # if piece_Moved:
+            #     {
+            #         }
+                
+                    
+
     def button(self):
         button = tk.Button(self.master, text="Roll!", command=self.on_button_click)
         button.grid(row=0, column=0, padx=0, pady=0)   
@@ -264,6 +294,9 @@ class TroubleBoard:
 
         self.dice_result_label = tk.Label(master, text="Dice Roll Result: ", font=("Arial", 16, "bold"))
         self.dice_result_label.grid(row=1, column=0)
+        
+        #disable piece moevemnt
+        self.piece_movement_enable = False
         
         self.button()
        
@@ -324,27 +357,32 @@ class TroubleBoard:
         game_id = "3d02117a-4051-460a-ba4d-baf5d4e583be"
             
         print(f"Clicked on circle with ID: {circle_id}, Piece ID: {piece_id}")
-        
-        
-        
-            
+         
         signalr.hub_connection.send("MovePiece", [piece_id, game_id, self.rolled_number])
             
             
     def on_piece_click(self, event):
-            clicked_object = self.canvas.find_closest(event.x, event.y)[0]
-            if "circle" in self.canvas.gettags(clicked_object):
-                 self.TuplePieceMover(clicked_object)
-            else:
-                 print("Clicked on empty space") 
-                 # Get the ID of the clicked object
-                 clicked_object = self.canvas.find_closest(event.x, event.y)[0]
-                 # Check if the clicked object is a circle
-                 if "circle" in self.canvas.gettags(clicked_object):
-                     # Call TupleMover method with the ID of the clicked circle
-                     self.TupleMover(clicked_object)
-                 # else:
-                 #     print("Clicked on empty space")
+        if not self.piece_movement_enable:
+            messagebox.showinfo(title="Error", message="Please roll the dice first.")
+            return
+        
+        clicked_object = self.canvas.find_closest(event.x, event.y)[0]
+        if "circle" in self.canvas.gettags(clicked_object):
+                self.TuplePieceMover(clicked_object)
+                
+
+                #MOVE LATER ON 
+                self.piece_movement_enable = False
+        else:
+                print("Clicked on empty space") 
+                # Get the ID of the clicked object
+                clicked_object = self.canvas.find_closest(event.x, event.y)[0]
+                # Check if the clicked object is a circle
+                if "circle" in self.canvas.gettags(clicked_object):
+                    # Call TupleMover method with the ID of the clicked circle
+                    self.TupleMover(clicked_object)
+                # else:
+                #     print("Clicked on empty space")
 
              
     def draw_board(self):
