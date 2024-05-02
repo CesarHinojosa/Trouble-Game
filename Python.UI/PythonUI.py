@@ -1,5 +1,6 @@
 from ast import Global
 from asyncio.windows_events import NULL
+from pickle import TRUE
 import signal
 import tkinter as tk
 from turtle import circle, color
@@ -50,39 +51,41 @@ class LoginScreen:
         self.password_entry.grid(row=2, column=1, pady=20)
         self.login_button.grid(row=3, column=0, columnspan=2, pady=30)        
 
+    def login(self):
+        #retrieve username and password by user
+        username = self.username_entry.get()
+        password = self.password_entry.get()
+
+        if username and password:
+            signalr.hub_connection.send("Login", [username, password])
+            signalr.hub_connection.on("LoginResult", lambda msg: self.LoginResult(str(msg[0])))
+
+       
+    def LoginResult(self, msg):
+        if(msg == "True"):
+            messagebox.showinfo(title="Login Success", message="You successfully logged in")
+            self.master.withdraw()  # Hide login window
+            options_window = tk.Toplevel(self.master)
+            options_screen = OptionsScreen(options_window)
+        else:
+            messagebox.showinfo(title="Error", message="Invalid Login")
+         
+    
     # def login(self):
-    #     #retrieve username and password by user
-    #     username = self.username_entry.get()
-    #     password = self.username_entry.get()
         
-    #     if username and password:
-    #         try: 
-    #             hub_connection.send("Login", [username, password])
-    #             messagebox.showinfo(title="Login Success", message="You successfully logged in")
-    #             self.master.withdraw()  # Hide login window
+    #     signalr.hub_connection("Login", username password)
+    #     userworks = "User1"
+    #     passwordworks = "Test"
+    #     if self.username_entry.get() == userworks and self.password_entry.get() == passwordworks:
+    #         signalr.hub_connection.send("Login", [userworks, passwordworks])
+    #         messagebox.showinfo(title="Login Success", message="You successfully logged in")
+    #         self.master.withdraw()  # Hide login window
             
-    #             options_window = tk.Toplevel(self.master)
-    #             options_screen = OptionsScreen(options_window)
-                
-    #         except Exception as e:
-    #              messagebox.showerror(title="Error", message=str(e))
+    #         options_window = tk.Toplevel(self.master)
+    #         options_screen = OptionsScreen(options_window)
                       
     #     else:
     #         messagebox.showinfo(title="Error", message="Invalid Login")
-    
-    def login(self):
-        userworks = "User1"
-        passwordworks = "Test"
-        if self.username_entry.get() == userworks and self.password_entry.get() == passwordworks:
-            signalr.hub_connection.send("Login", [userworks, passwordworks])
-            messagebox.showinfo(title="Login Success", message="You successfully logged in")
-            self.master.withdraw()  # Hide login window
-            
-            options_window = tk.Toplevel(self.master)
-            options_screen = OptionsScreen(options_window)
-                      
-        else:
-            messagebox.showinfo(title="Error", message="Invalid Login")
             
 
 class OptionsScreen():
@@ -156,7 +159,7 @@ def print_circles(canvas):
     return circle_info
 
 class TroubleBoard:
-    
+
     def assign_pieces_to_circles(self, circle_ids):
         #response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/")
         response = requests.get("https://localhost:7081/api/PieceGame/", verify=False)
@@ -264,7 +267,7 @@ class TroubleBoard:
 
                             self.canvas.coords(item, center_x - self.square_size // 2, center_y - self.square_size // 2,
                                     center_x + self.square_size // 2, center_y + self.square_size // 2)
-                            
+                            self.piece_movement_enable = False
                             #print(f)
                             print(f"Got Location spot_id{newLocation}")
                     else:
@@ -298,6 +301,10 @@ class TroubleBoard:
         #disable piece moevemnt
         self.piece_movement_enable = False
         
+        #Enum for Color
+        #self.colorTurn = Color()
+
+
         self.button()
        
 
