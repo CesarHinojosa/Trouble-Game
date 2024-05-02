@@ -203,7 +203,7 @@ namespace Trouble.BL
                             row.PieceLocation = 0;
                         }
                     }
-                    else
+                    else if (row.PieceLocation > 0)
                     {
                         //Move piece forward
                         int previousLocation = row.PieceLocation;
@@ -282,7 +282,7 @@ namespace Trouble.BL
                         }
                     }
 
-                    if(spaces != 6 && row.PieceLocation != pieceGame.PieceLocation)
+                    if(spaces != 6 && (row.PieceLocation != pieceGame.PieceLocation || (row.PieceLocation == 0 && pieceGame.PieceLocation == 0)))
                     {
                         GameManager gm = new GameManager(options);
                         Game game = gm.LoadById(gameId);
