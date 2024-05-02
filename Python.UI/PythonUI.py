@@ -1,4 +1,5 @@
 from ast import Global
+from asyncio.windows_events import NULL
 import signal
 import tkinter as tk
 from turtle import circle, color
@@ -243,6 +244,8 @@ class TroubleBoard:
         result_str = str(msg[0])
         # Update the label text with the rolled dice result
         self.dice_result_label.config(text="You rolled a: " + result_str, font=("Arial", 16, "bold"))
+        
+        self.rolled_number = msg[0]
 
    
     
@@ -321,8 +324,11 @@ class TroubleBoard:
         game_id = "3d02117a-4051-460a-ba4d-baf5d4e583be"
             
         print(f"Clicked on circle with ID: {circle_id}, Piece ID: {piece_id}")
+        
+        
+        
             
-        signalr.hub_connection.send("MovePiece", [piece_id, game_id, 1])
+        signalr.hub_connection.send("MovePiece", [piece_id, game_id, self.rolled_number])
             
             
     def on_piece_click(self, event):
