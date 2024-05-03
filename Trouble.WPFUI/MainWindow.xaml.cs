@@ -242,7 +242,7 @@ namespace Trouble.WPFUI
                         {
                             string color = piece.FindResource("Color").ToString();
                             piece.Resources.Remove("PieceLocation");
-                            piece.Resources.Add("PieceLocation", newLocation.ToString());
+                            piece.Resources.Add("PieceLocation", 0.ToString());
                             string pieceName = piece.Name;
                             //Move the piece to starting position
                             piece.Margin = (Thickness)FindName(pieceName + "Home").GetType().GetProperty("Margin").GetValue(FindName(pieceName + "Home"));

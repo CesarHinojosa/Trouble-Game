@@ -177,7 +177,7 @@ namespace Trouble.BL
                 tblUser entity = new tblUser();
                 entity.Id = new Guid();
                 entity.Username = user.Username;
-                entity.Password = user.Password;
+                entity.Password = GetHash(user.Password);
                 entity.FirstName = user.FirstName;
                 entity.LastName = user.LastName;
                 
@@ -200,7 +200,7 @@ namespace Trouble.BL
                 {
                     Id = user.Id,
                     Username = user.Username,
-                    Password = user.Password,
+                    Password = GetHash(user.Password),
                     FirstName = user.FirstName,
                     LastName = user.LastName
                 }, rollback);
