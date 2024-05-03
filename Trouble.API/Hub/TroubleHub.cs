@@ -88,6 +88,44 @@ namespace Trouble.API.Hubs
                 await Clients.Caller.SendAsync("ReceiveMessage", username, "Error occurred during logout: " + ex.Message);
             }
         }
-        
+
+        public async Task CreateUser(string username, string password, string firstName, string lastName)
+        {
+            try
+            {
+                User user = new User { Username = username, Password = password, FirstName = firstName, LastName = lastName };
+                int create = UserManager.Insert(user);
+                if (create > 0)
+                {
+                    bool loginResult = UserManager.Login(user);
+
+                    if (loginResult)
+                    {
+                        await Clients.Caller.SendAsync("ReceiveMessage", username, "Login Successful");
+                        await Clients.Caller.SendAsync("LoginResult", loginResult, user);
+                    }
+                    else
+                    {
+                        //We dont get in here because LoginFailureException executes first
+                        //We probably don't need this
+                        await Clients.Caller.SendAsync("ReceiveMessage", username, "Login Failed: Incorrect username or password");
+                        await Clients.Caller.SendAsync("LoginResult", loginResult, username);
+                    }
+                }
+                else
+                {
+                    await Clients.Caller.SendAsync("ReceiveMessage", username, "Create Failed: Failed to Create User");
+                }
+            }
+            catch (LoginFailureException ex)
+            {
+                await Clients.Caller.SendAsync("ReceiveMessage", username, "Login Failed: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                await Clients.Caller.SendAsync("ReceiveMessage", username, "Error occurred during login: " + ex.Message);
+            }
+        }
+
     }
 }

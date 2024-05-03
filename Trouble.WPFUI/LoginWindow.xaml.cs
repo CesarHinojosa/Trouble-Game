@@ -23,7 +23,7 @@ namespace Trouble.WPFUI
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             string username = txtUsername.Text;
-            string password = txtPassword.Text;
+            string password = txtPassword.Password;
 
             Login(username, password);
         }
@@ -89,6 +89,16 @@ namespace Trouble.WPFUI
 
                 throw;
             }
+        }
+
+        private void btnCreate_Click(object sender, RoutedEventArgs e)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                CreateUser createUser = new CreateUser();
+                createUser.Show();
+                this.Close();
+            });
         }
     }
 }
