@@ -231,9 +231,9 @@ namespace Trouble.BL
 
                         if (row.PieceLocation > yellowEnd && pieceGame.PieceColor == "Yellow")
                         {
-                            if (previousLocation < yellowEnd)
+                            if (previousLocation <= yellowEnd)
                             {
-                                row.PieceLocation = 28 + spaces;
+                                row.PieceLocation = (28 + spaces) - (yellowEnd - previousLocation);
                             }
 
                             if (row.PieceLocation > 32)
@@ -244,9 +244,9 @@ namespace Trouble.BL
 
                         else if (row.PieceLocation > blueEnd && pieceGame.PieceColor == "Blue")
                         {
-                            if (previousLocation < blueEnd)
+                            if (previousLocation <= blueEnd)
                             {
-                                row.PieceLocation = 28 + spaces;
+                                row.PieceLocation = 28 + spaces - (blueEnd - previousLocation);
                             }
 
                             if (row.PieceLocation > 32)
@@ -257,9 +257,9 @@ namespace Trouble.BL
 
                         else if (row.PieceLocation > redEnd && pieceGame.PieceColor == "Red")
                         {
-                            if (previousLocation < redEnd)
+                            if (previousLocation <= redEnd)
                             {
-                                row.PieceLocation = 28 + spaces;
+                                row.PieceLocation = 28 + spaces - (redEnd - previousLocation);
                             }
 
                             if (row.PieceLocation > 32)
