@@ -612,6 +612,166 @@
         <Label x:Name="lblTurn" Content="Turn: Green" HorizontalAlignment="Left" Margin="866,10,0,0" VerticalAlignment="Top" Height="25" Width="124"/>
         <Label x:Name="lblRoll" Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Label x:Name="lblDirections" Content="Roll The Dice" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+        <Ellipse x:Name="Piece1Home" Height="39" Margin="68,113,603,408" Stroke="#FF38C340" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FF38C340" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse x:Name="Piece2Home" Height="38"  Margin="98,70,573,452" Stroke="#FF38C340" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FF38C340" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse x:Name="Piece3Home" Height="39" Margin="136,33,535,488" Stroke="#FF38C340" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FF38C340" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse x:Name="Piece7Home" Height="39" Margin="566,69,104,452" Stroke="#FFFFEE39" Width="40" RenderTransformOrigin="0.5,0.5" Fill="#FFFFEE39" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse x:Name="Piece8Home" Height="39" Margin="600,113,72,408" Stroke="#FFFFEE39" Width="38" RenderTransformOrigin="0.5,0.5" Fill="#FFFFEE39" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse x:Name="Piece9Home" Height="39" Margin="602,411,68,110" Stroke="#FF2985FF" Width="40" RenderTransformOrigin="0.5,0.5" Fill="#FF2985FF" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse x:Name="Piece10Home" Height="39" Margin="567,454,104,67" Stroke="#FF2985FF" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FF2985FF" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse x:Name="Piece11Home" Height="39" Margin="530,489,142,32" Stroke="#FF2985FF" Width="38" RenderTransformOrigin="0.5,0.5" Fill="#FF2985FF" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse x:Name="Piece12Home" Height="39"  Margin="487,512,185,9" Stroke="#FF2985FF" Width="38" RenderTransformOrigin="0.5,0.5" Fill="#FF2985FF" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse x:Name="Piece13Home" Height="39" Margin="179,512,492,9" Stroke="#FFFF2929" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FFFF2929" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse x:Name="Piece14Home" Height="39" Margin="135,489,537,32" Stroke="#FFFF2929" Width="38" RenderTransformOrigin="0.5,0.5" Fill="#FFFF2929" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse x:Name="Piece15Home" Height="39" Margin="99,454,572,67" Stroke="#FFFF2929" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FFFF2929" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse x:Name="Piece16Home" Height="39" Margin="68,411,603,110" Stroke="#FFFF2929" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FFFF2929" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse x:Name="Piece4Home" Height="39" Margin="179,5,492,516" Stroke="#FF38C340" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FF38C340" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse x:Name="Piece5Home" Height="39" Margin="478,5,193,516" Stroke="#FFFFEE39" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FFFFEE39" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse x:Name="Piece6Home" Height="39" Margin="529,33,142,488" Stroke="#FFFFEE39" Width="39" RenderTransformOrigin="0.5,0.5" Fill="#FFFFEE39" Visibility="Hidden">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
 
     </Grid>
 </Window>
