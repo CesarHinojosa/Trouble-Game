@@ -1,8 +1,11 @@
-from ast import Global
+from ast import Global, Str
 from asyncio.windows_events import NULL
+from lib2to3.pgen2.pgen import DFAState
 from pickle import TRUE
+from re import X
 import signal
 import tkinter as tk
+import tkinter
 from turtle import circle, color
 from urllib import response
 import json
@@ -59,35 +62,16 @@ class LoginScreen:
         if username and password:
             signalr.hub_connection.send("Login", [username, password])
             signalr.hub_connection.on("LoginResult", lambda msg: self.LoginResult(str(msg[0])))
-
-       
+  
     def LoginResult(self, msg):
         if(msg == "True"):
             messagebox.showinfo(title="Login Success", message="You successfully logged in")
             self.master.withdraw()  # Hide login window
             options_window = tk.Toplevel(self.master)
             options_screen = OptionsScreen(options_window)
-        else:
+        elif(msg == False):
             messagebox.showinfo(title="Error", message="Invalid Login")
          
-    
-    # def login(self):
-        
-    #     signalr.hub_connection("Login", username password)
-    #     userworks = "User1"
-    #     passwordworks = "Test"
-    #     if self.username_entry.get() == userworks and self.password_entry.get() == passwordworks:
-    #         signalr.hub_connection.send("Login", [userworks, passwordworks])
-    #         messagebox.showinfo(title="Login Success", message="You successfully logged in")
-    #         self.master.withdraw()  # Hide login window
-            
-    #         options_window = tk.Toplevel(self.master)
-    #         options_screen = OptionsScreen(options_window)
-                      
-    #     else:
-    #         messagebox.showinfo(title="Error", message="Invalid Login")
-            
-
 class OptionsScreen():
     def __init__(self, master):
         self.master = master
@@ -98,17 +82,26 @@ class OptionsScreen():
 
         # Creating widgets for Option screen
         self.option_label = tk.Label(self.frame, text="Choose an Option", font=("Arial", 20))
-        self.game_button = tk.Button(self.frame, text="Choose Game", command=lambda: StartGame(master))
+        
+        
+        self.game_button = tk.Button(self.frame, text="Choose Game", command=lambda: ChooseGame(master))
+        
+
         self.logout_button = tk.Button(self.frame, text="Log Out", command=lambda: LogOut(master))
 
         #Grid Layout
         self.option_label.grid(row=0, column=0, columnspan=2, pady=40)
         self.game_button.grid(row=1, column=0)
-        self.logout_button.grid(row=1, column=1, pady=20)   
-       
-
-#create class for selecting game        
-
+        self.logout_button.grid(row=1, column=1, pady=20) 
+        
+        def choose_game(self):
+            # Hide the current options window
+            self.master.withdraw()
+        
+            # Open the ChooseGame window
+            choose_game_window = tk.Toplevel(self.master)
+            choose_game_screen = ChooseGame(choose_game_window)
+            
 
 #hit database
 def LogOut(master):
@@ -126,11 +119,63 @@ class Color(Enum):
      Yellow = 1
      Blue = 2
      Red = 3
+     
+class ChooseGame:
+    def __init__(self, master):
+        self.master = master
+        master.title("Choose Game")
+        
+        self.frame = tk.Frame(master)
+        self.frame.pack()
 
-def StartGame(master):
+        # Fetch game data from the API
+        #response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/Game/")
+        response = requests.get("https://localhost:7081/api/Game/", verify=False)
+        data = response.json()
+        
+        # Store game data
+        self.game_data = data
+
+        # Extract game names from the JSON data
+        self.game_names = [item['gameName'] for item in data]
+        self.turn_num = [item['turnNum'] for item in data]
+        self.game_ids = [item['id'] for item in data]
+
+        # Add game names to the listbox
+        self.game_label = tk.Label(self.frame, text="Select a Game", font=("Arial", 20))
+        self.game_listbox = tk.Listbox(self.frame, selectmode=tk.SINGLE)
+        for game_name in self.game_names:
+            self.game_listbox.insert(tk.END, game_name)
+
+        self.select_button = tk.Button(self.frame, text="Select", command=self.select_game)
+        self.game_label.pack()
+        self.game_listbox.pack()
+        self.select_button.pack()
+
+        # Instance variable to store selected game ID
+        self.selected_game_id = None
+
+    def select_game(self):
+        selected_index = self.game_listbox.curselection()
+        if selected_index:
+            selected_game_index = selected_index[0]
+            selected_game_name = self.game_names[selected_game_index]
+            self.selected_game_id = self.game_ids[selected_game_index]
+            self.selected_turn_num = self.turn_num[selected_game_index]
+            for game in self.game_data:
+                if game['gameName'] == selected_game_name:
+                    #messagebox.showinfo("Selected Game", f"Game ID: {self.selected_game_id}\nGame Name: {game['gameName']}\nTurn Number: {game['turnNum']}\nGame Date: {game['gameDate']}")
+                    # Start the game based on the selected game
+                    StartGame(self.master,  self.selected_game_id, self.selected_turn_num)
+                    break
+        else:
+            messagebox.showinfo("Error", "Please select a game.")     
+    
+
+def StartGame(master, selected_game_id, selected_turn_num):
     master.withdraw()
     game_window = tk.Toplevel(master)
-    game_screen = TroubleBoard(game_window)
+    game_screen = TroubleBoard(game_window, selected_game_id, selected_turn_num)
 
  
 def TupleFinder(zones):
@@ -160,9 +205,11 @@ def print_circles(canvas):
 
 class TroubleBoard:
 
+    
+
     def assign_pieces_to_circles(self, circle_ids):
-        #response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/")
-        response = requests.get("https://localhost:7081/api/PieceGame/", verify=False)
+        #response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/" + self.selected_game_id)
+        response = requests.get("https://localhost:7081/api/PieceGame/" + self.selected_game_id, verify=False)
         data = response.json()
         
             # Sort the data by piece color (Guids)
@@ -199,10 +246,10 @@ class TroubleBoard:
                 # Move the circle to the correct location
                 self.canvas.coords(circle_id, center_x - self.square_size // 2, center_y - self.square_size // 2,
                                     center_x + self.square_size // 2, center_y + self.square_size // 2)
-                
-
-            
+                       
     def on_button_click(self):
+        
+        #fix this 
         user = "User1"
         #signalr.hub_connection.send("RollDice", [user])
         signalr.hub_connection.on("DiceRolled", lambda msg: self.text_dice_roll(msg))
@@ -214,14 +261,17 @@ class TroubleBoard:
         signalr.hub_connection.send("RollDice", [user])
         #signalr.hub_connection.send("RollDice", )
         #self.text_dice_roll()
-       
         
     def text_dice_roll(self, msg):
         
          # Convert the integer to a string
         result_str = str(msg[0])
+        
+        #Update the label text
+        color_turn = self.selected_turn_num.name
         # Update the label text with the rolled dice result
-        self.dice_result_label.config(text="You rolled a: " + result_str, font=("Arial", 16, "bold"))
+        self.dice_result_label.config(text=f"Color Turn: {color_turn}, Rolled a: {result_str}", font=("Arial", 16, "bold"))
+        #self.dice_result_label.config(text="You rolled a: " + result_str, font=("Arial", 16, "bold"))
         
         self.rolled_number = msg[0]
         
@@ -229,7 +279,7 @@ class TroubleBoard:
         self.piece_movement_enable = True
         
     def move_piece_return(self, piece_Id, newLocation):
-        piece_Moved = False
+        #piece_Moved = False
         
         # print("Move_Piece_Return Function Test")
         print(piece_Id)
@@ -248,45 +298,101 @@ class TroubleBoard:
                         print(f"Got Location spot_id{current_location}")
                         break
                     #if()
+                print(f"Got Location spot_id{newLocation}")
                 if current_location is not None:
                     #if the piece is moving to a new location 
                     if newLocation != 0:
                         if current_location != newLocation:
-                            piece_Moved = True
-                             # Update the piece's location
-                            self.canvas.itemconfig(piece, tags=tuple(tag for tag in tags if not tag.startswith("Location_")) + (f"Location_{newLocation}",))
-                            #self.canvas.itemconfig(piece,tags=(tags - (f"Location_{current_location}",) + (f"Location_{newLocation}",)))
+                            if current_location <= 28:
+                                piece_Moved = True
+                                 # Update the piece's location
+                                self.canvas.itemconfig(piece, tags=tuple(tag for tag in tags if not tag.startswith("Location_")) + (f"Location_{newLocation}",))
+                                #self.canvas.itemconfig(piece,tags=(tags - (f"Location_{current_location}",) + (f"Location_{newLocation}",)))
                             
-                             # Get the coordinates of the corresponding spot
-                            coordinate1 = list(self.coordinate_mapping)
-                            pieceLocation = coordinate1[newLocation - 1 ]
+                                # Get the coordinates of the corresponding spot
+                                coordinate1 = list(self.coordinate_mapping)
+                                pieceLocation = coordinate1[newLocation - 1 ]
                             
-                            # Calculate the center coordinates of the circle
-                            center_x = pieceLocation[0] * self.square_size + self.square_size // 2
-                            center_y = pieceLocation[1] * self.square_size + self.square_size // 2
+                                # Calculate the center coordinates of the circle
+                                center_x = pieceLocation[0] * self.square_size + self.square_size // 2
+                                center_y = pieceLocation[1] * self.square_size + self.square_size // 2
 
-                            self.canvas.coords(item, center_x - self.square_size // 2, center_y - self.square_size // 2,
-                                    center_x + self.square_size // 2, center_y + self.square_size // 2)
-                            self.piece_movement_enable = False
-                            #print(f)
-                            print(f"Got Location spot_id{newLocation}")
+                                self.canvas.coords(item, center_x - self.square_size // 2, center_y - self.square_size // 2,
+                                        center_x + self.square_size // 2, center_y + self.square_size // 2)
+                                self.piece_movement_enable = False
+                                #print(f)
+                                print(f"Got Location spot_id{newLocation}")
+                            if current_location > 28:
+                                piece_Moved = True
+                                # Update the piece's location
+                                self.canvas.itemconfig(piece, tags=tuple(tag for tag in tags if not tag.startswith("Location_")) + (f"Location_{newLocation}",))
+                            
+                                # Get the coordinates of the corresponding spot
+                                coordinate1 = list(self.coordinate_mapping)
+                                pieceLocation = coordinate1[newLocation - 1 ]
+                            
+                                # Calculate the center coordinates of the circle
+                                center_x = pieceLocation[0] * self.square_size + self.square_size // 2
+                                center_y = pieceLocation[1] * self.square_size + self.square_size // 2
+                            
+                                self.canvas.coords(item, center_x - self.square_size // 2, center_y - self.square_size // 2,
+                                        center_x + self.square_size // 2, center_y + self.square_size // 2)
+                                #self.piece_movement_enable = False
+                                #print(f)
+                                print(f"Got Location spot_id{newLocation}")
+
+                            if(self.selected_turn_num.value == 3):
+                                #Color(self.selected_turn_num.value  1)
+                                self.selected_turn_num = Color(0) 
+                            else:
+                                 self.selected_turn_num = Color(self.selected_turn_num.value + 1)    
                     else:
                         #If the piece is returning home (newLocation == 0)
                         piece_Moved = True
                         #Remove the piece's current location tag
                         self.canvas.itemconfig(piece, tags = (tag for tag in tags if not tag.startswith("Location_")))
-                break # Break out of the loop since we found the piece
+            elif f"id_{piece_Id}" not in tags:
+                if f"Location_{newLocation}" in tags:
+                    x = None
+                    y = None
+                    for tag in tags:
+                        if tag.startswith("x_"):
+                            x = int(tag.split("_")[1])
+                            print(f"Got Location spot_id{x}")
+                        if tag.startswith("y_"):
+                            y = int(tag.split("_")[1])
+                            print(f"Got Location spot_id{y}")
+                            
+                    self.canvas.itemconfig(item, tags=tuple(tag for tag in tags if not tag.startswith("Location_")) + (f"Location_{0}",))
+                    # Calculate the center coordinates of the circle
+                    center_x = x * self.square_size + self.square_size // 2
+                    center_y = y * self.square_size + self.square_size // 2
+                    self.canvas.coords(item, center_x - self.square_size // 2, center_y - self.square_size // 2,
+                                    center_x + self.square_size // 2, center_y + self.square_size // 2)
+                    print(f"Home spot_id{x}{y}")
+                    
+                        
+                                
+                            
+                    
+                    
+               # Break out of the loop since we found the piece
             # if piece_Moved:
             #     {
-            #         }
-                
-                    
+            #         }               
+
 
     def button(self):
         button = tk.Button(self.master, text="Roll!", command=self.on_button_click)
         button.grid(row=0, column=0, padx=0, pady=0)   
 
-    def __init__(self, master):
+    def __init__(self, master, selected_game_id, selected_turn_num):
+        
+        
+
+        self.selected_game_id = selected_game_id
+        self.selected_turn_num = Color(selected_turn_num)
+        
         self.master = master
         self.master.title("Trouble Game Board")
         self.board_size = 19
@@ -326,48 +432,62 @@ class TroubleBoard:
         
         #might need to modify this as well in order to add the colors for the specific spaces
         self.colors = {
-            'draw_green_zone_left': "green", 
-            'draw_red_zone_left': "red",
-            'draw_red_zone_right': "red",
-            'draw_blue_zone_left': "blue",
-            'draw_blue_zone_right': "blue",
-            'draw_yellow_zone_right': "yellow",
-            'draw_yellow_zone_left': "yellow",
-            'draw_green_zone_right': "green",
+            'draw_green_zone_left': "Green", 
+            'draw_red_zone_left': "Red",
+            'draw_red_zone_right': "Red",
+            'draw_blue_zone_left': "Blue",
+            'draw_blue_zone_right': "Blue",
+            'draw_yellow_zone_right': "Yellow",
+            'draw_yellow_zone_left': "Yellow",
+            'draw_green_zone_right': "Green",
 
-            'draw_green_home_zones': "green",
-            'draw_red_home_zones': "red",
-            'draw_blue_home_zones': "blue",
-            'draw_yellow_home_zones': "yellow",
+            'draw_green_home_zones': "Green",
+            'draw_red_home_zones': "Red",
+            'draw_blue_home_zones': "Blue",
+            'draw_yellow_home_zones': "Yellow",
             
-            'draw_green_starting_zones' : "green",
-            'draw_red_starting_zones' : "red",
-            'draw_blue_starting_zones' : "blue",
-            'draw_yellow_starting_zones' : "yellow",
+            'draw_green_starting_zones' : "Green",
+            'draw_red_starting_zones' : "Red",
+            'draw_blue_starting_zones' : "Blue",
+            'draw_yellow_starting_zones' : "Yellow",
         }
         
         self.draw_board()
-       
-        
+            
     def TuplePieceMover(self, circle_id):
         tags = self.canvas.gettags(circle_id)
         piece_id = None
-        
+    
+        color = None
         for tag in tags:
             if "-" in tag:
                 piece_id = tag.split("_")[1]
-            
+            if "color_" in tag:
+                color = tag.split("_")[1]
+        
         if piece_id is None:
             print ("Piece ID was not found")
             return
 
-        game_id = "3d02117a-4051-460a-ba4d-baf5d4e583be"
-            
         print(f"Clicked on circle with ID: {circle_id}, Piece ID: {piece_id}")
-         
-        signalr.hub_connection.send("MovePiece", [piece_id, game_id, self.rolled_number])
-            
-            
+    
+        
+        # Access the selected game ID from the ChooseGame instance
+        selected_game_id = self.selected_game_id
+        
+        #print(self.selected_turn_num.name)
+        
+
+        
+        if color == self.selected_turn_num.name:
+            # Check if the game ID is selected
+            if selected_game_id:
+                # Send the piece movement command with the selected game ID
+                signalr.hub_connection.send("MovePiece", [piece_id, selected_game_id, self.rolled_number])
+                
+            else:
+                print("Error: No game selected.")
+                      
     def on_piece_click(self, event):
         if not self.piece_movement_enable:
             messagebox.showinfo(title="Error", message="Please roll the dice first.")
@@ -503,7 +623,7 @@ class TroubleBoard:
                         center_y + radius, fill=self.colors[zone_type], outline="Orange", tags=("circle", f"color_{self.colors[zone_type]}"))
 
                 # Add additional tags for color and piece ID
-                self.canvas.itemconfig(circle, tags=("circle", f"color_{zone_type}", f"id_{piece_id}"))
+                self.canvas.itemconfig(circle, tags=("circle", f"x_{x}", f"y_{y}", f"color_{self.colors[zone_type]}", f"id_{piece_id}"))
 
                 # Append the circle ID to the circle_ids list
                 circle_ids.append(circle)  # Append the circle object, not the circle_id
@@ -535,7 +655,6 @@ class TroubleBoard:
                     self.canvas.create_text(center_x, center_y, text=str(i), font=("Arial", 10, "bold"))
                     
                     
-
 def main():    
     root = tk.Tk()
     login_screen = LoginScreen(root)
