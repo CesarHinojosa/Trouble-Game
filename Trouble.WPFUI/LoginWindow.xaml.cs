@@ -53,7 +53,7 @@ namespace Trouble.WPFUI
                     Title = "Login Successful";
                     GamesWindow games = new GamesWindow(user);
                     games.Show();
-                    this.Close();
+                    //this.Close();
                 });
             }
             else

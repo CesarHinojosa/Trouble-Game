@@ -57,7 +57,7 @@ namespace Trouble.API.Hubs
                     //We dont get in here because LoginFailureException executes first
                     //We probably don't need this
                     await Clients.Caller.SendAsync("ReceiveMessage", username, "Login Failed: Incorrect username or password");
-                    await Clients.Caller.SendAsync("LoginResult", loginResult, username);
+                    await Clients.Caller.SendAsync("LoginResult", loginResult, user);
                 }
             }
             catch (LoginFailureException ex)
@@ -124,6 +124,33 @@ namespace Trouble.API.Hubs
             catch (Exception ex)
             {
                 await Clients.Caller.SendAsync("ReceiveMessage", username, "Error occurred during login: " + ex.Message);
+            }
+        }
+
+        public async Task StartComputer(Guid userId)
+        {
+            try
+            {
+                Game game = new Game { TurnNum = 0, GameName = "ComputerGame" };
+                GameManager gameManager = new GameManager(options);
+                gameManager.Insert(game);
+
+                UserGameManager userGameManager = new UserGameManager(options);
+                userGameManager.Insert(userId, game.Id, "Green");
+
+                PieceManager pieceManager = new PieceManager(options);
+                PieceGameManager pieceGameManager = new PieceGameManager(options);
+                List<Piece> pieces = pieceManager.Load();
+                foreach (Piece piece in pieces)
+                {
+                    pieceGameManager.Insert(piece.Id, game.Id);
+                }
+                await Clients.Caller.SendAsync("CreateComputer", game);
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 

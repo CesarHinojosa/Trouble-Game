@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
+using System.Diagnostics.Metrics;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Input;
@@ -29,6 +30,7 @@ namespace Trouble.WPFUI
         private string user;
         private bool diceRolled = false;
         private bool gameOver = false;
+        private bool computerGame = false;
 
 
         private static int ComparePieceColor(PieceGame x, PieceGame y)
@@ -43,6 +45,7 @@ namespace Trouble.WPFUI
         public MainWindow(string username, Game game)
         {
             InitializeComponent();
+            if (game.GameName == "ComputerGame") computerGame = true;
             user = username;
             this.game = game;
             TurnNum = (Color)game.TurnNum;
@@ -51,7 +54,7 @@ namespace Trouble.WPFUI
 
         private void btnRoll_Click(object sender, RoutedEventArgs e)
         {
-            if(!diceRolled && !gameOver)RollDice(user);
+            if(!diceRolled && !gameOver && game.UserColor == TurnNum.ToString())RollDice(user);
         }
 
         private async void GameStart(object sender, RoutedEventArgs e)
@@ -116,7 +119,7 @@ namespace Trouble.WPFUI
         {
             Ellipse piece = (Ellipse)sender;
 
-            if (piece.FindResource("Color").ToString() == TurnNum.ToString() && diceRolled && !gameOver)
+            if (piece.FindResource("Color").ToString() == TurnNum.ToString() && diceRolled && !gameOver && game.UserColor == piece.FindResource("Color").ToString())
             {
 
                 MovePiece(Guid.Parse(piece.FindResource("PieceId").ToString()), game.Id, lastRoll);
@@ -186,6 +189,7 @@ namespace Trouble.WPFUI
                 this.Dispatcher.Invoke(() =>
                 {
                     lblRoll.Content = i1;
+                    lblDirections.Content = TurnNum.ToString() + " player, Select a Piece to Move";
                 });
                 });
             _connection.StartAsync();
@@ -265,6 +269,7 @@ namespace Trouble.WPFUI
                     }
                     lblDirections.Content = TurnNum.ToString() + " Player, Roll the Dice";
                     lblTurn.Content = "Turn: " + TurnNum.ToString();
+                    if (computerGame && TurnNum.ToString() != game.UserColor) ComputerTurn();
                 }
                 else if (lastRoll == 6)
                 {
@@ -312,6 +317,28 @@ namespace Trouble.WPFUI
 
             lblDirections.Content = color + " Wins!";
             return true;
+        }
+
+        private void ComputerTurn()
+        {
+            if (_connection == null)
+            {
+                Start();
+            }
+
+            try
+            {
+                int counter;
+                int max;
+                Ellipse pieceToMove = null;
+                _connection.InvokeAsync("RollDice", user);
+
+                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
     }
 }

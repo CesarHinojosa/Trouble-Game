@@ -20,5 +20,8 @@ namespace Trouble.BL.Models
         [DisplayName("Game Date")]
         public DateTime GameDate { get; set; }
 
+        [DisplayName("User Color")]
+        public string UserColor {  get; set; }
+
     }
 }
