@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Threading.Tasks;
 using Trouble.BL.Models;
+using Trouble.PL.Entities;
 
 namespace Trouble.BL
 {
@@ -78,13 +80,14 @@ namespace Trouble.BL
                 {
                     rows = (from g in dc.tblGames
                             join p in dc.tblUserGames on g.Id equals p.GameId
-                    where p.UserId == userId || userId == null
+                            where p.UserId == userId || userId == null
                             select new Game
                             {
                                 Id = g.Id,
                                 GameName = g.GameName,
                                 GameDate = g.GameDate,
-                                TurnNum = g.TurnNum
+                                TurnNum = g.TurnNum,
+                                UserColor = p.PlayerColor
                             })
                             .Distinct()
                             .ToList();
@@ -107,11 +110,13 @@ namespace Trouble.BL
                 entity.Id = new Guid();
                 entity.TurnNum = game.TurnNum;
                 entity.GameName = game.GameName;
-                entity.GameDate = game.GameDate;
+                entity.GameDate = DateTime.Now;
 
+
+                int result = base.Insert(entity, rollback);
                 game.Id = entity.Id;
 
-                return base.Insert(entity, rollback);
+                return result;
             }
             catch (Exception)
             {

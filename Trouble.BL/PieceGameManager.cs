@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
+using Trouble.BL.Models;
 
 namespace Trouble.BL
 {
@@ -298,6 +299,42 @@ namespace Trouble.BL
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+
+        private PieceGame ComputerMovePiece(Guid gameId, string color, int spaces)
+        {
+            try
+            {
+                List<PieceGame> pieceGames = Load(gameId);
+                PieceGame pieceToMove = null;
+
+                foreach(PieceGame pieceGame in pieceGames)
+                {
+                    if(pieceGame.PieceColor == color)
+                    {
+                        if(pieceToMove == null) pieceToMove = pieceGame;
+
+                        else if(pieceGame.PieceLocation > pieceToMove.PieceLocation)
+                        {
+                            if(pieceGame.PieceLocation + spaces <= 32)
+                            {
+                                bool pieceCanMove = pieceGames.Any(p => p.PieceLocation == pieceGame.PieceLocation + spaces && p.PieceColor == color);
+                                if(!pieceCanMove) pieceToMove = pieceGame;
+                            }
+                        }
+                    }
+                }
+
+                if (pieceToMove.PieceLocation == 0 && (spaces != 1 || spaces != 6)) return null;
+
+                return pieceToMove;
+
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }
