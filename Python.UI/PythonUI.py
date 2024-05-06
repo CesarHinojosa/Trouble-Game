@@ -31,8 +31,7 @@ class SignalR:
 signalr = SignalR()
 #circle_id = 1 
 
-
-class CreateScreen:
+class CreateUserScreen:
     def __init__(self, master):
         self.master = master
         master.title("Create User")
@@ -117,7 +116,7 @@ class LoginScreen:
         # Open the create user screen
         self.master.withdraw()
         create_window = tk.Toplevel(self.master)
-        create_screen = CreateScreen(create_window)
+        create_screen = CreateUserScreen(create_window)
         
   
     def LoginResult(self, msg):
@@ -291,7 +290,7 @@ class TroubleBoard:
                 self.canvas.itemconfig(circle_id, tags=(self.canvas.gettags(circle_id) + (f"Location_{Location}",)))
                 
             # Move the circle to the correct location
-            if Location != 0:
+            if Location != 0 and Location <= 28:
                 # Get the coordinates of the corresponding spot
                 coordinate1 = list(self.coordinate_mapping)
                 pieceLocation = coordinate1[Location - 1]
@@ -303,6 +302,33 @@ class TroubleBoard:
                 # Move the circle to the correct location
                 self.canvas.coords(circle_id, center_x - self.square_size // 2, center_y - self.square_size // 2,
                                     center_x + self.square_size // 2, center_y + self.square_size // 2)
+                
+            if Location > 28:
+                # Get the coordinates of the corresponding spot
+               
+                coordinate2 = list(self.home_mapping)
+
+                if Color == "Green":
+                    pieceLocation1 = coordinate2[Location - 29]
+                if Color == "Yellow":
+                    pieceLocation1 = coordinate2[Location - 25]
+                if Color == "Blue":
+                    pieceLocation1 = coordinate2[Location - 21]
+                if Color == "Red":
+                    pieceLocation1 = coordinate2[Location - 17]
+                
+                # Calculate the center coordinates of the circle
+                center_x = pieceLocation1[0] * self.square_size + self.square_size // 2
+                center_y = pieceLocation1[1] * self.square_size + self.square_size // 2
+                
+                # Move the circle to the correct location
+                self.canvas.coords(circle_id, center_x - self.square_size // 2, center_y - self.square_size // 2,
+                                    center_x + self.square_size // 2, center_y + self.square_size // 2)
+                
+
+
+                
+
                        
     def on_button_click(self):
         
@@ -312,16 +338,16 @@ class TroubleBoard:
         signalr.hub_connection.on("DiceRolled", lambda msg: self.text_dice_roll(msg))
         #lambda msg: print("Received message back from hub."
        
-        signalr.hub_connection.on("MovePieceReturn", lambda msg: self.move_piece_return(msg[0], msg[1]))
+       
 
         # signalr.hub_connection.on("MovePieceReturn", lambda piece_Id, location: print(piece_Id + " " + location))
         signalr.hub_connection.send("RollDice", [user])
         #signalr.hub_connection.send("RollDice", )
         #self.text_dice_roll()
-        
+ 
     def text_dice_roll(self, msg):
         
-         # Convert the integer to a string
+        # Convert the integer to a string
         result_str = str(msg[0])
         
         #Update the label text
@@ -334,7 +360,7 @@ class TroubleBoard:
         
         #Enable piece movement after the dice is rolled 
         self.piece_movement_enable = True
-        
+    
     def move_piece_return(self, piece_Id, newLocation):
         #piece_Moved = False
         
@@ -348,19 +374,22 @@ class TroubleBoard:
                 piece = item
                 #piece location from its tags
                 current_location = None
+                color = None
                 print(f"got Piece")
                 for tag in tags:
                     if tag.startswith("Location_"):
                         current_location = int(tag.split("_")[1])
-                        print(f"Got Location spot_id{current_location}")
-                        break
+                        print(f"Got Location spot_id: {current_location}")
+                    if tag.startswith("color_"):
+                        color = Str(tag.split("_")[1])
+                        print(f"Got color:  {color.value}")
                     #if()
-                print(f"Got Location spot_id{newLocation}")
+                print(f"Got Location spot_id: {newLocation}")
                 if current_location is not None:
                     #if the piece is moving to a new location 
                     if newLocation != 0:
                         if current_location != newLocation:
-                            if current_location <= 28:
+                            if newLocation <= 28:
                                 piece_Moved = True
                                  # Update the piece's location
                                 self.canvas.itemconfig(piece, tags=tuple(tag for tag in tags if not tag.startswith("Location_")) + (f"Location_{newLocation}",))
@@ -378,25 +407,36 @@ class TroubleBoard:
                                         center_x + self.square_size // 2, center_y + self.square_size // 2)
                                 self.piece_movement_enable = False
                                 #print(f)
-                                print(f"Got Location spot_id{newLocation}")
-                            if current_location > 28:
+                                print(f"The new location spot will be spot_id{newLocation}")
+                            if newLocation > 28:
                                 piece_Moved = True
                                 # Update the piece's location
                                 self.canvas.itemconfig(piece, tags=tuple(tag for tag in tags if not tag.startswith("Location_")) + (f"Location_{newLocation}",))
-                            
-                                # Get the coordinates of the corresponding spot
-                                coordinate1 = list(self.coordinate_mapping)
-                                pieceLocation = coordinate1[newLocation - 1 ]
-                            
+                                
+                                coordinate2 = list(self.home_mapping)
+
+                                if color.value == "Green":
+                                    pieceLocation1 = coordinate2[newLocation - 29]
+                                if color.value == "Yellow":
+                                    pieceLocation1 = coordinate2[newLocation - 25]
+                                if color.value == "Blue":
+                                    pieceLocation1 = coordinate2[newLocation - 21]
+                                if color.value == "Red":
+                                    pieceLocation1 = coordinate2[newLocation - 17]
+ 
                                 # Calculate the center coordinates of the circle
-                                center_x = pieceLocation[0] * self.square_size + self.square_size // 2
-                                center_y = pieceLocation[1] * self.square_size + self.square_size // 2
+                                center_x = pieceLocation1[0] * self.square_size + self.square_size // 2
+                                center_y = pieceLocation1[1] * self.square_size + self.square_size // 2
                             
                                 self.canvas.coords(item, center_x - self.square_size // 2, center_y - self.square_size // 2,
                                         center_x + self.square_size // 2, center_y + self.square_size // 2)
-                                #self.piece_movement_enable = False
+                                self.piece_movement_enable = False
                                 #print(f)
+                                print(f"{coordinate2}")
                                 print(f"Got Location spot_id{newLocation}")
+                                print(f"newLocation worked thingy")
+                                
+
 
                             if(self.selected_turn_num.value == 3):
                                 #Color(self.selected_turn_num.value  1)
@@ -410,38 +450,36 @@ class TroubleBoard:
                         self.canvas.itemconfig(piece, tags = (tag for tag in tags if not tag.startswith("Location_")))
             elif f"id_{piece_Id}" not in tags:
                 if f"Location_{newLocation}" in tags:
-                    x = None
-                    y = None
-                    for tag in tags:
-                        if tag.startswith("x_"):
-                            x = int(tag.split("_")[1])
-                            print(f"Got Location spot_id{x}")
-                        if tag.startswith("y_"):
-                            y = int(tag.split("_")[1])
-                            print(f"Got Location spot_id{y}")
+                    if newLocation <= 28:
+                        x = None
+                        y = None
+                        for tag in tags:
+                            if tag.startswith("x_"):
+                                x = int(tag.split("_")[1])
+                                print(f"Got Location spot_id:  {x}")
+                            if tag.startswith("y_"):
+                                y = int(tag.split("_")[1])
+                                print(f"Got Location spot_id:  {y}")
                             
-                    self.canvas.itemconfig(item, tags=tuple(tag for tag in tags if not tag.startswith("Location_")) + (f"Location_{0}",))
-                    # Calculate the center coordinates of the circle
-                    center_x = x * self.square_size + self.square_size // 2
-                    center_y = y * self.square_size + self.square_size // 2
-                    self.canvas.coords(item, center_x - self.square_size // 2, center_y - self.square_size // 2,
-                                    center_x + self.square_size // 2, center_y + self.square_size // 2)
-                    print(f"Home spot_id{x}{y}")
+                        self.canvas.itemconfig(item, tags=tuple(tag for tag in tags if not tag.startswith("Location_")) + (f"Location_{0}",))
+                        # Calculate the center coordinates of the circle
+                        center_x = x * self.square_size + self.square_size // 2
+                        center_y = y * self.square_size + self.square_size // 2
+                        self.canvas.coords(item, center_x - self.square_size // 2, center_y - self.square_size // 2,
+                                        center_x + self.square_size // 2, center_y + self.square_size // 2)
+                        #print(f"Home spot_id{x}{y}")
                     
                # Break out of the loop since we found the piece
             # if piece_Moved:
             #     {
-            #         }               
-
-
+            #         }      
+        
     def button(self):
         button = tk.Button(self.master, text="Roll!", command=self.on_button_click)
         button.grid(row=0, column=0, padx=0, pady=0)   
 
     def __init__(self, master, selected_game_id, selected_turn_num):
         
-        
-
         self.selected_game_id = selected_game_id
         self.selected_turn_num = Color(selected_turn_num)
         
@@ -456,6 +494,11 @@ class TroubleBoard:
         self.dice_result_label = tk.Label(master, text="Dice Roll Result: ", font=("Arial", 16, "bold"))
         self.dice_result_label.grid(row=1, column=0)
         
+
+
+
+        signalr.hub_connection.on("MovePieceReturn", lambda msg: self.move_piece_return(msg[0], msg[1]))
+
         #disable piece moevemnt
         self.piece_movement_enable = False
         
@@ -468,10 +511,11 @@ class TroubleBoard:
 
         #need this to store the ID of the tuple in a dictionary 
         #this is for the spots around 
-        self.coordinate_mapping = {}  #Dictionary to store mapping of tuples to integers   
+        self.coordinate_mapping = {}  #Dictionary to store mapping of tuples to integers GAME ZONES   
         self.current_id = 1  # Start the ID from 1
-
         
+        self.home_mapping = {}
+        self.home_id = 1 
         for i in range(self.board_size):
             for j in range(self.board_size):
                 x1 = i * self.square_size
@@ -594,15 +638,19 @@ class TroubleBoard:
             
         }
         home_zones = {
-            'draw_green_home_zones': [(7, 10), (6, 10), (5, 10), (4, 10)],
+            'draw_green_home_zones': [(4,10),(5,10),(6,10),(7,10)],
             
-            'draw_red_home_zones' : [(9, 12), (9, 13), (9, 14), (9, 15)],
-            'draw_blue_home_zones' : [(11, 10), (12, 10), (13, 10), (14, 10)],
+            'draw_yellow_home_zones' : [(9,5),(9,6),(9,7),(9,8)],
             
-            'draw_yellow_home_zones' : [(9, 8), (9, 7), (9, 6), (9, 5)]
-        }
-        
-        
+            'draw_blue_home_zones' : [(14,10),(13,10),(12,10),(11,10),
+
+],
+            
+            'draw_red_home_zones' : [(9,15),(9,14),(9,13),(9,12)],
+            
+            
+            
+        }     
      
         # Call TupleFinder to get the coordinates for each zone
         # game_zone_coordinates = TupleFinder(game_zones)
@@ -612,6 +660,8 @@ class TroubleBoard:
         # print("Game Zone Coordinates:", game_zone_coordinates)
         # print("Starting Zone Coordinates:", starting_zone_coordinates)
         # print("Home Zone Coordinates:", home_zone_coordinates)
+        
+        print("Coordniate Mapping game_zones :", self.coordinate_mapping)
         
        #spots on the game board
         for zone_type, zone_list in game_zones.items():
@@ -687,22 +737,31 @@ class TroubleBoard:
         #print("Circle IDs:", circle_ids)
 
         # Call the assign_pieces_to_circles method with the generated circle IDs
-        self.assign_pieces_to_circles(circle_ids)
-
-                
-
-        #HOME ZONES TO WIN THE GAME
+       
+  
         for zone_type, zone_list in home_zones.items():
-                for i, starting_zone in enumerate(zone_list, start=1):
-                    x, y = starting_zone
-                    # Just draws it
-                    center_x = x * self.square_size + self.square_size // 2
-                    center_y = y * self.square_size + self.square_size // 2
-                    square_size = self.square_size // 2
-                    self.canvas.create_rectangle(center_x - square_size, center_y - square_size, center_x + square_size,
-                                                  center_y + square_size, fill=self.colors[zone_type], outline="black")    
-                    self.canvas.create_text(center_x, center_y, text=str(i), font=("Arial", 10, "bold"))
-                    
+            for i, home_zone in enumerate(zone_list, start=1):
+                x, y = home_zone
+                
+                self.home_mapping[(x, y)] = self.home_id
+                self.home_id += 1
+                home_id = self.home_mapping[(x, y)]
+
+
+
+                # Just draws it
+                center_x = x * self.square_size + self.square_size // 2
+                center_y = y * self.square_size + self.square_size // 2
+                square_size = self.square_size // 2
+                self.canvas.create_rectangle(center_x - square_size, center_y - square_size, center_x + square_size,
+                                                center_y + square_size, outline=self.colors[zone_type], tags=("home_id"))    
+                self.canvas.create_text(center_x, center_y, text=str(home_id), font=("Arial", 10, "bold"))
+                
+        print("Coordniate Mapping home_zones :", self.home_mapping)     
+        
+        self.assign_pieces_to_circles(circle_ids)
+        
+        
                     
 def main():    
     root = tk.Tk()
