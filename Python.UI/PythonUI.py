@@ -109,7 +109,14 @@ class LoginScreen:
 
         if username and password:
             signalr.hub_connection.send("Login", [username, password])
-            signalr.hub_connection.on("LoginResult", lambda msg: self.LoginResult(str(msg[0])))
+            #signalr.hub_connection.on("LoginResult", lambda msg: self.LoginResult(print(msg)))  
+            #
+            signalr.hub_connection.on("LoginResult", lambda msg: self.LoginResult(msg))       
+            #
+            #      
+            #signalr.hub_connection.on("LoginResult", lambda msg: self.LoginResult(str(msg[0])))        
+           
+            
             
 
     def create_user(self):
@@ -120,16 +127,23 @@ class LoginScreen:
         
   
     def LoginResult(self, msg):
-        if(msg == "True"):
+        if(str(msg[0]) == "True"):
+            
+            self.user = msg[1]
+            
+            print(self.user)
+
+            #self.userId = ['Id' in msg [1]]
+
             messagebox.showinfo(title="Login Success", message="You successfully logged in")
             self.master.withdraw()  # Hide login window
             options_window = tk.Toplevel(self.master)
-            options_screen = OptionsScreen(options_window)
+            options_screen = OptionsScreen(options_window, self.user)
         elif(msg == False):
             messagebox.showinfo(title="Error", message="Invalid Login")
          
 class OptionsScreen():
-    def __init__(self, master):
+    def __init__(self, master, user):
         self.master = master
         master.title("Choose")
 
@@ -140,7 +154,7 @@ class OptionsScreen():
         self.option_label = tk.Label(self.frame, text="Choose an Option", font=("Arial", 20))
         
         
-        self.game_button = tk.Button(self.frame, text="Choose Game", command=lambda: ChooseGame(master))
+        self.game_button = tk.Button(self.frame, text="Choose Game", command=lambda: ChooseGame(master, user))
         
 
         self.logout_button = tk.Button(self.frame, text="Log Out", command=lambda: LogOut(master))
@@ -156,7 +170,7 @@ class OptionsScreen():
         
             # Open the ChooseGame window
             choose_game_window = tk.Toplevel(self.master)
-            choose_game_screen = ChooseGame(choose_game_window)
+            choose_game_screen = ChooseGame(choose_game_window, user)
             
 
 #hit database
@@ -177,16 +191,18 @@ class Color(Enum):
      Red = 3
      
 class ChooseGame:
-    def __init__(self, master):
+    def __init__(self, master, user):
         self.master = master
         master.title("Choose Game")
         
         self.frame = tk.Frame(master)
         self.frame.pack()
 
+        self.user = user
+
         # Fetch game data from the API
-        #response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/Game/")
-        response = requests.get("https://localhost:7081/api/Game/", verify=False)
+        #response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/Game/" + self.user['Id'])
+        response = requests.get("https://localhost:7081/api/Game/GetByUser/" + self.user['Id'], verify=False)
         data = response.json()
         
         # Store game data
@@ -222,16 +238,25 @@ class ChooseGame:
                 if game['gameName'] == selected_game_name:
                     #messagebox.showinfo("Selected Game", f"Game ID: {self.selected_game_id}\nGame Name: {game['gameName']}\nTurn Number: {game['turnNum']}\nGame Date: {game['gameDate']}")
                     # Start the game based on the selected game
-                    StartGame(self.master,  self.selected_game_id, self.selected_turn_num)
+                    StartGame(self.master,  self.selected_game_id, self.selected_turn_num, self.user)
                     break
         else:
             messagebox.showinfo("Error", "Please select a game.")     
     
 
-def StartGame(master, selected_game_id, selected_turn_num):
+
+
+
+
+
+
+
+
+
+def StartGame(master, selected_game_id, selected_turn_num, user):
     master.withdraw()
     game_window = tk.Toplevel(master)
-    game_screen = TroubleBoard(game_window, selected_game_id, selected_turn_num)
+    game_screen = TroubleBoard(game_window, selected_game_id, selected_turn_num, user)
 
  
 def TupleFinder(zones):
@@ -261,7 +286,6 @@ def print_circles(canvas):
 
 class TroubleBoard:
 
-    
 
     def assign_pieces_to_circles(self, circle_ids):
         #response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/" + self.selected_game_id)
@@ -326,22 +350,18 @@ class TroubleBoard:
                                     center_x + self.square_size // 2, center_y + self.square_size // 2)
                 
 
-
-                
-
-                       
+              
     def on_button_click(self):
         
         #fix this 
-        user = "User1"
+        #user = "User1"
         #signalr.hub_connection.send("RollDice", [user])
         signalr.hub_connection.on("DiceRolled", lambda msg: self.text_dice_roll(msg))
         #lambda msg: print("Received message back from hub."
        
-       
-
+ 
         # signalr.hub_connection.on("MovePieceReturn", lambda piece_Id, location: print(piece_Id + " " + location))
-        signalr.hub_connection.send("RollDice", [user])
+        signalr.hub_connection.send("RollDice", [self.user['Username']])
         #signalr.hub_connection.send("RollDice", )
         #self.text_dice_roll()
  
@@ -478,8 +498,9 @@ class TroubleBoard:
         button = tk.Button(self.master, text="Roll!", command=self.on_button_click)
         button.grid(row=0, column=0, padx=0, pady=0)   
 
-    def __init__(self, master, selected_game_id, selected_turn_num):
+    def __init__(self, master, selected_game_id, selected_turn_num, user):
         
+        self.user = user
         self.selected_game_id = selected_game_id
         self.selected_turn_num = Color(selected_turn_num)
         
