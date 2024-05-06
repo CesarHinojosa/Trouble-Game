@@ -31,6 +31,53 @@ class SignalR:
 signalr = SignalR()
 #circle_id = 1 
 
+
+class CreateScreen:
+    def __init__(self, master):
+        self.master = master
+        master.title("Create User")
+        self.frame = tk.Frame(master)
+        self.frame.pack()
+
+        # Creating widgets for create screen
+        self.label = tk.Label(self.frame, text="Create a User!", font=("Arial", 16))
+        self.username_label = tk.Label(self.frame, text="Username:", font=("Arial", 16))
+        self.username_entry = tk.Entry(self.frame)
+        self.password_label = tk.Label(self.frame, text="Password:", font=("Arial", 16))
+        self.password_entry = tk.Entry(self.frame)
+        self.firstname_label = tk.Label(self.frame, text="First Name:", font=("Arial", 16))
+        self.firstname_entry = tk.Entry(self.frame)
+        self.lastname_label = tk.Label(self.frame, text="Last Name:", font=("Arial", 16))
+        self.lastname_entry = tk.Entry(self.frame)
+        self.create_button = tk.Button(self.frame, text="Create User", command=self.create)
+
+        # Grid layout for create screen widgets
+        self.label.grid(row=0, column=0, columnspan=2, pady=25)  # Span across both columns
+        self.username_label.grid(row=1, column=0, pady=25)
+        self.username_entry.grid(row=1, column=1, pady=25)
+        self.password_label.grid(row=2, column=0, pady=25)
+        self.password_entry.grid(row=2, column=1, pady=25)
+        self.firstname_label.grid(row=3, column=0, pady=25)
+        self.firstname_entry.grid(row=3, column=1, pady=25)
+        self.lastname_label.grid(row=4, column=0, pady=25)
+        self.lastname_entry.grid(row=4, column=1, pady=25)
+        self.create_button.grid(row=5, column=0, columnspan=2, pady=30)  # Center the button horizontally and add padding
+
+    def create(self):
+        # Implement user creation logic here
+        # For example, retrieve data from entry widgets and perform necessary actions
+
+        username = self.username_entry.get()
+        password = self.password_entry.get()
+        firstname = self.firstname_entry.get()
+        lastname = self.lastname_entry.get()
+        
+        if username and password and firstname and lastname:
+            signalr.hub_connection.send("CreateUser", [username, password, firstname, lastname])
+            # Example: Save user data to a database or display a message box
+            messagebox.showinfo("User Created", f"User '{username}' created successfully!")
+            self.master.withdraw()
+
 class LoginScreen:
     def __init__(self, master):
         self.master = master
@@ -45,6 +92,7 @@ class LoginScreen:
         self.password_label = tk.Label(self.frame, text="Password", font=("Arial", 16))
         self.password_entry = tk.Entry(self.frame, show="*")
         self.login_button = tk.Button(self.frame, text="Login", command=self.login)
+        self.create_button = tk.Button(self.frame, text="Create User", command=self.create_user)
 
         # Grid layout for login screen widgets
         self.login_label.grid(row=0, column=0, columnspan=2, pady=40)
@@ -53,6 +101,7 @@ class LoginScreen:
         self.password_label.grid(row=2, column=0)
         self.password_entry.grid(row=2, column=1, pady=20)
         self.login_button.grid(row=3, column=0, columnspan=2, pady=30)        
+        self.create_button.grid(row=4, column=0, columnspan=3, pady=30)   
 
     def login(self):
         #retrieve username and password by user
@@ -62,6 +111,14 @@ class LoginScreen:
         if username and password:
             signalr.hub_connection.send("Login", [username, password])
             signalr.hub_connection.on("LoginResult", lambda msg: self.LoginResult(str(msg[0])))
+            
+
+    def create_user(self):
+        # Open the create user screen
+        self.master.withdraw()
+        create_window = tk.Toplevel(self.master)
+        create_screen = CreateScreen(create_window)
+        
   
     def LoginResult(self, msg):
         if(msg == "True"):
@@ -371,11 +428,6 @@ class TroubleBoard:
                                     center_x + self.square_size // 2, center_y + self.square_size // 2)
                     print(f"Home spot_id{x}{y}")
                     
-                        
-                                
-                            
-                    
-                    
                # Break out of the loop since we found the piece
             # if piece_Moved:
             #     {
@@ -418,7 +470,6 @@ class TroubleBoard:
         #this is for the spots around 
         self.coordinate_mapping = {}  #Dictionary to store mapping of tuples to integers   
         self.current_id = 1  # Start the ID from 1
-
 
         
         for i in range(self.board_size):
@@ -470,14 +521,12 @@ class TroubleBoard:
             return
 
         print(f"Clicked on circle with ID: {circle_id}, Piece ID: {piece_id}")
-    
-        
+
         # Access the selected game ID from the ChooseGame instance
         selected_game_id = self.selected_game_id
         
         #print(self.selected_turn_num.name)
         
-
         
         if color == self.selected_turn_num.name:
             # Check if the game ID is selected
