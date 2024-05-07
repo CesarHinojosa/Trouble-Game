@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Trouble.WPFUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="1000" HorizontalAlignment="Center" VerticalAlignment="Center">
+        Title="MainWindow" Height="750" Width="1000" HorizontalAlignment="Center" VerticalAlignment="Center" Closing="LeaveGame">
     <Grid Background="#FFBBBBBB" Loaded="GameStart">
         <Ellipse HorizontalAlignment="Center" Height="541" Stroke="Black" VerticalAlignment="Center" Width="541"/>
         <Ellipse x:Name="Space23" Height="38" Margin="116,373,555,149" Stroke="#FFFF2929" Width="39" RenderTransformOrigin="0.5,0.5">
