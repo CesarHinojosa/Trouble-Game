@@ -10,6 +10,7 @@ namespace Trouble.API.Hubs
         private readonly DbContextOptions<TroubleEntities> options;
         private readonly UserManager UserManager;
 
+
         public TroubleHub(DbContextOptions<TroubleEntities> options)
         {
             this.options = options;
@@ -22,12 +23,12 @@ namespace Trouble.API.Hubs
 
         }
 
-        public async Task RollDice(string user)
+        public async Task RollDice(string user, Guid gameId)
         {
             int roll = new GameManager(options).Roll();
             string message = ("Rolled a " + roll.ToString());
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
-            await Clients.All.SendAsync("DiceRolled", roll);
+            await Clients.Group(gameId.ToString()).SendAsync("ReceiveMessage", user, message);
+            await Clients.Group(gameId.ToString()).SendAsync("DiceRolled", roll);
         }
 
         public async Task MovePiece(Guid pieceId, Guid gameId, int spaces)
@@ -35,8 +36,8 @@ namespace Trouble.API.Hubs
             PieceGameManager pieceGameManager = new PieceGameManager(options);
             int location = pieceGameManager.MovePiece(pieceId, gameId, spaces);
             string message = "Moved piece " + pieceId + " " + spaces + " spaces";
-            await Clients.All.SendAsync("ReceiveMessage", "System", message);
-            await Clients.All.SendAsync("MovePieceReturn", pieceId, location);
+            await Clients.Group(gameId.ToString()).SendAsync("ReceiveMessage", "System", message);
+            await Clients.Group(gameId.ToString()).SendAsync("MovePieceReturn", pieceId, location);
 
         }
 
@@ -81,7 +82,7 @@ namespace Trouble.API.Hubs
 
                 new UserManager(options).Logout(user);
 
-                await Clients.All.SendAsync("ReceiveMessage", username, "Logout Successful");
+                await Clients.Caller.SendAsync("ReceiveMessage", username, "Logout Successful");
             }
             catch (Exception ex) 
             {
@@ -154,5 +155,16 @@ namespace Trouble.API.Hubs
             }
         }
 
+        public async Task JoinGame(string playerName, Guid gameId)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, gameId.ToString());
+
+            await Clients.Group(gameId.ToString()).SendAsync("ReceiveMessage", "Game", playerName + " Joined the Game.");
+        }
+
+        public async Task LeaveGame(string playerName, Guid gameId)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, gameId.ToString());
+        }
     }
 }

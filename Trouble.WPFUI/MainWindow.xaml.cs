@@ -50,6 +50,7 @@ namespace Trouble.WPFUI
             this.game = game;
             TurnNum = (Color)game.TurnNum;
             Start();
+            _connection.SendAsync("JoinGame", user, game.Id);
         }
 
         private void btnRoll_Click(object sender, RoutedEventArgs e)
@@ -136,7 +137,7 @@ namespace Trouble.WPFUI
 
             try
             {
-                _connection.InvokeAsync("RollDice", user);
+                _connection.InvokeAsync("RollDice", user, game.Id);
             }
             catch (Exception ex)
             {
@@ -339,6 +340,11 @@ namespace Trouble.WPFUI
             {
                 Console.WriteLine(ex.ToString());
             }
+        }
+
+        private void LeaveGame(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _connection.SendAsync("LeaveGame", user, game.Id);
         }
     }
 }
