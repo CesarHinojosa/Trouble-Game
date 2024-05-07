@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using Trouble.BL;
 using Trouble.BL.Models;
 using Trouble.PL.Data;
@@ -147,6 +148,23 @@ namespace Trouble.API.Hubs
                     pieceGameManager.Insert(piece.Id, game.Id);
                 }
                 await Clients.Caller.SendAsync("CreateComputer", game);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task ComputerTurn(Guid gameId, string color, int spaces)
+        {
+            try
+            {
+                PieceGameManager pieceGameManager = new PieceGameManager(options);
+                PieceGame pieceGame = pieceGameManager.ComputerMovePiece(gameId, color, spaces);
+
+                if (pieceGame != null) await Clients.Group(gameId.ToString()).SendAsync("ComputerReturn", pieceGame.PieceId);
+                else await Clients.Group(gameId.ToString()).SendAsync("ComputerMoveFail", "");
             }
             catch (Exception)
             {

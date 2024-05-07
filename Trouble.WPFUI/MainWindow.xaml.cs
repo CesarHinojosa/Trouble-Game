@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.Diagnostics.Metrics;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Shapes;
@@ -106,6 +107,7 @@ namespace Trouble.WPFUI
                     lblDirections.Content = TurnNum.ToString() + " Player, Roll the Dice";
                     lblTurn.Content = "Turn: " + TurnNum.ToString();
                     if (CheckForWin("Green") || CheckForWin("Yellow") || CheckForWin("Blue") || CheckForWin("Red")) gameOver = true;
+                    if (computerGame && TurnNum.ToString() != game.UserColor) ComputerTurn();
 
                 }
                 catch (Exception)
@@ -184,6 +186,8 @@ namespace Trouble.WPFUI
 
             _connection.On<string, string>("ReceiveMessage", (s1, s2) => OnSend(s1, s2));
             _connection.On<Guid, int>("MovePieceReturn", (g1, i1) => MovePieceReturn(g1, i1));
+            _connection.On<Guid>("ComputerReturn", (g1) => MovePiece(g1, game.Id, lastRoll));
+            _connection.On<string>("ComputerMoveFail", (s1) => NextTurn());
             _connection.On<int>("DiceRolled", (i1) => {
                 lastRoll = i1;
                 diceRolled = true;
@@ -262,24 +266,32 @@ namespace Trouble.WPFUI
 
                 if (lastRoll != 6 && pieceMoved)
                 {
-
-                    TurnNum++;
-                    if (TurnNum > (Color)3)
-                    {
-                        TurnNum = 0;
-                    }
-                    lblDirections.Content = TurnNum.ToString() + " Player, Roll the Dice";
-                    lblTurn.Content = "Turn: " + TurnNum.ToString();
-                    if (computerGame && TurnNum.ToString() != game.UserColor) ComputerTurn();
+                    NextTurn();
                 }
                 else if (lastRoll == 6)
                 {
                     lblDirections.Content = "Roll the Dice Again";
+                    if (computerGame) ComputerTurn();
                 }
                 else
                 {
                     lblDirections.Content = "Select a Different Piece";
                 }
+            });
+        }
+
+        private void NextTurn()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                TurnNum++;
+                if (TurnNum > (Color)3)
+                {
+                    TurnNum = 0;
+                }
+                lblDirections.Content = TurnNum.ToString() + " Player, Roll the Dice";
+                lblTurn.Content = "Turn: " + TurnNum.ToString();
+                if (computerGame && TurnNum.ToString() != game.UserColor) ComputerTurn();
             });
         }
 
@@ -320,7 +332,7 @@ namespace Trouble.WPFUI
             return true;
         }
 
-        private void ComputerTurn()
+        private async void ComputerTurn()
         {
             if (_connection == null)
             {
@@ -329,12 +341,8 @@ namespace Trouble.WPFUI
 
             try
             {
-                int counter;
-                int max;
-                Ellipse pieceToMove = null;
-                _connection.InvokeAsync("RollDice", user);
-
-                
+                await _connection.InvokeAsync("RollDice", "Computer", game.Id);
+                await _connection.InvokeAsync("ComputerTurn", game.Id, TurnNum.ToString(), lastRoll);
             }
             catch (Exception ex)
             {
