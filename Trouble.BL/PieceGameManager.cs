@@ -303,7 +303,7 @@ namespace Trouble.BL
             }
         }
 
-        private PieceGame ComputerMovePiece(Guid gameId, string color, int spaces)
+        public PieceGame ComputerMovePiece(Guid gameId, string color, int spaces)
         {
             try
             {
@@ -314,20 +314,21 @@ namespace Trouble.BL
                 {
                     if(pieceGame.PieceColor == color)
                     {
-                        if(pieceToMove == null) pieceToMove = pieceGame;
-
-                        else if(pieceGame.PieceLocation > pieceToMove.PieceLocation)
+                        if(pieceToMove != null)
                         {
-                            if(pieceGame.PieceLocation + spaces <= 32)
+                            if (pieceGame.PieceLocation > pieceToMove.PieceLocation)
                             {
-                                bool pieceCanMove = pieceGames.Any(p => p.PieceLocation == pieceGame.PieceLocation + spaces && p.PieceColor == color);
-                                if(!pieceCanMove) pieceToMove = pieceGame;
+                                if (pieceGame.PieceLocation + spaces <= 32)
+                                {
+                                    bool pieceCanMove = pieceGames.Any(p => p.PieceLocation == pieceGame.PieceLocation + spaces && p.PieceColor == color);
+                                    if (!pieceCanMove) pieceToMove = pieceGame;
+                                }
                             }
                         }
                     }
                 }
 
-                if (pieceToMove.PieceLocation == 0 && (spaces != 1 || spaces != 6)) return null;
+                if (pieceToMove.PieceLocation == 0 && (spaces != 1 && spaces != 6) || pieceToMove == null) return null;
 
                 return pieceToMove;
 
