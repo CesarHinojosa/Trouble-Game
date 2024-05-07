@@ -190,6 +190,7 @@ class Color(Enum):
      Blue = 2
      Red = 3
      
+
 class ChooseGame:
     def __init__(self, master, user):
         self.master = master
@@ -243,16 +244,6 @@ class ChooseGame:
         else:
             messagebox.showinfo("Error", "Please select a game.")     
     
-
-
-
-
-
-
-
-
-
-
 def StartGame(master, selected_game_id, selected_turn_num, user):
     master.withdraw()
     game_window = tk.Toplevel(master)
@@ -285,7 +276,7 @@ def print_circles(canvas):
     return circle_info
 
 class TroubleBoard:
-
+    
 
     def assign_pieces_to_circles(self, circle_ids):
         #response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/" + self.selected_game_id)
@@ -348,23 +339,16 @@ class TroubleBoard:
                 # Move the circle to the correct location
                 self.canvas.coords(circle_id, center_x - self.square_size // 2, center_y - self.square_size // 2,
                                     center_x + self.square_size // 2, center_y + self.square_size // 2)
-                
-
-              
+                                 
     def on_button_click(self):
         
-        #fix this 
-        #user = "User1"
-        #signalr.hub_connection.send("RollDice", [user])
-        signalr.hub_connection.on("DiceRolled", lambda msg: self.text_dice_roll(msg))
-        #lambda msg: print("Received message back from hub."
-       
- 
-        # signalr.hub_connection.on("MovePieceReturn", lambda piece_Id, location: print(piece_Id + " " + location))
-        signalr.hub_connection.send("RollDice", [self.user['Username']])
-        #signalr.hub_connection.send("RollDice", )
-        #self.text_dice_roll()
- 
+        
+        if self.gameOver == False:
+            
+            signalr.hub_connection.on("DiceRolled", lambda msg: self.text_dice_roll(msg))
+            signalr.hub_connection.send("RollDice", [self.user['Username']])
+        
+
     def text_dice_roll(self, msg):
         
         # Convert the integer to a string
@@ -380,6 +364,39 @@ class TroubleBoard:
         
         #Enable piece movement after the dice is rolled 
         self.piece_movement_enable = True
+        
+    def check_winner(self):
+            # Dictionary to store counts of pieces in home zones for each color
+            #home_counts = {'Green': 0, 'Yellow': 0, 'Blue': 0, 'Red': 0}
+            home_counts = {'Red': 0, 'Yellow': 0, 'Blue': 0, 'Green': 0}
+            
+            for item in self.canvas.find_withtag("circle"):
+                tags = self.canvas.gettags(item)
+                # if f"id_{piece_Id}" in tags:
+                    #Found the piece with the specfic ID
+                    #piece = item
+                    #piece location from its tags
+                current_location = None
+                color = None
+                print(f"got Piece")
+                for tag in tags:
+                    if tag.startswith("Location_"):
+                        current_location = int(tag.split("_")[1])
+                        print(f"Got Location spot_id: {current_location}")
+                    if tag.startswith("color_"):
+                        color = Str(tag.split("_")[1])
+                        print(f"Got color:  {color.value}")
+                if current_location > 28:
+                    home_counts[color.value] += 1
+                    # print(f"{home_counts.values}")
+                if home_counts[color.value] == 4:
+                    # Display a message box indicating the winner
+                    messagebox.showinfo("Winner!", f"{color.value} is the winner!")
+                    self.gameOver = True
+                    break
+                    #return True  # Indicates that a winner has been found  
+                   
+            print(f"{home_counts['Red']}")
     
     def move_piece_return(self, piece_Id, newLocation):
         #piece_Moved = False
@@ -455,14 +472,16 @@ class TroubleBoard:
                                 print(f"{coordinate2}")
                                 print(f"Got Location spot_id{newLocation}")
                                 print(f"newLocation worked thingy")
-                                
 
+                                self.check_winner()
 
                             if(self.selected_turn_num.value == 3):
                                 #Color(self.selected_turn_num.value  1)
                                 self.selected_turn_num = Color(0) 
                             else:
-                                 self.selected_turn_num = Color(self.selected_turn_num.value + 1)    
+                                 self.selected_turn_num = Color(self.selected_turn_num.value + 1)  
+                                 
+                            
                     else:
                         #If the piece is returning home (newLocation == 0)
                         piece_Moved = True
@@ -488,12 +507,8 @@ class TroubleBoard:
                         self.canvas.coords(item, center_x - self.square_size // 2, center_y - self.square_size // 2,
                                         center_x + self.square_size // 2, center_y + self.square_size // 2)
                         #print(f"Home spot_id{x}{y}")
-                    
-               # Break out of the loop since we found the piece
-            # if piece_Moved:
-            #     {
-            #         }      
-        
+                        
+ 
     def button(self):
         button = tk.Button(self.master, text="Roll!", command=self.on_button_click)
         button.grid(row=0, column=0, padx=0, pady=0)   
@@ -503,6 +518,8 @@ class TroubleBoard:
         self.user = user
         self.selected_game_id = selected_game_id
         self.selected_turn_num = Color(selected_turn_num)
+        
+        self.gameOver = False
         
         self.master = master
         self.master.title("Trouble Game Board")
@@ -515,10 +532,9 @@ class TroubleBoard:
         self.dice_result_label = tk.Label(master, text="Dice Roll Result: ", font=("Arial", 16, "bold"))
         self.dice_result_label.grid(row=1, column=0)
         
-
-
-
         signalr.hub_connection.on("MovePieceReturn", lambda msg: self.move_piece_return(msg[0], msg[1]))
+        
+        
 
         #disable piece moevemnt
         self.piece_movement_enable = False
@@ -526,9 +542,7 @@ class TroubleBoard:
         #Enum for Color
         #self.colorTurn = Color()
 
-
         self.button()
-       
 
         #need this to store the ID of the tuple in a dictionary 
         #this is for the spots around 
@@ -569,6 +583,7 @@ class TroubleBoard:
         }
         
         self.draw_board()
+        self.check_winner()
             
     def TuplePieceMover(self, circle_id):
         tags = self.canvas.gettags(circle_id)
@@ -603,29 +618,30 @@ class TroubleBoard:
                 print("Error: No game selected.")
                       
     def on_piece_click(self, event):
-        if not self.piece_movement_enable:
-            messagebox.showinfo(title="Error", message="Please roll the dice first.")
-            return
+        if self.gameOver == False:
+            if not self.piece_movement_enable:
+                messagebox.showinfo(title="Error", message="Please roll the dice first.")
+                return
         
-        clicked_object = self.canvas.find_closest(event.x, event.y)[0]
-        if "circle" in self.canvas.gettags(clicked_object):
-                self.TuplePieceMover(clicked_object)
+            clicked_object = self.canvas.find_closest(event.x, event.y)[0]
+            if "circle" in self.canvas.gettags(clicked_object):
+                    self.TuplePieceMover(clicked_object)
                 
 
-                #MOVE LATER ON 
-                self.piece_movement_enable = False
-        else:
-                print("Clicked on empty space") 
-                # Get the ID of the clicked object
-                clicked_object = self.canvas.find_closest(event.x, event.y)[0]
-                # Check if the clicked object is a circle
-                if "circle" in self.canvas.gettags(clicked_object):
-                    # Call TupleMover method with the ID of the clicked circle
-                    self.TupleMover(clicked_object)
-                # else:
-                #     print("Clicked on empty space")
-
-             
+                    #MOVE LATER ON 
+                    self.piece_movement_enable = False
+            else:
+                    print("Clicked on empty space") 
+                    # Get the ID of the clicked object
+                    clicked_object = self.canvas.find_closest(event.x, event.y)[0]
+                    # Check if the clicked object is a circle
+                    if "circle" in self.canvas.gettags(clicked_object):
+                        # Call TupleMover method with the ID of the clicked circle
+                        self.TupleMover(clicked_object)
+                    # else:
+                    #     print("Clicked on empty space")
+                
+      
     def draw_board(self):
         
         
@@ -767,8 +783,6 @@ class TroubleBoard:
                 self.home_mapping[(x, y)] = self.home_id
                 self.home_id += 1
                 home_id = self.home_mapping[(x, y)]
-
-
 
                 # Just draws it
                 center_x = x * self.square_size + self.square_size // 2
