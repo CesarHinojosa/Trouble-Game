@@ -340,8 +340,29 @@ class TroubleBoard:
         if self.gameOver == False: 
             signalr.hub_connection.on("DiceRolled", lambda msg: self.text_dice_roll(msg))
             signalr.hub_connection.send("RollDice", [self.user['Username'], self.selected_game_id])
-        
             
+    def on_button_skip(self):
+        # Check if the dice has been rolled for the current turn
+        if self.rolled_number is not None:
+            # Get the name of the color that rolled the dice
+            color_rolled = self.selected_turn_num.name
+        
+            # Increment the turn to the next player's turn
+            if self.selected_turn_num.value == 3:
+                self.selected_turn_num = Color(0)  # Reset to the first player if it's the last player's turn
+            else:
+                self.selected_turn_num = Color(self.selected_turn_num.value + 1)
+
+            # Update the UI to reflect the new turn and the player who skipped their turn
+            color_turn = self.selected_turn_num.name
+            self.dice_result_label.config(text=f"Color Turn: {color_rolled} skipped their turn.", font=("Arial", 24, "bold"))
+        
+            # Clear the rolled number for the next turn
+            self.rolled_number = None
+        # if self.rolled_number is None:
+        #     # Display a message to inform the player to roll the dice first
+        #    self.dice_result_label.config(text=f"Roll Number First", font=("Arial", 16, "bold"))
+       
     def text_dice_roll(self, msg):
         
         # Convert the integer to a string
@@ -350,7 +371,7 @@ class TroubleBoard:
         #Update the label text
         color_turn = self.selected_turn_num.name
         # Update the label text with the rolled dice result
-        self.dice_result_label.config(text=f"Color Turn: {color_turn}, Rolled a: {result_str}", font=("Arial", 16, "bold"))
+        self.dice_result_label.config(text=f"Color Turn: {color_turn}, Rolled a: {result_str}", font=("Arial", 24, "bold"))
         self.rolled_number = msg[0]
         
         #Enable piece movement after the dice is rolled 
@@ -497,8 +518,12 @@ class TroubleBoard:
                         #print(f"Home spot_id{x}{y}")
 
     def button(self):
-        button = tk.Button(self.master, text="Roll!", command=self.on_button_click)
-        button.grid(row=0, column=0, padx=0, pady=0)   
+        button = tk.Button(self.master, bg = "purple", fg="white", height=1, width=12,  text="Roll!", command=self.on_button_click)
+        button.grid(row=0, column=0, padx=0, pady=0)  
+        
+    # def skipbutton(self):
+    #     skipbutton = tk.Button(self.master, text = "Skip Turn", command = self.on_button_skip)
+    #     skipbutton.grid(row=0, column=1, padx=0, pady=0)  
 
     def __init__(self, master, selected_game_id, selected_turn_num, user):
         self.master = master
@@ -520,8 +545,12 @@ class TroubleBoard:
         self.canvas.grid()
         self.canvas.bind("<Button-1>", self.on_piece_click)
 
-        self.dice_result_label = tk.Label(master, text="Dice Roll Result: ", font=("Arial", 16, "bold"))
+        self.dice_result_label = tk.Label(master, text="Dice Roll Result: ", font=("Arial", 24, "bold"))
         self.dice_result_label.grid(row=1, column=0)
+        
+        self.skipbutton = tk.Button(master, text="Skip Turn", command=self.on_button_skip, bg = "purple", height=2, width=15, fg="white", font=15)
+                                    
+        self.skipbutton.grid(row=3, column=0)
         
         signalr.hub_connection.on("MovePieceReturn", lambda msg: self.move_piece_return(msg[0], msg[1]))
         
@@ -531,6 +560,7 @@ class TroubleBoard:
         self.piece_movement_enable = False
 
         self.button()
+        #self.skipbutton()
 
         #need this to store the ID of the tuple in a dictionary 
         #this is for the spots around 
