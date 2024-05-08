@@ -29,7 +29,6 @@ class SignalR:
         self.hub_connection.send("SendMessage", [message])
     
 signalr = SignalR()
-#circle_id = 1 
 
 class CreateUserScreen:
     def __init__(self, master):
@@ -112,12 +111,7 @@ class LoginScreen:
             #signalr.hub_connection.on("LoginResult", lambda msg: self.LoginResult(print(msg)))  
             #
             signalr.hub_connection.on("LoginResult", lambda msg: self.LoginResult(msg))       
-            #
-            #      
-            #signalr.hub_connection.on("LoginResult", lambda msg: self.LoginResult(str(msg[0])))        
-           
-            
-            
+    
 
     def create_user(self):
         # Open the create user screen
@@ -277,6 +271,8 @@ def print_circles(canvas):
 
 class TroubleBoard:
     
+    def join_game_signalr(self):
+          signalr.hub_connection.send("JoinGame", [self.user['Username'], self.selected_game_id])
 
     def assign_pieces_to_circles(self, circle_ids):
         #response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/" + self.selected_game_id)
@@ -341,14 +337,11 @@ class TroubleBoard:
                                     center_x + self.square_size // 2, center_y + self.square_size // 2)
                                  
     def on_button_click(self):
-        
-        
-        if self.gameOver == False:
-            
+        if self.gameOver == False: 
             signalr.hub_connection.on("DiceRolled", lambda msg: self.text_dice_roll(msg))
-            signalr.hub_connection.send("RollDice", [self.user['Username']])
+            signalr.hub_connection.send("RollDice", [self.user['Username'], self.selected_game_id])
         
-
+            
     def text_dice_roll(self, msg):
         
         # Convert the integer to a string
@@ -358,16 +351,12 @@ class TroubleBoard:
         color_turn = self.selected_turn_num.name
         # Update the label text with the rolled dice result
         self.dice_result_label.config(text=f"Color Turn: {color_turn}, Rolled a: {result_str}", font=("Arial", 16, "bold"))
-        #self.dice_result_label.config(text="You rolled a: " + result_str, font=("Arial", 16, "bold"))
-        
         self.rolled_number = msg[0]
         
         #Enable piece movement after the dice is rolled 
         self.piece_movement_enable = True
         
     def check_winner(self):
-            # Dictionary to store counts of pieces in home zones for each color
-            #home_counts = {'Green': 0, 'Yellow': 0, 'Blue': 0, 'Red': 0}
             home_counts = {'Red': 0, 'Yellow': 0, 'Blue': 0, 'Green': 0}
             
             for item in self.canvas.find_withtag("circle"):
@@ -378,14 +367,14 @@ class TroubleBoard:
                     #piece location from its tags
                 current_location = None
                 color = None
-                print(f"got Piece")
+                #print(f"got Piece")
                 for tag in tags:
                     if tag.startswith("Location_"):
                         current_location = int(tag.split("_")[1])
-                        print(f"Got Location spot_id: {current_location}")
+                        #print(f"Got Location spot_id: {current_location}")
                     if tag.startswith("color_"):
                         color = Str(tag.split("_")[1])
-                        print(f"Got color:  {color.value}")
+                        #print(f"Got color:  {color.value}")
                 if current_location > 28:
                     home_counts[color.value] += 1
                     # print(f"{home_counts.values}")
@@ -396,11 +385,12 @@ class TroubleBoard:
                     break
                     #return True  # Indicates that a winner has been found  
                    
-            print(f"{home_counts['Red']}")
+            #print(f"{home_counts['Red']}")
+            #print(f"{home_counts['Yellow']}")
+            #print(f"{home_counts['Blue']}")
+            #print(f"{home_counts['Green']}")
     
     def move_piece_return(self, piece_Id, newLocation):
-        #piece_Moved = False
-        
         # print("Move_Piece_Return Function Test")
         print(piece_Id)
         print(newLocation)
@@ -479,9 +469,7 @@ class TroubleBoard:
                                 #Color(self.selected_turn_num.value  1)
                                 self.selected_turn_num = Color(0) 
                             else:
-                                 self.selected_turn_num = Color(self.selected_turn_num.value + 1)  
-                                 
-                            
+                                 self.selected_turn_num = Color(self.selected_turn_num.value + 1)       
                     else:
                         #If the piece is returning home (newLocation == 0)
                         piece_Moved = True
@@ -507,21 +495,24 @@ class TroubleBoard:
                         self.canvas.coords(item, center_x - self.square_size // 2, center_y - self.square_size // 2,
                                         center_x + self.square_size // 2, center_y + self.square_size // 2)
                         #print(f"Home spot_id{x}{y}")
-                        
- 
+
     def button(self):
         button = tk.Button(self.master, text="Roll!", command=self.on_button_click)
         button.grid(row=0, column=0, padx=0, pady=0)   
 
     def __init__(self, master, selected_game_id, selected_turn_num, user):
-        
-        self.user = user
+        self.master = master
         self.selected_game_id = selected_game_id
         self.selected_turn_num = Color(selected_turn_num)
+        self.user = user
+        self.join_game_signalr()
+        
+        print(f"Selected Game ID is: {selected_game_id}")
+        #print(f"Join Game: " )
         
         self.gameOver = False
         
-        self.master = master
+       
         self.master.title("Trouble Game Board")
         self.board_size = 19
         self.square_size = 35  # Adjust for desired square size
@@ -534,13 +525,10 @@ class TroubleBoard:
         
         signalr.hub_connection.on("MovePieceReturn", lambda msg: self.move_piece_return(msg[0], msg[1]))
         
-        
+        signalr.hub_connection.on("JoinGame", [user, selected_game_id])
 
         #disable piece moevemnt
         self.piece_movement_enable = False
-        
-        #Enum for Color
-        #self.colorTurn = Color()
 
         self.button()
 
@@ -558,9 +546,7 @@ class TroubleBoard:
                 x2 = x1 + self.square_size
                 y2 = y1 + self.square_size
                 self.canvas.create_rectangle(x1, y1, x2, y2, outline="black", fill="white")
-                
-        
-        #might need to modify this as well in order to add the colors for the specific spaces
+               
         self.colors = {
             'draw_green_zone_left': "Green", 
             'draw_red_zone_left': "Red",
@@ -698,7 +684,7 @@ class TroubleBoard:
         # print("Starting Zone Coordinates:", starting_zone_coordinates)
         # print("Home Zone Coordinates:", home_zone_coordinates)
         
-        print("Coordniate Mapping game_zones :", self.coordinate_mapping)
+        #print("Coordniate Mapping game_zones :", self.coordinate_mapping)
         
        #spots on the game board
         for zone_type, zone_list in game_zones.items():
@@ -709,7 +695,7 @@ class TroubleBoard:
                 self.current_id += 1
                 spot_id = self.coordinate_mapping[(x, y)]
                 
-                print(f"Spot at ({x}, {y}) has ID: {spot_id}")
+                #print(f"Spot at ({x}, {y}) has ID: {spot_id}")
                 
                 
 
