@@ -341,7 +341,7 @@ class TroubleBoard:
             signalr.hub_connection.on("DiceRolled", lambda msg: self.text_dice_roll(msg))
             signalr.hub_connection.send("RollDice", [self.user['Username'], self.selected_game_id])
         
-
+            
     def text_dice_roll(self, msg):
         
         # Convert the integer to a string
