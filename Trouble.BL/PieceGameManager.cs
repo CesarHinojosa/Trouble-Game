@@ -271,15 +271,17 @@ namespace Trouble.BL
 
 
                         //If piece is on space, send that piece back to home
-                        PieceGame pieceGame2 = pieceGames.FirstOrDefault(r => r.PieceLocation == row.PieceLocation && r.GameId == gameId);
-                        if (pieceGame2 != null && pieceGame2.PieceLocation < 29 && pieceGame2.PieceColor != pieceGame.PieceColor)
-                        {
-                            tblPieceGame row2 = dc.tblPieceGames.FirstOrDefault(r => r.PieceLocation == row.PieceLocation && r.GameId == gameId);
-                            row2.PieceLocation = 0;
-                        }
-                        else if (pieceGame2 != null && pieceGame2.PieceColor == pieceGame.PieceColor)
-                        {
-                            row.PieceLocation = previousLocation;
+                        List<PieceGame> pieceGames2 = pieceGames.Where(r => r.PieceLocation == row.PieceLocation && r.GameId == gameId).ToList();
+                        foreach(PieceGame pieceGame2 in pieceGames2) {
+                            if (pieceGame2 != null && pieceGame2.PieceLocation < 29 && pieceGame2.PieceColor != pieceGame.PieceColor)
+                            {
+                                tblPieceGame row2 = dc.tblPieceGames.FirstOrDefault(r => r.PieceLocation == row.PieceLocation && r.GameId == gameId);
+                                row2.PieceLocation = 0;
+                            }
+                            else if (pieceGame2 != null && pieceGame2.PieceColor == pieceGame.PieceColor)
+                            {
+                                row.PieceLocation = previousLocation;
+                            }
                         }
                     }
 
@@ -307,28 +309,87 @@ namespace Trouble.BL
         {
             try
             {
+                int greenEnd = 28;
+                int yellowEnd = 7;
+                int blueEnd = 14;
+                int redEnd = 21;
+
                 List<PieceGame> pieceGames = Load(gameId);
                 PieceGame pieceToMove = null;
 
-                foreach(PieceGame pieceGame in pieceGames)
+                List<PieceGame> piecesToMove = pieceGames.Where(p => p.PieceColor == color).ToList();
+
+                foreach (PieceGame pieceGame in piecesToMove)
                 {
-                    if(pieceGame.PieceColor == color)
+                    int newLocation = pieceGame.PieceLocation + spaces;
+                    bool pieceCanMove = true;
+                    if (pieceGame.PieceLocation + spaces > greenEnd)
                     {
-                        if(pieceToMove != null)
+                        if (pieceGame.PieceLocation <= greenEnd)
                         {
-                            if (pieceGame.PieceLocation > pieceToMove.PieceLocation)
+                            if (pieceGame.PieceColor != "Green")
                             {
-                                if (pieceGame.PieceLocation + spaces <= 32)
-                                {
-                                    bool pieceCanMove = pieceGames.Any(p => p.PieceLocation == pieceGame.PieceLocation + spaces && p.PieceColor == color);
-                                    if (!pieceCanMove) pieceToMove = pieceGame;
-                                }
+                                newLocation = newLocation - 28;
+                                pieceCanMove = true;
                             }
                         }
+
+                        else
+                        {
+                            if (newLocation > 32) pieceCanMove = false;
+                        }
                     }
+
+                    if (newLocation > yellowEnd && color == "Yellow")
+                    {
+                        if (pieceGame.PieceLocation <= yellowEnd)
+                        {
+                            newLocation = (28 + spaces) - (yellowEnd - pieceGame.PieceLocation);
+                            pieceCanMove = true;
+                        }
+
+                        if (newLocation > 32)
+                        {
+                            pieceCanMove = false;
+                        }
+                    }
+
+                    else if (newLocation > blueEnd && color == "Blue")
+                    {
+                        if (pieceGame.PieceLocation <= blueEnd)
+                        {
+                            newLocation = (28 + spaces) - (blueEnd - pieceGame.PieceLocation);
+                            pieceCanMove = true;
+                        }
+
+                        if (newLocation > 32)
+                        {
+                            pieceCanMove = false;
+                        }
+                    }
+
+                    else if (newLocation > redEnd && color == "Red")
+                    {
+                        if (pieceGame.PieceLocation <= redEnd)
+                        {
+                            newLocation = (28 + spaces) - (redEnd - pieceGame.PieceLocation);
+                            pieceCanMove = true;
+                        }
+
+                        if (newLocation > 32)
+                        {
+                            pieceCanMove = false;
+                        }
+                    }
+                    
+                    if (pieceCanMove) pieceCanMove = !pieceGames.Any(p => p.PieceLocation == newLocation && p.PieceColor == color);
+                    if (pieceCanMove && pieceToMove == null) pieceToMove = pieceGame;
+                    else if (pieceCanMove && pieceGame.PieceLocation > pieceToMove.PieceLocation) pieceToMove = pieceGame;
+
                 }
 
-                if (pieceToMove.PieceLocation == 0 && (spaces != 1 && spaces != 6) || pieceToMove == null) return null;
+                if (pieceToMove == null) return null;
+                if (pieceToMove.PieceLocation == 0 && (spaces != 1 && spaces != 6)) return null;
 
                 return pieceToMove;
 

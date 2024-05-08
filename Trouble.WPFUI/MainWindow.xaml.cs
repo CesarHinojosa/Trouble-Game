@@ -107,7 +107,13 @@ namespace Trouble.WPFUI
                     lblDirections.Content = TurnNum.ToString() + " Player, Roll the Dice";
                     lblTurn.Content = "Turn: " + TurnNum.ToString();
                     if (CheckForWin("Green") || CheckForWin("Yellow") || CheckForWin("Blue") || CheckForWin("Red")) gameOver = true;
-                    if (computerGame && TurnNum.ToString() != game.UserColor) ComputerTurn();
+                    if (computerGame && TurnNum.ToString() != game.UserColor)
+                    {
+                        Task.Delay(2000).ContinueWith(_ =>
+                        {
+                            ComputerTurn();
+                        });
+                    }
 
                 }
                 catch (Exception)
@@ -196,6 +202,13 @@ namespace Trouble.WPFUI
                     lblRoll.Content = i1;
                     lblDirections.Content = TurnNum.ToString() + " player, Select a Piece to Move";
                 });
+                if(computerGame && TurnNum.ToString() != game.UserColor)
+                {
+                    Task.Delay(2000).ContinueWith(_ =>
+                    {
+                        _connection.InvokeAsync("ComputerTurn", game.Id, TurnNum.ToString(), lastRoll);
+                    });
+                }
                 });
             _connection.StartAsync();
         }
@@ -271,7 +284,13 @@ namespace Trouble.WPFUI
                 else if (lastRoll == 6)
                 {
                     lblDirections.Content = "Roll the Dice Again";
-                    if (computerGame) ComputerTurn();
+                    if (computerGame && TurnNum.ToString() != game.UserColor)
+                    {
+                        Task.Delay(2000).ContinueWith(_ =>
+                        {
+                            ComputerTurn();
+                        });
+                    }
                 }
                 else
                 {
@@ -332,7 +351,7 @@ namespace Trouble.WPFUI
             return true;
         }
 
-        private async void ComputerTurn()
+        private void ComputerTurn()
         {
             if (_connection == null)
             {
@@ -341,8 +360,7 @@ namespace Trouble.WPFUI
 
             try
             {
-                await _connection.InvokeAsync("RollDice", "Computer", game.Id);
-                await _connection.InvokeAsync("ComputerTurn", game.Id, TurnNum.ToString(), lastRoll);
+                _connection.InvokeAsync("RollDice", "Computer", game.Id);
             }
             catch (Exception ex)
             {
