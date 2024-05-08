@@ -166,6 +166,8 @@ class OptionsScreen():
             choose_game_window = tk.Toplevel(self.master)
             choose_game_screen = ChooseGame(choose_game_window, user)
             
+    
+            
 
 #hit database
 def LogOut(master):
@@ -186,6 +188,7 @@ class Color(Enum):
      
 
 class ChooseGame:
+    
     def __init__(self, master, user):
         self.master = master
         master.title("Choose Game")
@@ -196,7 +199,7 @@ class ChooseGame:
         self.user = user
 
         # Fetch game data from the API
-        #response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/Game/" + self.user['Id'])
+        #response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/Game/GetByUser/" + self.user['Id'])
         response = requests.get("https://localhost:7081/api/Game/GetByUser/" + self.user['Id'], verify=False)
         data = response.json()
         
@@ -207,6 +210,7 @@ class ChooseGame:
         self.game_names = [item['gameName'] for item in data]
         self.turn_num = [item['turnNum'] for item in data]
         self.game_ids = [item['id'] for item in data]
+        self.user_color = [item['userColor'] for item in data]
 
         # Add game names to the listbox
         self.game_label = tk.Label(self.frame, text="Select a Game", font=("Arial", 20))
@@ -215,33 +219,53 @@ class ChooseGame:
             self.game_listbox.insert(tk.END, game_name)
 
         self.select_button = tk.Button(self.frame, text="Select", command=self.select_game)
+        #self.create_button = tk.Button(self.frame, text = "Create Game", command=self.create_game)
+        self.computer_button = tk.Button(self.frame, text = "Play Computer", command=lambda: self.play_computer(user))
+        
         self.game_label.pack()
         self.game_listbox.pack()
-        self.select_button.pack()
+        self.select_button.pack(pady=15)
+        #self.create_button.pack(side=tk.LEFT, padx=15)
+        self.computer_button.pack(side=tk.LEFT)
 
         # Instance variable to store selected game ID
+        
         self.selected_game_id = None
+        
+    def play_computer(self,user):
+        print(f"The User ID : {user['Id']}")
+ 
+        user_color = ["Green"]
+        #signalr.hub_connection.on("CreateComputer", lambda msg: StartGame(self.master, msg['Id'], msg['GameName'], msg['TurnNum'], self.user))
+        
+        signalr.hub_connection.on("CreateComputer", lambda msg: StartGame(self.master, msg[0]['Id'], msg[0]['GameName'], msg[0]['TurnNum'], user_color , self.user))
+        
+        #I get this from the hub 
+        signalr.hub_connection.send("StartComputer", [self.user['Id']])
 
+        
+    # def create_game(self):
+        
     def select_game(self):
         selected_index = self.game_listbox.curselection()
         if selected_index:
             selected_game_index = selected_index[0]
-            selected_game_name = self.game_names[selected_game_index]
+            self.selected_game_name = self.game_names[selected_game_index]
             self.selected_game_id = self.game_ids[selected_game_index]
             self.selected_turn_num = self.turn_num[selected_game_index]
             for game in self.game_data:
-                if game['gameName'] == selected_game_name:
+                if game['gameName'] == self.selected_game_name:
                     #messagebox.showinfo("Selected Game", f"Game ID: {self.selected_game_id}\nGame Name: {game['gameName']}\nTurn Number: {game['turnNum']}\nGame Date: {game['gameDate']}")
                     # Start the game based on the selected game
-                    StartGame(self.master,  self.selected_game_id, self.selected_turn_num, self.user)
+                    StartGame(self.master,  self.selected_game_id, self.selected_game_name , self.selected_turn_num, self.user_color, self.user)
                     break
         else:
             messagebox.showinfo("Error", "Please select a game.")     
-    
-def StartGame(master, selected_game_id, selected_turn_num, user):
+            
+def StartGame(master, selected_game_id, selected_game_name, selected_turn_num, user_color, user):
     master.withdraw()
     game_window = tk.Toplevel(master)
-    game_screen = TroubleBoard(game_window, selected_game_id, selected_turn_num, user)
+    game_screen = TroubleBoard(game_window, selected_game_id, selected_game_name, selected_turn_num, user_color, user)
 
  
 def TupleFinder(zones):
@@ -337,8 +361,9 @@ class TroubleBoard:
                                     center_x + self.square_size // 2, center_y + self.square_size // 2)
                                  
     def on_button_click(self):
-        if self.gameOver == False: 
-            signalr.hub_connection.on("DiceRolled", lambda msg: self.text_dice_roll(msg))
+        print(f"{self.selected_user_color[0]} and {self.selected_turn_num}")
+        if self.gameOver == False and self.selected_user_color[0] == self.selected_turn_num.name: 
+            #signalr.hub_connection.on("DiceRolled", lambda msg: self.text_dice_roll(msg))
             signalr.hub_connection.send("RollDice", [self.user['Username'], self.selected_game_id])
             
     def on_button_skip(self):
@@ -347,24 +372,29 @@ class TroubleBoard:
             # Get the name of the color that rolled the dice
             color_rolled = self.selected_turn_num.name
         
-            # Increment the turn to the next player's turn
-            if self.selected_turn_num.value == 3:
-                self.selected_turn_num = Color(0)  # Reset to the first player if it's the last player's turn
-            else:
-                self.selected_turn_num = Color(self.selected_turn_num.value + 1)
 
-            # Update the UI to reflect the new turn and the player who skipped their turn
-            color_turn = self.selected_turn_num.name
+            self.next_color()
+
             self.dice_result_label.config(text=f"Color Turn: {color_rolled} skipped their turn.", font=("Arial", 24, "bold"))
         
             # Clear the rolled number for the next turn
             self.rolled_number = None
-        # if self.rolled_number is None:
-        #     # Display a message to inform the player to roll the dice first
-        #    self.dice_result_label.config(text=f"Roll Number First", font=("Arial", 16, "bold"))
+            
+            if self.computer_game and self.selected_turn_num.name != self.selected_user_color[0]:
+                signalr.hub_connection.send("ComputerTurn", [self.selected_game_id, self.selected_turn_num.name, self.rolled_number])
+        
+        
+    def next_color(self):
+        # Increment the turn to the next player's turn
+        if self.selected_turn_num.value == 3:
+            self.selected_turn_num = Color(0)  # Reset to the first player if it's the last player's turn
+        else:
+            self.selected_turn_num = Color(self.selected_turn_num.value + 1)
+            
+        if self.computer_game and self.selected_turn_num.name != self.selected_user_color[0]:
+            signalr.hub_connection.send("RollDice", ['Computer', self.selected_game_id])
        
     def text_dice_roll(self, msg):
-        
         # Convert the integer to a string
         result_str = str(msg[0])
         
@@ -376,6 +406,9 @@ class TroubleBoard:
         
         #Enable piece movement after the dice is rolled 
         self.piece_movement_enable = True
+        
+        if self.computer_game and self.selected_turn_num.name != self.selected_user_color[0]:
+            signalr.hub_connection.send("ComputerTurn", [self.selected_game_id, self.selected_turn_num.name, self.rolled_number])
         
     def check_winner(self):
             home_counts = {'Red': 0, 'Yellow': 0, 'Blue': 0, 'Green': 0}
@@ -431,7 +464,6 @@ class TroubleBoard:
                     if tag.startswith("color_"):
                         color = Str(tag.split("_")[1])
                         print(f"Got color:  {color.value}")
-                    #if()
                 print(f"Got Location spot_id: {newLocation}")
                 if current_location is not None:
                     #if the piece is moving to a new location 
@@ -479,18 +511,19 @@ class TroubleBoard:
                                 self.canvas.coords(item, center_x - self.square_size // 2, center_y - self.square_size // 2,
                                         center_x + self.square_size // 2, center_y + self.square_size // 2)
                                 self.piece_movement_enable = False
-                                #print(f)
                                 print(f"{coordinate2}")
                                 print(f"Got Location spot_id{newLocation}")
                                 print(f"newLocation worked thingy")
 
                                 self.check_winner()
-
-                            if(self.selected_turn_num.value == 3):
-                                #Color(self.selected_turn_num.value  1)
-                                self.selected_turn_num = Color(0) 
-                            else:
-                                 self.selected_turn_num = Color(self.selected_turn_num.value + 1)       
+                                
+                            if self.rolled_number != 6:
+                                self.next_color()
+                            elif self.rolled_number == 6:
+                                 self.dice_result_label.config(text=f"Roll Again!!", font=("Arial", 24, "bold"))
+                                 if self.computer_game == True and self.selected_user_color[0] != self.selected_turn_num.name:
+                                     signalr.hub_connection.send("RollDice", ['Computer', self.selected_game_id])
+                                
                     else:
                         #If the piece is returning home (newLocation == 0)
                         piece_Moved = True
@@ -515,25 +548,46 @@ class TroubleBoard:
                         center_y = y * self.square_size + self.square_size // 2
                         self.canvas.coords(item, center_x - self.square_size // 2, center_y - self.square_size // 2,
                                         center_x + self.square_size // 2, center_y + self.square_size // 2)
-                        #print(f"Home spot_id{x}{y}")
+                        
+            # if piece_Moved == True and self.rolled_number != 6:
+            #     self.next_color
 
     def button(self):
-        button = tk.Button(self.master, bg = "purple", fg="white", height=1, width=12,  text="Roll!", command=self.on_button_click)
+        button = tk.Button(self.master, bg = "black", fg="white", height=1, width=12,  text="Roll!", command=self.on_button_click)
         button.grid(row=0, column=0, padx=0, pady=0)  
         
-    # def skipbutton(self):
-    #     skipbutton = tk.Button(self.master, text = "Skip Turn", command = self.on_button_skip)
-    #     skipbutton.grid(row=0, column=1, padx=0, pady=0)  
-
-    def __init__(self, master, selected_game_id, selected_turn_num, user):
+    def __init__(self, master, selected_game_id, selected_game_name, selected_turn_num, selected_user_color, user):
         self.master = master
         self.selected_game_id = selected_game_id
+        self.selected_game_name = selected_game_name
         self.selected_turn_num = Color(selected_turn_num)
+        self.selected_user_color = selected_user_color
         self.user = user
+        
+        signalr.hub_connection.on("DiceRolled", lambda msg: self.text_dice_roll(msg))
+       
+
         self.join_game_signalr()
+
+        self.computer_game = False
+
+        if(selected_game_name == "ComputerGame"):
+            self.computer_game = True
+            
+            #signalr.hub_connection.send("ComputerTurn", [self.selected_game_id, self.selected_turn_num.name, self.rolled_number])
+
+            signalr.hub_connection.on("ComputerReturn", lambda msg: signalr.hub_connection.send("MovePiece", [msg[0], self.selected_game_id, self.rolled_number]))
+            
+            #print(f"{self.selected_game_id}")
+            #print(f"{self.selected_game_id}")
+            #print(f"{self.rolled_number}")
+
+            signalr.hub_connection.on("ComputerMoveFail", lambda msg: self.on_button_skip())
+            
+
+        
         
         print(f"Selected Game ID is: {selected_game_id}")
-        #print(f"Join Game: " )
         
         self.gameOver = False
         
@@ -548,7 +602,7 @@ class TroubleBoard:
         self.dice_result_label = tk.Label(master, text="Dice Roll Result: ", font=("Arial", 24, "bold"))
         self.dice_result_label.grid(row=1, column=0)
         
-        self.skipbutton = tk.Button(master, text="Skip Turn", command=self.on_button_skip, bg = "purple", height=2, width=15, fg="white", font=15)
+        self.skipbutton = tk.Button(master, text="Skip Turn", command=self.on_button_skip, bg = "black", height=2, width=15, fg="white", font=15)
                                     
         self.skipbutton.grid(row=3, column=0)
         
@@ -623,7 +677,6 @@ class TroubleBoard:
         
         #print(self.selected_turn_num.name)
         
-        
         if color == self.selected_turn_num.name:
             # Check if the game ID is selected
             if selected_game_id:
@@ -634,7 +687,7 @@ class TroubleBoard:
                 print("Error: No game selected.")
                       
     def on_piece_click(self, event):
-        if self.gameOver == False:
+        if self.gameOver == False and self.selected_user_color[0] == self.selected_turn_num.name:
             if not self.piece_movement_enable:
                 messagebox.showinfo(title="Error", message="Please roll the dice first.")
                 return
