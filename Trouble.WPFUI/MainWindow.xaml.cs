@@ -50,6 +50,7 @@ namespace Trouble.WPFUI
             user = username;
             this.game = game;
             TurnNum = (Color)game.TurnNum;
+            lblUser.Content = "Color: " + game.UserColor;
             Start();
             _connection.SendAsync("JoinGame", user, game.Id);
         }
@@ -277,11 +278,11 @@ namespace Trouble.WPFUI
             this.Dispatcher.Invoke(() =>
             {
 
-                if (lastRoll != 6 && pieceMoved)
+                if (lastRoll != 6 && pieceMoved && gameOver != true)
                 {
                     NextTurn();
                 }
-                else if (lastRoll == 6)
+                else if (lastRoll == 6 && gameOver != true)
                 {
                     lblDirections.Content = "Roll the Dice Again";
                     if (computerGame && TurnNum.ToString() != game.UserColor)
@@ -292,7 +293,7 @@ namespace Trouble.WPFUI
                         });
                     }
                 }
-                else
+                else if(gameOver != true)
                 {
                     lblDirections.Content = "Select a Different Piece";
                 }

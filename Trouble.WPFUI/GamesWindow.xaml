@@ -11,5 +11,6 @@
         <Button x:Name="btnCreate" Content="Create Game" HorizontalAlignment="Left" Margin="129,217,0,0" VerticalAlignment="Top" Width="136" Height="40" Click="btnCreate_Click"/>
         <Button x:Name="btnLogOut" Content="Log Out" HorizontalAlignment="Left" Margin="526,217,0,0" VerticalAlignment="Top" Width="136" Height="40" Click="btnLogOut_Click"/>
         <Button x:Name="btnComputer" Content="Play Against Computer" HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" Width="136" Height="40" Click="btnComputer_Click"/>
+        <Label x:Name="lblCreateGame" Content="Looking For Game" HorizontalAlignment="Center" Margin="0,278,0,0" VerticalAlignment="Top" Width="152" FontSize="16" Visibility="Hidden"/>
     </Grid>
 </Window>

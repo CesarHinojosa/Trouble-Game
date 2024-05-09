@@ -31,6 +31,7 @@ namespace Trouble.WPFUI
         string url = "https://localhost:7081/api/Game/GetByUser/";
         List<Game> games = new List<Game>();
         User user;
+        List<Guid> userGuids = new List<Guid>();
 
         public GamesWindow(User user)
         {
@@ -94,7 +95,52 @@ namespace Trouble.WPFUI
 
         private void btnCreate_Click(object sender, RoutedEventArgs e)
         {
+            if (_connection == null) Start();
 
+            try
+            {
+                _connection.SendAsync("CreateGame", user.Id);
+                _connection.On<Guid>("CreatingGame", (g1) => CreatingGame(g1));
+                _connection.On<Game, List<UserGame>>("CreatedGame", (g1, ug1) => CreatedGame(g1, ug1));
+                lblCreateGame.Visibility = Visibility.Visible;
+                btnComputer.Visibility = Visibility.Hidden;
+                btnCreate.Visibility = Visibility.Hidden;
+                btnLogOut.Visibility = Visibility.Hidden;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void CreatingGame(Guid g1)
+        {
+            userGuids.Add(g1);
+            if(userGuids.Count == 4)
+            {
+                _connection.SendAsync("CreateTheGame", userGuids);
+            }
+        }
+
+        private void CreatedGame(Game game, List<UserGame> userGames)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+
+                lblCreateGame.Visibility = Visibility.Hidden;
+                btnComputer.Visibility = Visibility.Visible;
+                btnCreate.Visibility = Visibility.Visible;
+                btnLogOut.Visibility = Visibility.Visible;
+                foreach(UserGame userGame in userGames)
+                {
+                    if (userGame.UserId == user.Id) game.UserColor = userGame.PlayerColor;
+                }
+                MainWindow window = new MainWindow(user.Username, game);
+                _connection.SendAsync("RemoveFromGroup");
+                window.Show();
+                RebindGames();
+            });
         }
 
         private void btnComputer_Click(object sender, RoutedEventArgs e)
