@@ -285,7 +285,7 @@ namespace Trouble.BL
                         }
                     }
 
-                    if(spaces != 6 && (row.PieceLocation != pieceGame.PieceLocation || (row.PieceLocation == 0 && pieceGame.PieceLocation == 0)))
+                    if(spaces != 6 && (row.PieceLocation != pieceGame.PieceLocation))
                     {
                         GameManager gm = new GameManager(options);
                         Game game = gm.LoadById(gameId);

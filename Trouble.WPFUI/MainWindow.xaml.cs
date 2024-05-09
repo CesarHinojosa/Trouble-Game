@@ -57,7 +57,7 @@ namespace Trouble.WPFUI
 
         private void btnRoll_Click(object sender, RoutedEventArgs e)
         {
-            if(!diceRolled && !gameOver && game.UserColor == TurnNum.ToString())RollDice(user);
+            if(!diceRolled && !gameOver && game.UserColor == TurnNum.ToString()) RollDice(user);
         }
 
         private async void GameStart(object sender, RoutedEventArgs e)
@@ -195,6 +195,7 @@ namespace Trouble.WPFUI
             _connection.On<Guid, int>("MovePieceReturn", (g1, i1) => MovePieceReturn(g1, i1));
             _connection.On<Guid>("ComputerReturn", (g1) => MovePiece(g1, game.Id, lastRoll));
             _connection.On<string>("ComputerMoveFail", (s1) => NextTurn());
+            _connection.On<int>("Skip", (i1) => NextTurn());
             _connection.On<int>("DiceRolled", (i1) => {
                 lastRoll = i1;
                 diceRolled = true;
@@ -251,11 +252,6 @@ namespace Trouble.WPFUI
                             piece.Margin = (Thickness)FindName(color + "Home" + (newLocation - 28)).GetType().GetProperty("Margin").GetValue(FindName(color + "Home" + (newLocation - 28)));
                             if (CheckForWin(color)) gameOver = true;
                         }
-                    }
-                    else if (int.Parse(piece.FindResource("PieceLocation").ToString()) == 0 && newLocation == 0)
-                    {
-                        pieceMoved = true;
-                        diceRolled = false;
                     }
                     
                     //Check if piece is on location but is not the piece being moved
@@ -372,6 +368,28 @@ namespace Trouble.WPFUI
         private void LeaveGame(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _connection.SendAsync("LeaveGame", user, game.Id);
+        }
+
+        private void btnSkip_Click(object sender, RoutedEventArgs e)
+        {
+            if (TurnNum.ToString() == game.UserColor)
+            {
+                if (lastRoll != 6 && gameOver != true)
+                {
+                    _connection.SendAsync("SkipTurn", game.Id);
+                }
+                else if (lastRoll == 6 && gameOver != true)
+                {
+                    lblDirections.Content = "Roll the Dice Again";
+                    if (computerGame && TurnNum.ToString() != game.UserColor)
+                    {
+                        Task.Delay(2000).ContinueWith(_ =>
+                        {
+                            ComputerTurn();
+                        });
+                    }
+                }
+            }
         }
     }
 }
