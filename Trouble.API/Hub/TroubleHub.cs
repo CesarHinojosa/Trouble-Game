@@ -159,6 +159,61 @@ namespace Trouble.API.Hubs
             }
         }
 
+        public async Task CreateGame(Guid userId)
+        {
+            try
+            {
+                await Groups.AddToGroupAsync(Context.ConnectionId, "CreatingGame");
+                await Clients.Group("CreatingGame").SendAsync("CreatingGame", userId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task CreateTheGame(List<Guid> userIds)
+        {
+            try
+            {
+                GameManager gameManager = new GameManager(options);
+                Game game = new Game { TurnNum = 0, GameName = "Game" + (gameManager.Load().Count + 1) };
+                gameManager.Insert(game);
+
+                UserGameManager userGameManager = new UserGameManager(options);
+                int i = 1;
+                string color = "Green";
+                List<UserGame> userGames = new List<UserGame>();
+                foreach (Guid userId in userIds)
+                {
+                    if (i == 1) color = "Green";
+                    else if (i == 2) color = "Yellow";
+                    else if (i == 3) color = "Blue";
+                    else if (i == 4) color = "Red";
+                    userGameManager.Insert(userId, game.Id, color);
+                    UserGame userGame = new UserGame { GameId = game.Id, UserId = userId, PlayerColor = color };
+                    userGames.Add(userGame);
+                    i++;
+                }
+
+                PieceManager pieceManager = new PieceManager(options);
+                PieceGameManager pieceGameManager = new PieceGameManager(options);
+                List<Piece> pieces = pieceManager.Load();
+                foreach (Piece piece in pieces)
+                {
+                    pieceGameManager.Insert(piece.Id, game.Id);
+
+                }
+                await Clients.Group("CreatingGame").SendAsync("CreatedGame", game, userGames);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public async Task ComputerTurn(Guid gameId, string color, int spaces)
         {
             try
@@ -186,6 +241,11 @@ namespace Trouble.API.Hubs
         public async Task LeaveGame(string playerName, Guid gameId)
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, gameId.ToString());
+        }
+
+        public async Task RemoveFromGroup()
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, "CreatingGame");
         }
     }
 }
