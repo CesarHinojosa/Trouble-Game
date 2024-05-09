@@ -9,7 +9,9 @@ import tkinter
 from turtle import circle, color
 from urllib import response
 import json
+import asyncio
 import requests
+import time
 from functools import partial
 from enum import Enum
 from tkinter import INSERT, Canvas, messagebox
@@ -166,9 +168,6 @@ class OptionsScreen():
             choose_game_window = tk.Toplevel(self.master)
             choose_game_screen = ChooseGame(choose_game_window, user)
             
-    
-            
-
 #hit database
 def LogOut(master):
     user = "User1"
@@ -178,15 +177,13 @@ def LogOut(master):
     login_window = tk.Toplevel(master)
     login_screen = LoginScreen(login_window)
     
-
 #-----------------------------------------Game Aspect-------------------------------------
 class Color(Enum):
      Green = 0
      Yellow = 1
      Blue = 2
      Red = 3
-     
-
+    
 class ChooseGame:
     
     def __init__(self, master, user):
@@ -219,13 +216,13 @@ class ChooseGame:
             self.game_listbox.insert(tk.END, game_name)
 
         self.select_button = tk.Button(self.frame, text="Select", command=self.select_game)
-        #self.create_button = tk.Button(self.frame, text = "Create Game", command=self.create_game)
+        self.create_button = tk.Button(self.frame, text = "Create Game", command=lambda: self.create_game)
         self.computer_button = tk.Button(self.frame, text = "Play Computer", command=lambda: self.play_computer(user))
         
         self.game_label.pack()
         self.game_listbox.pack()
         self.select_button.pack(pady=15)
-        #self.create_button.pack(side=tk.LEFT, padx=15)
+        self.create_button.pack(side=tk.LEFT, padx=15)
         self.computer_button.pack(side=tk.LEFT)
 
         # Instance variable to store selected game ID
@@ -236,15 +233,15 @@ class ChooseGame:
         print(f"The User ID : {user['Id']}")
  
         user_color = ["Green"]
-        #signalr.hub_connection.on("CreateComputer", lambda msg: StartGame(self.master, msg['Id'], msg['GameName'], msg['TurnNum'], self.user))
-        
+  
         signalr.hub_connection.on("CreateComputer", lambda msg: StartGame(self.master, msg[0]['Id'], msg[0]['GameName'], msg[0]['TurnNum'], user_color , self.user))
         
         #I get this from the hub 
         signalr.hub_connection.send("StartComputer", [self.user['Id']])
 
         
-    # def create_game(self):
+    def create_game(self):
+        return
         
     def select_game(self):
         selected_index = self.game_listbox.curselection()
@@ -267,7 +264,6 @@ def StartGame(master, selected_game_id, selected_game_name, selected_turn_num, u
     game_window = tk.Toplevel(master)
     game_screen = TroubleBoard(game_window, selected_game_id, selected_game_name, selected_turn_num, user_color, user)
 
- 
 def TupleFinder(zones):
         coordinates = []
         for zone_type, zone_list in zones.items():
@@ -381,6 +377,7 @@ class TroubleBoard:
             self.rolled_number = None
             
             if self.computer_game and self.selected_turn_num.name != self.selected_user_color[0]:
+                
                 signalr.hub_connection.send("ComputerTurn", [self.selected_game_id, self.selected_turn_num.name, self.rolled_number])
         
         
@@ -395,6 +392,9 @@ class TroubleBoard:
             signalr.hub_connection.send("RollDice", ['Computer', self.selected_game_id])
        
     def text_dice_roll(self, msg):
+        
+        if self.computer_game and self.selected_turn_num.name != self.selected_user_color[0]:
+            time.sleep(2)
         # Convert the integer to a string
         result_str = str(msg[0])
         
@@ -518,11 +518,15 @@ class TroubleBoard:
                                 self.check_winner()
                                 
                             if self.rolled_number != 6:
+                                time.sleep(2)
                                 self.next_color()
                             elif self.rolled_number == 6:
                                  self.dice_result_label.config(text=f"Roll Again!!", font=("Arial", 24, "bold"))
                                  if self.computer_game == True and self.selected_user_color[0] != self.selected_turn_num.name:
+                                     time.sleep(2)
                                      signalr.hub_connection.send("RollDice", ['Computer', self.selected_game_id])
+                                     #time.sleep(5)
+                                     
                                 
                     else:
                         #If the piece is returning home (newLocation == 0)
@@ -548,9 +552,6 @@ class TroubleBoard:
                         center_y = y * self.square_size + self.square_size // 2
                         self.canvas.coords(item, center_x - self.square_size // 2, center_y - self.square_size // 2,
                                         center_x + self.square_size // 2, center_y + self.square_size // 2)
-                        
-            # if piece_Moved == True and self.rolled_number != 6:
-            #     self.next_color
 
     def button(self):
         button = tk.Button(self.master, bg = "black", fg="white", height=1, width=12,  text="Roll!", command=self.on_button_click)
@@ -565,18 +566,19 @@ class TroubleBoard:
         self.user = user
         
         signalr.hub_connection.on("DiceRolled", lambda msg: self.text_dice_roll(msg))
-       
 
         self.join_game_signalr()
 
         self.computer_game = False
-
         if(selected_game_name == "ComputerGame"):
             self.computer_game = True
-            
-            #signalr.hub_connection.send("ComputerTurn", [self.selected_game_id, self.selected_turn_num.name, self.rolled_number])
 
-            signalr.hub_connection.on("ComputerReturn", lambda msg: signalr.hub_connection.send("MovePiece", [msg[0], self.selected_game_id, self.rolled_number]))
+            if self.selected_user_color[0] != self.selected_turn_num.name:
+                signalr.hub_connection.send("RollDice", ['Computer', self.selected_game_id])
+                  
+            #time.sleep(5)
+            signalr.hub_connection.on("ComputerReturn", lambda msg:(
+                time.sleep(3), signalr.hub_connection.send("MovePiece", [msg[0], self.selected_game_id, self.rolled_number])))
             
             #print(f"{self.selected_game_id}")
             #print(f"{self.selected_game_id}")
@@ -713,7 +715,6 @@ class TroubleBoard:
       
     def draw_board(self):
         
-        
         game_zones = {
             
             'draw_green_zone_left': [(3, 10), (3, 9), (4, 8), (5, 7)],
@@ -748,14 +749,9 @@ class TroubleBoard:
             
             'draw_yellow_home_zones' : [(9,5),(9,6),(9,7),(9,8)],
             
-            'draw_blue_home_zones' : [(14,10),(13,10),(12,10),(11,10),
-
-],
+            'draw_blue_home_zones' : [(14,10),(13,10),(12,10),(11,10)],
             
-            'draw_red_home_zones' : [(9,15),(9,14),(9,13),(9,12)],
-            
-            
-            
+            'draw_red_home_zones' : [(9,15),(9,14),(9,13),(9,12)],  
         }     
      
         # Call TupleFinder to get the coordinates for each zone
@@ -865,8 +861,7 @@ class TroubleBoard:
         
         self.assign_pieces_to_circles(circle_ids)
         
-        
-                    
+               
 def main():    
     root = tk.Tk()
     login_screen = LoginScreen(root)
