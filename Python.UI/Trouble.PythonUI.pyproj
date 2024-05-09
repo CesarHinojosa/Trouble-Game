@@ -23,9 +23,6 @@
     <Compile Include="PythonUI.py" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Images\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Trouble.BL.Models\Trouble.BL.Models.csproj">
       <Name>Trouble.BL.Models</Name>
       <Project>{f1745b8b-38fd-408e-8a31-09d66a7b18d3}</Project>

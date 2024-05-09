@@ -129,6 +129,9 @@ namespace Trouble.API.Hubs
             }
         }
 
+
+        //public async Task CreateGame ()
+
         public async Task StartComputer(Guid userId)
         {
             try
