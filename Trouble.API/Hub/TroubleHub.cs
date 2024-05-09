@@ -42,6 +42,16 @@ namespace Trouble.API.Hubs
 
         }
 
+        public async Task SkipTurn(Guid gameId)
+        {
+            GameManager gameManager = new GameManager(options);
+            Game game = gameManager.LoadById(gameId);
+            game.TurnNum++;
+            if (game.TurnNum > 3) game.TurnNum = 0;
+            gameManager.Update(game);
+            await Clients.Group(gameId.ToString()).SendAsync("Skip", game.TurnNum);
+        }
+
         public async Task Login(string username, string password)
         {
             try
