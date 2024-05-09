@@ -235,7 +235,7 @@ class ChooseGame:
  
         user_color = ["Green"]
   
-        signalr.hub_connection.on("CreateComputer", lambda msg: StartGame(self.master, msg[0]['Id'], msg[0]['GameName'], msg[0]['TurnNum'], user_color , self.user))
+        signalr.hub_connection.on("CreateComputer", lambda msg: StartGame(self.master, msg[0]['Id'], msg[0]['GameName'], msg[0]['TurnNum'], user_color[0] , self.user))
         
         #I get this from the hub 
         signalr.hub_connection.send("StartComputer", [self.user['Id']])
@@ -403,22 +403,37 @@ class TroubleBoard:
             print(f"{self.selected_user_color[0]}")
             
     def on_button_skip(self):
+        
+        if self.selected_turn_num.name == self.selected_user_color or self.computer_game and self.selected_turn_num.name != self.selected_user_color:
+            if self.rolled_number != 6:
+                signalr.hub_connection.send("SkipTurn", [self.selected_game_id])
+            elif self.rolled_number == 6:
+                    self.dice_result_label.config(text=f"Roll Again!!", font=("Arial", 24, "bold"))
+                    if self.computer_game == True and self.selected_user_color != self.selected_turn_num.name:
+                        time.sleep(2)
+                        signalr.hub_connection.send("RollDice", ['Computer', self.selected_game_id])
+
+
+
         # Check if the dice has been rolled for the current turn
-        if self.rolled_number is not None:
-            # Get the name of the color that rolled the dice
-            color_rolled = self.selected_turn_num.name
+        # if self.rolled_number is not None:
+        #     # Get the name of the color that rolled the dice
+        #     color_rolled = self.selected_turn_num.name
         
 
-            self.next_color()
 
-            self.dice_result_label.config(text=f"Color Turn: {color_rolled} skipped their turn.", font=("Arial", 24, "bold"))
+           
+
+            # self.next_color()
+
+            # self.dice_result_label.config(text=f"Color Turn: {color_rolled} skipped their turn.", font=("Arial", 24, "bold"))
         
-            # Clear the rolled number for the next turn
-            self.rolled_number = None
+            # # Clear the rolled number for the next turn
+            # self.rolled_number = None
             
-            if self.computer_game and self.selected_turn_num.name != self.selected_user_color:
+            # if self.computer_game and self.selected_turn_num.name != self.selected_user_color:
                 
-                signalr.hub_connection.send("ComputerTurn", [self.selected_game_id, self.selected_turn_num.name, self.rolled_number])
+            #     signalr.hub_connection.send("ComputerTurn", [self.selected_game_id, self.selected_turn_num.name, self.rolled_number])
            
     def next_color(self):
         # Increment the turn to the next player's turn
@@ -561,6 +576,8 @@ class TroubleBoard:
                             if self.rolled_number != 6:
                                 #time.sleep(2)
                                 self.next_color()
+                                
+
                             elif self.rolled_number == 6:
                                  self.dice_result_label.config(text=f"Roll Again!!", font=("Arial", 24, "bold"))
                                  if self.computer_game == True and self.selected_user_color != self.selected_turn_num.name:
@@ -604,6 +621,7 @@ class TroubleBoard:
         self.selected_user_color = selected_user_color
         self.user = user
         
+        signalr.hub_connection.on("Skip", lambda msg: self.next_color())
         signalr.hub_connection.on("DiceRolled", lambda msg: self.text_dice_roll(msg))
 
         self.join_game_signalr()
