@@ -23,12 +23,13 @@ namespace Trouble.WPFUI
     /// </summary>
     public partial class GamesWindow : Window
     {
-        private string hubAddress = "https://localhost:7081/TroubleHub";
-        //private string hubAddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
+        //private string hubAddress = "https://localhost:7081/TroubleHub";
+        private string hubAddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
 
         HubConnection _connection = null;
 
-        string url = "https://localhost:7081/api/Game/GetByUser/";
+        //string url = "https://localhost:7081/api/Game/GetByUser/";
+        string url = "https://bigprojectapi-300077578.azurewebsites.net/api/Game/GetByUser/";
         List<Game> games = new List<Game>();
         User user;
         List<Guid> userGuids = new List<Guid>();

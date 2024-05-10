@@ -21,14 +21,18 @@ namespace Trouble.WPFUI
     /// </summary>
     public partial class CreateUser : Window
     {
-        private string hubAddress = "https://localhost:7081/TroubleHub";
-        //private string hubAddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
+        //private string hubAddress = "https://localhost:7081/TroubleHub";
+        private string hubAddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
 
         HubConnection _connection = null;
 
         public CreateUser()
         {
             InitializeComponent();
+            txtFirstName.Text = "";
+            txtLastName.Text = "";
+            txtPassword.Password = "";
+            txtUsername.Text = "";
         }
 
         private void btnCreate_Click(object sender, RoutedEventArgs e)

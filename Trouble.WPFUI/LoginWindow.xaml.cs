@@ -9,8 +9,8 @@ namespace Trouble.WPFUI
     /// </summary>
     public partial class LoginWindow : Window
     {
-        private string hubAddress = "https://localhost:7081/TroubleHub";
-        //private string hubAddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
+        //private string hubAddress = "https://localhost:7081/TroubleHub";
+        private string hubAddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
 
         HubConnection _connection = null;
 
