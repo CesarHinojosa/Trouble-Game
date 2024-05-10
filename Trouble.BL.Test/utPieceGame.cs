@@ -36,15 +36,15 @@ namespace Trouble.BL.Test
         [TestMethod]
         public void MovePieceTest()
         {
-            Guid pieceId = new PieceManager(options).Load().FirstOrDefault().Id;
-            Guid gameId = new GameManager(options).Load().FirstOrDefault().Id;
-            Assert.AreEqual(1, new PieceGameManager(options).MovePiece(pieceId, gameId, 4, true));
+            Guid pieceId = Guid.Parse("44fe7a64-ef08-4f19-9387-dc842c7eabb8");
+            Guid gameId = Guid.Parse("3d02117a-4051-460a-ba4d-baf5d4e583be");
+            Assert.AreEqual(6, new PieceGameManager(options).MovePiece(pieceId, gameId, 4, true));
         }
 
         [TestMethod]
         public void SendToHomeTest()
         {
-            Guid gameId = new GameManager(options).Load().FirstOrDefault().Id;
+            Guid gameId = Guid.Parse("3d02117a-4051-460a-ba4d-baf5d4e583be");
             Guid pieceId = new PieceGameManager(options).Load().FirstOrDefault(r => r.PieceLocation == 2 && r.GameId == gameId).PieceId;
 
             int results = new PieceGameManager(options).MovePiece(pieceId, gameId, 3, true);

@@ -15,8 +15,8 @@ namespace Trouble.WPFUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string hubAddress = "https://localhost:7081/TroubleHub";
-        //private string hubAddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
+        //private string hubAddress = "https://localhost:7081/TroubleHub";
+        private string hubAddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
         private HubConnection _connection;
         private enum Color
         {
@@ -62,9 +62,9 @@ namespace Trouble.WPFUI
 
         private async void GameStart(object sender, RoutedEventArgs e)
         {
-            string url = "https://localhost:7081/api/PieceGame/" + game.Id.ToString();
+            //string url = "https://localhost:7081/api/PieceGame/" + game.Id.ToString();
 
-            //string url = "https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/" + game.Id.ToString();
+            string url = "https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/" + game.Id.ToString();
 
             using (HttpClient client = new HttpClient())
             {

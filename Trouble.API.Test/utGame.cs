@@ -38,7 +38,7 @@ namespace Trouble.API.Test
         [TestMethod]
         public async Task UpdateTestAsync()
         {
-            Game game = new Game { GameName = "Test", GameDate = DateTime.Now };
+            Game game = new Game { GameName = "Test", GameDate = DateTime.Now, UserColor = "Green" };
             await base.UpdateTestAsync<Game>(new KeyValuePair<string, string>("GameName", "Game1"), game);
 
         }
