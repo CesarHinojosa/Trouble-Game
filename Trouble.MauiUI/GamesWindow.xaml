@@ -2,48 +2,57 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Trouble.MauiUI.GamesWindow"
-             Title="GamesWindow">
+             Title=""
+             BackgroundColor="LightGray"
+             Shell.NavBarIsVisible="False">
 
+    <ScrollView>
+    <VerticalStackLayout Padding="10">
 
-    <VerticalStackLayout>
-    <CollectionView x:Name="dgGames" SelectionMode="Single" SelectionChanged="dgGames_SelectionChanged">
-        <CollectionView.Header>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-            
-                <Label Grid.Column="0" Text="Game Name" FontAttributes="Bold"/>
-                <Label Grid.Column="1" Text="Game Date" FontAttributes="Bold"/>
-                <Label Grid.Column="2" Text="Turn Num" FontAttributes="Bold"/>
-                <Label Grid.Column="3" Text="User Color" FontAttributes="Bold"/>
-            </Grid>
-        </CollectionView.Header>
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
+        <Label x:Name="lblGame" Text="" FontAttributes="Bold" Padding="0, 0, 0, 10" TextColor="Black" FontSize="20"/>
+
+        <CollectionView x:Name="dgGames" SelectionMode="Single" SelectionChanged="dgGames_SelectionChanged" HorizontalOptions="CenterAndExpand">
+            <CollectionView.Header>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Text="{Binding GameName}" Grid.Column="0" Grid.Row="1"/>
-                    <Label Text="{Binding GameDate}" Grid.Column="1" Grid.Row="1"/>
-                    <Label Text="{Binding TurnNum}" Grid.Column="2" Grid.Row="1"/>
-                    <Label Text="{Binding UserColor}" Grid.Column="3" Grid.Row="1"/>
+                    <Label Grid.Column="0" Text="Game Name" TextColor="Black" FontAttributes="Bold"/>
+                    <Label Grid.Column="1" Text="Game Date" TextColor="Black" FontAttributes="Bold"/>
+                    <Label Grid.Column="2" Text="Turn Num" TextColor="Black" FontAttributes="Bold"/>
+                    <Label Grid.Column="3" Text="User Color" TextColor="Black" FontAttributes="Bold"/>
                 </Grid>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-        <Button x:Name="btnCreate" Text="Create Game" Width="136" Height="40" Clicked="btnCreate_Click"/>
-        <Button x:Name="btnLogOut" Text="Log Out" Width="136" Height="40" Clicked="btnLogOut_Click"/>
-        <Button x:Name="btnComputer" Text="Play Against Computer" Width="136" Height="40" Clicked="btnComputer_Click"/>
-        <Label x:Name="lblCreateGame" Text="Looking For Game" Width="152" FontSize="16" IsVisible="False"/>
+                                <Label Text="{Binding GameName}" TextColor="Black" Grid.Column="0" Grid.Row="1" LineBreakMode="NoWrap"  Padding="0,10,0,10"/>
+                                <Label Text="{Binding GameDate, StringFormat='{0:MM/dd/yyyy}'}" TextColor="Black" Grid.Column="1" Grid.Row="1" Padding="0,10,0,10"/>
+                                <Label Text="{Binding TurnNum}" TextColor="Black" Grid.Column="2" Grid.Row="1" Padding="0,10,0,10"/>
+                                <Label Text="{Binding UserColor}" TextColor="Black" Grid.Column="3" Grid.Row="1" Padding="0,10,0,10"/>
+                            </Grid>
+                        <BoxView HeightRequest="1" BackgroundColor="Black" Grid.ColumnSpan="4"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button x:Name="btnCreate" Text="Create Game" Clicked="btnCreate_Click" Margin="10"/>
+        <Button x:Name="btnLogOut" Text="Log Out"  Clicked="btnLogOut_Click" Margin="10"/>
+        <Button x:Name="btnComputer" Text="Play Against Computer"  Clicked="btnComputer_Click" Margin="10"/>
+        <Label x:Name="lblCreateGame" Text="Looking For Game" FontSize="16" IsVisible="False" Padding="10"/>
     </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

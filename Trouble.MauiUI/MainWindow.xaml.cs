@@ -188,7 +188,12 @@ public partial class MainWindow : ContentPage
 
         _connection.On<string, string>("ReceiveMessage", (s1, s2) => OnSend(s1, s2));
         _connection.On<Guid, int>("MovePieceReturn", (g1, i1) => MovePieceReturn(g1, i1));
-        _connection.On<Guid>("ComputerReturn", (g1) => MovePiece(g1, game.Id, lastRoll));
+        _connection.On<Guid>("ComputerReturn", (g1) => {
+            Task.Delay(2000).ContinueWith(_ =>
+            {
+                MovePiece(g1, game.Id, lastRoll);
+            });
+        });
         _connection.On<string>("ComputerMoveFail", (s1) => NextTurn());
         _connection.On<int>("Skip", (i1) => NextTurn());
         _connection.On<int>("DiceRolled", (i1) => {
@@ -219,72 +224,71 @@ public partial class MainWindow : ContentPage
     {
         bool pieceMoved = false;
 
-        for (int i = 1; i < 16; i++)
-        {
-            Dispatcher.Dispatch(() =>
+        for (int i = 1; i <= 16; i++)
+    {
+            Ellipse piece = (Ellipse)FindByName("Piece" + i);
+            piece.Resources.TryGetValue("PieceId", out object pieceid);
+            Guid id = Guid.Parse(pieceid.ToString());
+            piece.Resources.TryGetValue("PieceLocation", out object location);
+            if (id == pieceId && newLocation != 0)
             {
-                Ellipse piece = (Ellipse)FindByName("Piece" + i);
-                piece.Resources.TryGetValue("PieceId", out object pieceid);
-                Guid id = Guid.Parse(pieceid.ToString());
-                piece.Resources.TryGetValue("PieceLocation", out object location);
-                if (id == pieceId && newLocation != 0)
+                if (int.Parse(location.ToString()) != newLocation)
                 {
-                    if (location.ToString() != newLocation.ToString())
-                    {
-                        pieceMoved = true;
-                        diceRolled = false;
-                    }
+                    pieceMoved = true;
+                    diceRolled = false;
+                }
 
+
+                Dispatcher.Dispatch(() =>
+                {
                     if (newLocation <= 28)
                     {
-                        Dispatcher.Dispatch(() =>
-                        {
-                            piece.Resources.Remove("PieceLocation");
-                            piece.Resources.Add("PieceLocation", newLocation.ToString());
-                            piece.Margin = (Thickness)FindByName("Space" + newLocation).GetType().GetProperty("Margin").GetValue(FindByName("Space" + newLocation));
+                        piece.Resources.Remove("PieceLocation");
+                        piece.Resources.Add("PieceLocation", newLocation.ToString());
+                        piece.Margin = (Thickness)FindByName("Space" + newLocation).GetType().GetProperty("Margin").GetValue(FindByName("Space" + newLocation));
 
-                        });
                     }
                     else
                     {
-                        Dispatcher.Dispatch(() =>
-                        {
-                            piece.Resources.TryGetValue("Color", out object color);
-                            piece.Resources.Remove("PieceLocation");
-                            piece.Resources.Add("PieceLocation", newLocation.ToString());
-                            piece.Margin = (Thickness)FindByName(color.ToString() + "Home" + (newLocation - 28)).GetType().GetProperty("Margin").GetValue(FindByName(color + "Home" + (newLocation - 28)));
-                            if (CheckForWin(color.ToString())) gameOver = true;
-                        });
+                        piece.Resources.TryGetValue("Color", out object color);
+                        piece.Resources.Remove("PieceLocation");
+                        piece.Resources.Add("PieceLocation", newLocation.ToString());
+                        piece.Margin = (Thickness)FindByName(color.ToString() + "Home" + (newLocation - 28)).GetType().GetProperty("Margin").GetValue(FindByName(color + "Home" + (newLocation - 28)));
+                        if (CheckForWin(color.ToString())) gameOver = true;
                     }
 
-                }
+                });
 
-                //Check if piece is on location but is not the piece being moved
+            }
 
-                else if (id != pieceId && newLocation == int.Parse(location.ToString()))
+            //Check if piece is on location but is not the piece being moved
+
+            else if (id != pieceId && newLocation == int.Parse(location.ToString()))
+            {
+                //If the piece is not at home base or start
+                if (newLocation <= 28 && newLocation > 0)
                 {
-                    //If the piece is not at home base or start
-                    if (newLocation <= 28 && newLocation > 0)
+                    Dispatcher.Dispatch(() =>
                     {
-                        Dispatcher.Dispatch(() =>
-                        {
-                            piece.Resources.TryGetValue("Color", out object color);
-                            piece.Resources.Remove("PieceLocation");
-                            piece.Resources.Add("PieceLocation", 0.ToString());
-                            piece.Resources.TryGetValue("PieceNum", out object num);
-                            //Move the piece to starting position
-                            piece.Margin = (Thickness)FindByName("Piece" + num.ToString() + "Home").GetType().GetProperty("Margin").GetValue(FindByName("Piece" + num.ToString() + "Home"));
-                        });                        
-                    }
+                        piece.Resources.TryGetValue("Color", out object color);
+                        piece.Resources.Remove("PieceLocation");
+                        piece.Resources.Add("PieceLocation", 0.ToString());
+                        piece.Resources.TryGetValue("PieceNum", out object num);
+                        //Move the piece to starting position
+                        piece.Margin = (Thickness)FindByName("Piece" + num.ToString() + "Home").GetType().GetProperty("Margin").GetValue(FindByName("Piece" + num.ToString() + "Home"));
+                    });
                 }
+            }
 
-            });
         }
+
+
+
         if (lastRoll != 6 && pieceMoved && gameOver != true)
         {
             NextTurn();
         }
-        else if (lastRoll == 6 && gameOver != true)
+        else if (lastRoll == 6 && gameOver != true && pieceMoved)
         {
             Dispatcher.Dispatch(() => lblDirections.Text = "Roll the Dice Again");
             if (computerGame && TurnNum.ToString() != game.UserColor)
@@ -303,14 +307,15 @@ public partial class MainWindow : ContentPage
 
     private void NextTurn()
     {
+        
+        TurnNum++;
+        if (TurnNum > (Color)3)
+        {
+            TurnNum = 0;
+        }
+        if (diceRolled) diceRolled = false;
         Dispatcher.Dispatch(() =>
         {
-            TurnNum++;
-            if (TurnNum > (Color)3)
-            {
-                TurnNum = 0;
-            }
-            if (diceRolled) diceRolled = false;
             lblDirections.Text = TurnNum.ToString() + " Player, Roll the Dice";
             lblTurn.Text = "Turn: " + TurnNum.ToString();
             if (computerGame && TurnNum.ToString() != game.UserColor) ComputerTurn();

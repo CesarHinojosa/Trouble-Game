@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Trouble.MauiUI.CreateUser"
+             BackgroundColor="LightGray"
+             Shell.NavBarIsVisible="False">
+    <VerticalStackLayout
+        Padding="30,0"
+        Spacing="25">
+        
+        <Label Text="First Name" FontSize="16" Padding="0,50,0,0" TextColor="Black"/>
+        <Entry x:Name="txtFirstName" FontSize="16" TextColor="Black"/>
+        <Label Text="Last Name" FontSize="16" TextColor="Black"/>
+        <Entry x:Name="txtLastName" FontSize="16" TextColor="Black"/>
+        <Label Text="Username" FontSize="16" TextColor="Black"/>
+        <Entry x:Name="txtUsername" FontSize="16" TextColor="Black"/>
+        <Label Text="Password" FontSize="16" TextColor="Black"/>
+        <Entry x:Name="txtPassword" IsPassword="True" TextColor="Black"/>
+        <Button x:Name="btnCreate" Text="Create" FontSize="16" Clicked="btnCreate_Click"/>
+
+    </VerticalStackLayout>
+</ContentPage>

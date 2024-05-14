@@ -1,21 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Trouble.MauiUI.MainPage">
+             x:Class="Trouble.MauiUI.LoginPage"
+             BackgroundColor="LightGray"
+             Title="">
 
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
             
-            <Label Text="Username" Margin="92,38,0,0" />
-            <Entry x:Name="txtUsername" Margin="92,69,0,0" Width="149" Height="22"/>
+            <Label Text="Username" Padding="20,50,0,0" TextColor="Black" FontSize="16"/>
+            <Entry x:Name="txtUsername" TextColor="Black"/>
+
+            <Label Text="Password" Padding="20,0,0,0" TextColor="Black" FontSize="16"/>
+            <Entry x:Name="txtPassword" IsPassword="True" TextColor="Black"/>
             
-            <Label Text="Password" Margin="92,103,0,0" />
-            <Entry x:Name="txtPassword" IsPassword="True" Width="149" Height="22"/>
-            
-            <Button x:Name="btnLogin" Text="Login" Height="43" Width="10" Clicked="btnLogin_Click"/>
-            <Button x:Name="btnCreate" Text="Create User" Height="43" Width="10" Clicked="btnCreate_Clicked"/>
+            <Button x:Name="btnLogin" Text="Login" Clicked="btnLogin_Click"/>
+            <Button x:Name="btnCreate" Text="Create User" Clicked="btnCreate_Clicked"/>
 
         </VerticalStackLayout>
     </ScrollView>

@@ -2,9 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Trouble.MauiUI.MainWindow"
-             Title="MainWindow">
+             BackgroundColor="LightGray"
+             Shell.NavBarIsVisible="False">
     <ScrollView>
         <Grid Loaded="GameStart">
+
             <Ellipse HeightRequest="541" Stroke="Black" WidthRequest="541"/>
             <Ellipse x:Name="Space23" HeightRequest="25" Margin="116,373,555,149" Stroke="#FFFF2929" WidthRequest="25">
             </Ellipse>
@@ -223,12 +225,12 @@
             <Ellipse x:Name="Piece6Home" HeightRequest="25" Margin="529,33,142,488" Stroke="#FFFFEE39" WidthRequest="25"  Fill="#FFFFEE39" IsVisible="False">
 
             </Ellipse>
-            <Label x:Name="lblUser" Text="Label" Margin="10,10,0,0" FontSize="16"/>
+            <Label x:Name="lblUser" Text="" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Start" Padding="20,0,0,0" FontSize="16"/>
             <Button x:Name="btnSkip" Text="Skip Turn" Margin="0,650,0,0" HeightRequest="46" WidthRequest="108" FontSize="16" Clicked="btnSkip_Click"/>
             <Button x:Name="btnRoll" Text="Roll" Margin="310,151,310,363" HeightRequest="46" WidthRequest="90" FontSize="16" Clicked="btnRoll_Click"/>
-            <Label x:Name="lblTurn" Text="Turn: Green" Margin="878,10,10,653" FontSize="16"/>
-            <Label x:Name="lblRoll" Text="Label"  FontSize="16"/>
-            <Label x:Name="lblDirections" Text="Roll The Dice" Margin="0,10,0,0" FontSize="16"/>
+            <Label x:Name="lblRoll" Text="Label" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" FontSize="16"/>
+            <Label x:Name="lblTurn" Text="Turn: Green" TextColor="Black" HorizontalOptions="End" VerticalOptions="Start" FontSize="16" Padding="0,0,20,0" />
+            <Label x:Name="lblDirections" Text="Roll The Dice" TextColor="Black" HorizontalOptions="Center"  FontSize="16"/>
         </Grid>
     </ScrollView>
 </ContentPage>

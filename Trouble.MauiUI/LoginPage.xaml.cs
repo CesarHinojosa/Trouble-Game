@@ -4,7 +4,7 @@ using Trouble.BL.Models;
 
 namespace Trouble.MauiUI
 {
-    public partial class MainPage : ContentPage
+    public partial class LoginPage : ContentPage
     {
         //private string hubAddress = "https://localhost:7081/TroubleHub";
         private string hubAddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
@@ -13,7 +13,7 @@ namespace Trouble.MauiUI
 
         int count = 0;
 
-        public MainPage()
+        public LoginPage()
         {
             InitializeComponent();
             Start();
@@ -94,7 +94,8 @@ namespace Trouble.MauiUI
 
         private void btnCreate_Clicked(object sender, EventArgs e)
         {
-            Application.Current.Quit();
+            CreateUser create = new CreateUser();
+            this.Navigation.PushAsync(create);
         }
     }
 
