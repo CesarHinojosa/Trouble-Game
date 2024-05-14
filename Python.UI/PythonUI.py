@@ -412,28 +412,6 @@ class TroubleBoard:
                     if self.computer_game == True and self.selected_user_color != self.selected_turn_num.name:
                         time.sleep(2)
                         signalr.hub_connection.send("RollDice", ['Computer', self.selected_game_id])
-
-
-
-        # Check if the dice has been rolled for the current turn
-        # if self.rolled_number is not None:
-        #     # Get the name of the color that rolled the dice
-        #     color_rolled = self.selected_turn_num.name
-        
-
-
-           
-
-            # self.next_color()
-
-            # self.dice_result_label.config(text=f"Color Turn: {color_rolled} skipped their turn.", font=("Arial", 24, "bold"))
-        
-            # # Clear the rolled number for the next turn
-            # self.rolled_number = None
-            
-            # if self.computer_game and self.selected_turn_num.name != self.selected_user_color:
-                
-            #     signalr.hub_connection.send("ComputerTurn", [self.selected_game_id, self.selected_turn_num.name, self.rolled_number])
            
     def next_color(self):
         # Increment the turn to the next player's turn
