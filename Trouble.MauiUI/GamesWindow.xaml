@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Trouble.MauiUI.GamesWindow"
+             Title="GamesWindow">
+
+
+    <VerticalStackLayout>
+    <CollectionView x:Name="dgGames" SelectionMode="Single" SelectionChanged="dgGames_SelectionChanged">
+        <CollectionView.Header>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+            
+                <Label Grid.Column="0" Text="Game Name" FontAttributes="Bold"/>
+                <Label Grid.Column="1" Text="Game Date" FontAttributes="Bold"/>
+                <Label Grid.Column="2" Text="Turn Num" FontAttributes="Bold"/>
+                <Label Grid.Column="3" Text="User Color" FontAttributes="Bold"/>
+            </Grid>
+        </CollectionView.Header>
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="{Binding GameName}" Grid.Column="0" Grid.Row="1"/>
+                    <Label Text="{Binding GameDate}" Grid.Column="1" Grid.Row="1"/>
+                    <Label Text="{Binding TurnNum}" Grid.Column="2" Grid.Row="1"/>
+                    <Label Text="{Binding UserColor}" Grid.Column="3" Grid.Row="1"/>
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+
+        <Button x:Name="btnCreate" Text="Create Game" Width="136" Height="40" Clicked="btnCreate_Click"/>
+        <Button x:Name="btnLogOut" Text="Log Out" Width="136" Height="40" Clicked="btnLogOut_Click"/>
+        <Button x:Name="btnComputer" Text="Play Against Computer" Width="136" Height="40" Clicked="btnComputer_Click"/>
+        <Label x:Name="lblCreateGame" Text="Looking For Game" Width="152" FontSize="16" IsVisible="False"/>
+    </VerticalStackLayout>
+</ContentPage>
