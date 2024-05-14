@@ -30,7 +30,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trouble.API.Test", "Trouble
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trouble.ConsoleApp", "Trouble.ConsoleApp\Trouble.ConsoleApp.csproj", "{96278E46-F8F1-448D-A0E5-EC0F4D3D5C53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trouble.Reporting", "Trouble.Reporting\Trouble.Reporting.csproj", "{DEB3125B-249E-4673-82BD-F9B5881168E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trouble.Reporting", "Trouble.Reporting\Trouble.Reporting.csproj", "{DEB3125B-249E-4673-82BD-F9B5881168E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trouble.MauiUI", "Trouble.MauiUI\Trouble.MauiUI.csproj", "{BFBC29F5-4EEE-4C59-B6BC-0A2553C53151}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,6 +86,12 @@ Global
 		{DEB3125B-249E-4673-82BD-F9B5881168E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEB3125B-249E-4673-82BD-F9B5881168E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEB3125B-249E-4673-82BD-F9B5881168E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFBC29F5-4EEE-4C59-B6BC-0A2553C53151}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFBC29F5-4EEE-4C59-B6BC-0A2553C53151}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFBC29F5-4EEE-4C59-B6BC-0A2553C53151}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BFBC29F5-4EEE-4C59-B6BC-0A2553C53151}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFBC29F5-4EEE-4C59-B6BC-0A2553C53151}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFBC29F5-4EEE-4C59-B6BC-0A2553C53151}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

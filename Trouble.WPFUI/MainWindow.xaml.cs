@@ -300,6 +300,7 @@ namespace Trouble.WPFUI
         {
             this.Dispatcher.Invoke(() =>
             {
+                if (diceRolled) diceRolled = false;
                 TurnNum++;
                 if (TurnNum > (Color)3)
                 {

@@ -22,12 +22,5 @@
   <ItemGroup>
     <Compile Include="PythonUI.py" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Trouble.BL.Models\Trouble.BL.Models.csproj">
-      <Name>Trouble.BL.Models</Name>
-      <Project>{f1745b8b-38fd-408e-8a31-09d66a7b18d3}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
 </Project>
