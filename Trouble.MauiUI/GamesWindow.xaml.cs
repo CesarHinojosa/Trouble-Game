@@ -21,7 +21,7 @@ public partial class GamesWindow : ContentPage
 	{
 		InitializeComponent();
         this.user = user;
-        Title = "Games for " + user.Username;
+        lblGame.Text = "Games for " + user.Username;
         RebindGames();
         Start();
     }
@@ -72,18 +72,23 @@ public partial class GamesWindow : ContentPage
 
     private void CreatedGame(Game game, List<UserGame> userGames)
     {
-        lblCreateGame.IsVisible = false;
-        btnComputer.IsVisible = true;
-        btnCreate.IsVisible = true;
-        btnLogOut.IsVisible = true;
-        foreach (UserGame userGame in userGames)
+        Dispatcher.Dispatch(() =>
         {
-            if (userGame.UserId == user.Id) game.UserColor = userGame.PlayerColor;
-        }
-        //MainWindow window = new MainWindow(user.Username, game);
-        _connection.SendAsync("RemoveFromGroup");
-        //window.Show();
-        RebindGames();
+            lblCreateGame.IsVisible = false;
+            btnComputer.IsVisible = true;
+            btnCreate.IsVisible = true;
+            btnLogOut.IsVisible = true;
+
+            foreach (UserGame userGame in userGames)
+            {
+                if (userGame.UserId == user.Id) game.UserColor = userGame.PlayerColor;
+            }
+            RebindGames();
+            MainWindow window = new MainWindow(user.Username, game);
+            _connection.SendAsync("RemoveFromGroup");
+            ///this.Navigation.PopAsync();
+            this.Navigation.PushAsync(window);
+        });
     }
 
     public void Start()
@@ -99,9 +104,11 @@ public partial class GamesWindow : ContentPage
 
     private void CreateComputer(Game g1)
     {
-        MainWindow window = new MainWindow(user.Username, g1);
-        this.Navigation.PushAsync(window);
         RebindGames();
+        g1.UserColor = "Green";
+        MainWindow window = new MainWindow(user.Username, g1);
+        this.Navigation.PopAsync();
+        this.Navigation.PushAsync(window);
     }
 
     private void OnSend(string user, object message)
@@ -136,9 +143,9 @@ public partial class GamesWindow : ContentPage
 
     private void btnLogOut_Click(object sender, EventArgs e)
     {
-        //LoginPage login = new LoginPage();
-        //login.Show();
-        Application.Current.Quit();
+        LoginPage login = new LoginPage();
+        this.Navigation.PopAsync();
+        //this.Navigation.PushModalAsync(login);
     }
 
     private void btnCreate_Click(object sender, EventArgs e)

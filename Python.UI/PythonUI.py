@@ -19,8 +19,8 @@ from signalrcore.hub_connection_builder import HubConnectionBuilder
 
 
 class SignalR:
-    hubaddress = "https://localhost:7081/TroubleHub"
-    #hubaddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
+    #hubaddress = "https://localhost:7081/TroubleHub"
+    hubaddress = "https://bigprojectapi-300077578.azurewebsites.net/troublehub";
 
     hub_connection = HubConnectionBuilder().with_url(hubaddress, options={"verify_ssl": False}).build()
     hub_connection.start()
@@ -197,8 +197,8 @@ class ChooseGame:
         self.user = user
 
         # Fetch game data from the API
-        #response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/Game/GetByUser/" + self.user['Id'])
-        response = requests.get("https://localhost:7081/api/Game/GetByUser/" + self.user['Id'], verify=False)
+        response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/Game/GetByUser/" + self.user['Id'])
+        #response = requests.get("https://localhost:7081/api/Game/GetByUser/" + self.user['Id'], verify=False)
         data = response.json()
         
         # Store game data
@@ -333,8 +333,8 @@ class TroubleBoard:
         print(f"{self.user} + {self.selected_game_id}")
 
     def assign_pieces_to_circles(self, circle_ids):
-        #response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/" + self.selected_game_id)
-        response = requests.get("https://localhost:7081/api/PieceGame/" + self.selected_game_id, verify=False)
+        response = requests.get("https://bigprojectapi-300077578.azurewebsites.net/api/PieceGame/" + self.selected_game_id)
+        #response = requests.get("https://localhost:7081/api/PieceGame/" + self.selected_game_id, verify=False)
         data = response.json()
         
             # Sort the data by piece color (Guids)
