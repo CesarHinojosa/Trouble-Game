@@ -42,7 +42,7 @@ public partial class MainWindow : ContentPage
         user = username;
         this.game = game;
         TurnNum = (Color)game.TurnNum;
-        lblUser.Text = "Color: " + game.UserColor;
+        lblUser.Text = "User Color: " + game.UserColor;
         Start();
         _connection.SendAsync("JoinGame", user, game.Id);
     }
@@ -188,12 +188,7 @@ public partial class MainWindow : ContentPage
 
         _connection.On<string, string>("ReceiveMessage", (s1, s2) => OnSend(s1, s2));
         _connection.On<Guid, int>("MovePieceReturn", (g1, i1) => MovePieceReturn(g1, i1));
-        _connection.On<Guid>("ComputerReturn", (g1) => {
-            Task.Delay(2000).ContinueWith(_ =>
-            {
-                MovePiece(g1, game.Id, lastRoll);
-            });
-        });
+        _connection.On<Guid>("ComputerReturn", (g1) => MovePiece(g1, game.Id, lastRoll));
         _connection.On<string>("ComputerMoveFail", (s1) => NextTurn());
         _connection.On<int>("Skip", (i1) => NextTurn());
         _connection.On<int>("DiceRolled", (i1) => {
@@ -318,7 +313,13 @@ public partial class MainWindow : ContentPage
         {
             lblDirections.Text = TurnNum.ToString() + " Player, Roll the Dice";
             lblTurn.Text = "Turn: " + TurnNum.ToString();
-            if (computerGame && TurnNum.ToString() != game.UserColor) ComputerTurn();
+            if (computerGame && TurnNum.ToString() != game.UserColor)
+            {
+                Task.Delay(2000).ContinueWith(_ =>
+                {
+                    ComputerTurn();
+                });
+            }
 
         });
     }

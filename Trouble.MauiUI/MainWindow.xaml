@@ -7,230 +7,198 @@
     <ScrollView>
         <Grid Loaded="GameStart">
 
-            <Ellipse HeightRequest="541" Stroke="Black" WidthRequest="541"/>
-            <Ellipse x:Name="Space23" HeightRequest="25" Margin="116,373,555,149" Stroke="#FFFF2929" WidthRequest="25">
+            <Ellipse HeightRequest="325" Stroke="Black" WidthRequest="325"/>
+            <Ellipse x:Name="Space23" HeightRequest="20" Margin="68,227,318,114.5" Stroke="#FFFF2929" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space17" HeightRequest="25" Margin="390,499,282,21" Stroke="#FF2985FF" WidthRequest="25">
+            <Ellipse x:Name="Space17" HeightRequest="20" Margin="225,329.5,161,50.5" Stroke="#FF2985FF" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space16" HeightRequest="25" Margin="439,483,232,38" Stroke="#FF2985FF" WidthRequest="25">
+            <Ellipse x:Name="Space16" HeightRequest="20" Margin="259.5,311.5,136,59" Stroke="#FF2985FF" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space25" HeightRequest="25" Margin="88,261,582,260" Stroke="#FFFF2929" WidthRequest="25">
+            <Ellipse x:Name="Space25" HeightRequest="20" Margin="44,180.5,331,180" Stroke="#FFFF2929" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space22" HeightRequest="25" Margin="143,416,527,106" Stroke="#FFFF2929" WidthRequest="25" Fill="Black" StrokeThickness="2">
-
+            <Ellipse x:Name="Space22" HeightRequest="20" Margin="81.5,258,303.5,93" Stroke="#FFFF2929" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="Space9" HeightRequest="25" Margin="556,155,115,366" Stroke="#FFFFEE39" WidthRequest="25">
+            <Ellipse x:Name="Space9" HeightRequest="20" Margin="348,127.5,97.5,233" Stroke="#FFFFEE39" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space24" HeightRequest="25" Margin="98,317,573,204" Stroke="#FFFF2929" WidthRequest="25">
+            <Ellipse x:Name="Space24" HeightRequest="20" Margin="59,208.5,336.5,152" Stroke="#FFFF2929" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space2" HeightRequest="25" Margin="224,42,447,479" Stroke="#FF38C340" WidthRequest="25">
+            <Ellipse x:Name="Space2" HeightRequest="20" Margin="132,41,263.5,289.5" Stroke="#FF38C340" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space3" HeightRequest="25" Margin="281,24,391,498" Stroke="#FF38C340" WidthRequest="25">
+            <Ellipse x:Name="Space3" HeightRequest="20" Margin="170.5,22,238.5,299" Stroke="#FF38C340" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space4" HeightRequest="25" Stroke="#FF38C340" WidthRequest="25" Margin="335,15,337,507">
+            <Ellipse x:Name="Space4" HeightRequest="20" Stroke="#FF38C340" WidthRequest="20" Margin="207.5,17.5,211.5,303.5">
             </Ellipse>
-            <Ellipse x:Name="Space10" HeightRequest="25" Margin="573,210,97,311" Stroke="#FFFFEE39" WidthRequest="25">
+            <Ellipse x:Name="Space10" HeightRequest="20" Margin="336.5,145,58.5,195.5" Stroke="#FFFFEE39" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space21" HeightRequest="25" Margin="181,454,489,66" Stroke="#FFFF2929" WidthRequest="25">
+            <Ellipse x:Name="Space21" HeightRequest="20" Margin="95.5,287,284.5,73" Stroke="#FFFF2929" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space20" HeightRequest="25" Margin="226,484,446,39" Stroke="#FFFF2929" WidthRequest="25" >
+            <Ellipse x:Name="Space20" HeightRequest="20" Margin="133,312,263,59.5" Stroke="#FFFF2929" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space19" HeightRequest="25" Margin="280,499,390,21" Stroke="#FFFF2929" WidthRequest="25">
+            <Ellipse x:Name="Space19" HeightRequest="20" Margin="180,329.5,238,50.5" Stroke="#FFFF2929" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space7" HeightRequest="25" Margin="486,70,186,452" Stroke="#FFFFEE39" WidthRequest="25">
+            <Ellipse x:Name="Space7" HeightRequest="20" Margin="283,35,113,266" Stroke="#FFFFEE39" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space6" HeightRequest="25" Margin="437,42,233,480" Stroke="#FFFFEE39" WidthRequest="25">
+            <Ellipse x:Name="Space6" HeightRequest="20" Margin="278.5,16,166.5,280" Stroke="#FFFFEE39" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space5" HeightRequest="25" Margin="390,22,282,498" Stroke="#FFFFEE39" WidthRequest="25">
+            <Ellipse x:Name="Space5" HeightRequest="20" Margin="235,16,181,299" Stroke="#FFFFEE39" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space11" HeightRequest="25" Margin="582,261,89,260" Stroke="#FFFFEE39" WidthRequest="25">
+            <Ellipse x:Name="Space11" HeightRequest="20" Margin="371,180.5,84.5,170" Stroke="#FFFFEE39" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space28" HeightRequest="25" Margin="143,109,528,411" Stroke="#FF38C340" WidthRequest="25" >
+            <Ellipse x:Name="Space28" HeightRequest="20" Margin="71.5,74.5,304,255.5" Stroke="#FF38C340" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space27" HeightRequest="25" Margin="116,156,555,364" Stroke="#FF38C340" WidthRequest="25" >
+            <Ellipse x:Name="Space27" HeightRequest="20" Margin="48,118,317.5,238" Stroke="#FF38C340" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space26" HeightRequest="25" Margin="97,210,573,311" Stroke="#FF38C340" WidthRequest="25">
+            <Ellipse x:Name="Space26" HeightRequest="20" Margin="48.5,140,336.5,195.5" Stroke="#FF38C340" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space14" HeightRequest="25" Margin="527,416,145,106" Stroke="#FF2985FF" WidthRequest="25" >
+            <Ellipse x:Name="Space14" HeightRequest="20" Margin="343.5,278,112.5,93" Stroke="#FF2985FF" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space13" HeightRequest="25" Margin="556,374,114,148" Stroke="#FF2985FF" WidthRequest="25" >
+            <Ellipse x:Name="Space13" HeightRequest="20" Margin="358,237,97,114" Stroke="#FF2985FF" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space12" HeightRequest="25" Margin="573,317,98,204" Stroke="#FF2985FF" WidthRequest="25">
+            <Ellipse x:Name="Space12" HeightRequest="20" Margin="366.5,218.5,89,152" Stroke="#FF2985FF" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space18" HeightRequest="25" Margin="335,509,335,12" Stroke="#FF2985FF" WidthRequest="25" >
+            <Ellipse x:Name="Space18" HeightRequest="20" Margin="207.5,338.5,207.5,46" Stroke="#FF2985FF" WidthRequest="20">
             </Ellipse>
-            <Ellipse x:Name="Space8" HeightRequest="25" Margin="527,112,145,410" Stroke="#FFFFEE39" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="Space8" HeightRequest="20" Margin="303.5,36,82.5,215" Stroke="#FFFFEE39" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="Space15" HeightRequest="25" Margin="483,454,189,67" Stroke="#FF2985FF" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="Space15" HeightRequest="20" Margin="281.5,267,104.5,43.5" Stroke="#FF2985FF" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="Space1" HeightRequest="25" Margin="183,68,489,453" Stroke="#FF38C340" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="Space1" HeightRequest="20" Margin="71.5,14,254.5,236.5" Stroke="#FF38C340" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="GreenHome1" HeightRequest="25" Margin="190,119,482,402" Stroke="#FF38C340" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="GreenHome1" HeightRequest="20" Margin="85,49.5,251,211" Stroke="#FF38C340" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="GreenHome2" HeightRequest="25" Margin="226,158,446,363" Stroke="#FF38C340" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="GreenHome2" HeightRequest="20" Margin="103,79,233,191.5" Stroke="#FF38C340" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="GreenHome3" HeightRequest="25" Margin="259,191,413,329" Stroke="#FF38C340" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="GreenHome3" HeightRequest="20" Margin="129.5,105.5,216.5,174.5" Stroke="#FF38C340" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="GreenHome4" HeightRequest="25" Margin="299,230,373,292" Stroke="#FF38C340" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="GreenHome4" HeightRequest="20" Margin="159.5,125,196.5,156" Stroke="#FF38C340" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="RedHome1" HeightRequest="25" Margin="190,410,480,112" Stroke="#FFFF2929" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="RedHome1" HeightRequest="20" Margin="85,215,250,66" Stroke="#FFFF2929" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="RedHome2" HeightRequest="25" Margin="226,374,444,148" Stroke="#FFFF2929" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="RedHome2" HeightRequest="20" Margin="113,197,232,84" Stroke="#FFFF2929" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="RedHome3" HeightRequest="25" Margin="260,336,410,186" Stroke="#FFFF2929" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="RedHome3" HeightRequest="20" Margin="140,178,215,103" Stroke="#FFFF2929" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="RedHome4" HeightRequest="25" Margin="297,294,373,228" Stroke="#FFFF2929" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="RedHome4" HeightRequest="20" Margin="158.5,157,196.5,124" Stroke="#FFFF2929" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="YellowHome1" HeightRequest="25" Margin="483,121,188,401" Stroke="#FFFFEE39" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="YellowHome1" HeightRequest="20" Margin="271.5,61.5,104,210.5" Stroke="#FFFFEE39" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="YellowHome2" HeightRequest="25" Margin="453,159,218,363" Stroke="#FFFFEE39" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="YellowHome2" HeightRequest="20" Margin="246.5,89.5,119,191.5" Stroke="#FFFFEE39" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="YellowHome3" HeightRequest="25" Margin="409,201,262,321" Stroke="#FFFFEE39" WidthRequest="25">
+            <Ellipse x:Name="YellowHome3" HeightRequest="20" Margin="224.5,110.5,141,170.5" Stroke="#FFFFEE39" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="YellowHome4" HeightRequest="25" Margin="365,230,306,292" Stroke="#FFFFEE39" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="YellowHome4" HeightRequest="20" Margin="192.5,125,163,156" Stroke="#FFFFEE39" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="BlueHome1" HeightRequest="25" Margin="483,410,189,111" Stroke="#FF2985FF" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="BlueHome1" HeightRequest="20" Margin="261.5,235,104.5,65.5" Stroke="#FF2985FF" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="BlueHome2" HeightRequest="25" Margin="453,373,219,148" Stroke="#FF2985FF" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="BlueHome2" HeightRequest="20" Margin="236.5,206.5,119.5,84" Stroke="#FF2985FF" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="BlueHome3" HeightRequest="25" Margin="410,336,262,185" Stroke="#FF2985FF" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="BlueHome3" HeightRequest="20" Margin="215,178,141,103" Stroke="#FF2985FF" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="BlueHome4" HeightRequest="25" Margin="365,293,307,228" Stroke="#FF2985FF" WidthRequest="25" Fill="Black" StrokeThickness="2">
+            <Ellipse x:Name="BlueHome4" HeightRequest="20" Margin="192.5,156.5,163.5,124" Stroke="#FF2985FF" WidthRequest="20" Fill="Black" StrokeThickness="2">
             </Ellipse>
-            <Ellipse x:Name="Piece16" HeightRequest="25" Margin="68,411,603,110" Stroke="#FFFF2929" WidthRequest="25" Fill="#FFFF2929" >
+            <Ellipse x:Name="Piece16" HeightRequest="20" Margin="0,215.5,331.5,75" Stroke="#FFFF2929" WidthRequest="20" Fill="#FFFF2929">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece15" HeightRequest="25" Margin="99,454,572,67" Stroke="#FFFF2929" WidthRequest="25" Fill="#FFFF2929" >
+            <Ellipse x:Name="Piece15" HeightRequest="20" Margin="9.5,237,316,43.5" Stroke="#FFFF2929" WidthRequest="20" Fill="#FFFF2929">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece14" HeightRequest="25" Margin="135,489,537,32" Stroke="#FFFF2929" WidthRequest="25" Fill="#FFFF2929" >
+            <Ellipse x:Name="Piece14" HeightRequest="20" Margin="7.5,264.5,278.5,20" Stroke="#FFFF2929" WidthRequest="20" Fill="#FFFF2929">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece13" HeightRequest="25" Margin="179,512,492,9" Stroke="#FFFF2929" WidthRequest="25" Fill="#FFFF2929" >
+            <Ellipse x:Name="Piece13" HeightRequest="20" Margin="59.5,306,280,14.5" Stroke="#FFFF2929" WidthRequest="20" Fill="#FFFF2929">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece12" HeightRequest="25" Margin="487,512,185,9" Stroke="#FF2985FF" WidthRequest="25" Fill="#FF2985FF" >
+            <Ellipse x:Name="Piece12" HeightRequest="20" Margin="330,300,102.5,10" Stroke="#FF2985FF" WidthRequest="20" Fill="#FF2985FF">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece11" HeightRequest="25" Margin="530,489,142,32" Stroke="#FF2985FF" WidthRequest="25" Fill="#FF2985FF">
+            <Ellipse x:Name="Piece11" HeightRequest="20" Margin="350,274.5,81,26" Stroke="#FF2985FF" WidthRequest="20" Fill="#FF2985FF">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece10" HeightRequest="25" Margin="567,454,104,67" Stroke="#FF2985FF" WidthRequest="25" Fill="#FF2985FF" >
+            <Ellipse x:Name="Piece10" HeightRequest="20" Margin="363.5,247,62,43.5" Stroke="#FF2985FF" WidthRequest="20" Fill="#FF2985FF">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece9" HeightRequest="25" Margin="602,411,68,110" Stroke="#FF2985FF" WidthRequest="25"  Fill="#FF2985FF" >
+            <Ellipse x:Name="Piece9" HeightRequest="20" Margin="365,215.5,44,65" Stroke="#FF2985FF" WidthRequest="20" Fill="#FF2985FF">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece5" HeightRequest="25" Margin="478,5,193,516" Stroke="#FFFFEE39" WidthRequest="25"  Fill="#FFFFEE39" >
+            <Ellipse x:Name="Piece5" HeightRequest="20" Margin="340,10,106.5,280" Stroke="#FFFFEE39" WidthRequest="20" Fill="#FFFFEE39">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece8" HeightRequest="25" Margin="600,113,72,408" Stroke="#FFFFEE39" WidthRequest="25"  Fill="#FFFFEE39" >
+            <Ellipse x:Name="Piece8" HeightRequest="20" Margin="380,30,46,145" Stroke="#FFFFEE39" WidthRequest="20" Fill="#FFFFEE39">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece7" HeightRequest="25" Margin="566,69,104,452" Stroke="#FFFFEE39" WidthRequest="25"  Fill="#FFFFEE39" >
+            <Ellipse x:Name="Piece7" HeightRequest="20" Margin="375,65,62,236" Stroke="#FFFFEE39" WidthRequest="20" Fill="#FFFFEE39">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece6" HeightRequest="25" Margin="529,33,142,488" Stroke="#FFFFEE39" WidthRequest="25"  Fill="#FFFFEE39" >
+            <Ellipse x:Name="Piece6" HeightRequest="20" Margin="354.5,26.5,81,254" Stroke="#FFFFEE39" WidthRequest="20" Fill="#FFFFEE39">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece4" HeightRequest="25" Margin="179,5,492,516" Stroke="#FF38C340" WidthRequest="25"  Fill="#FF38C340" >
+            <Ellipse x:Name="Piece4" HeightRequest="20" Margin="65,10,270,310" Stroke="#FF38C340" WidthRequest="20" Fill="#FF38C340">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece3" HeightRequest="25" Margin="136,33,535,488" Stroke="#FF38C340" WidthRequest="25"  Fill="#FF38C340" >
+            <Ellipse x:Name="Piece3" HeightRequest="20" Margin="70,10,330.5,260" Stroke="#FF38C340" WidthRequest="20" Fill="#FF38C340">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece2" HeightRequest="25" Margin="98,70,573,452" Stroke="#FF38C340" WidthRequest="25"  Fill="#FF38C340" >
+            <Ellipse x:Name="Piece2" HeightRequest="20" Margin="55,60,350.5,260" Stroke="#FF38C340" WidthRequest="20" Fill="#FF38C340">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece1" HeightRequest="25" Margin="68,113,603,408" Stroke="#FF38C340" WidthRequest="25"  Fill="#FF38C340" >
+            <Ellipse x:Name="Piece1" HeightRequest="20" Margin="40,70,360.5,220" Stroke="#FF38C340" WidthRequest="20" Fill="#FF38C340">
                 <Ellipse.GestureRecognizers>
                     <TapGestureRecognizer Tapped="MovePieceClick"/>
                 </Ellipse.GestureRecognizers>
             </Ellipse>
-            <Ellipse x:Name="Piece1Home" HeightRequest="25" Margin="68,113,603,408" Stroke="#FF38C340" WidthRequest="25"  Fill="#FF38C340" IsVisible="False">
+            <Ellipse x:Name="Piece1Home" HeightRequest="20" Margin="40,70,360.5,220" Stroke="#FF38C340" WidthRequest="20" Fill="#FF38C340" IsVisible="False"></Ellipse>
+            <Ellipse x:Name="Piece2Home" HeightRequest="20" Margin="55,60,350.5,260" Stroke="#FF38C340" WidthRequest="20" Fill="#FF38C340" IsVisible="False"></Ellipse>
+            <Ellipse x:Name="Piece3Home" HeightRequest="20" Margin="70,10,330.5,260" Stroke="#FF38C340" WidthRequest="20" Fill="#FF38C340" IsVisible="False"></Ellipse>
+            <Ellipse x:Name="Piece7Home" HeightRequest="20" Margin="375,65,62,236" Stroke="#FFFFEE39" WidthRequest="20" Fill="#FFFFEE39" IsVisible="False"></Ellipse>
+            <Ellipse x:Name="Piece8Home" HeightRequest="20" Margin="380,30,46,145" Stroke="#FFFFEE39" WidthRequest="20" Fill="#FFFFEE39" IsVisible="False"></Ellipse>
+            <Ellipse x:Name="Piece9Home" HeightRequest="20" Margin="365,215.5,44,65" Stroke="#FF2985FF" WidthRequest="20" Fill="#FF2985FF" IsVisible="False"></Ellipse>
+            <Ellipse x:Name="Piece10Home" HeightRequest="20" Margin="363.5,247,62,43.5" Stroke="#FF2985FF" WidthRequest="20" Fill="#FF2985FF" IsVisible="False"></Ellipse>
+            <Ellipse x:Name="Piece11Home" HeightRequest="20" Margin="350,274.5,81,26" Stroke="#FF2985FF" WidthRequest="20" Fill="#FF2985FF" IsVisible="False"></Ellipse>
+            <Ellipse x:Name="Piece12Home" HeightRequest="20" Margin="290,280,102.5,10" Stroke="#FF2985FF" WidthRequest="20" Fill="#FF2985FF" IsVisible="False"></Ellipse>
+            <Ellipse x:Name="Piece13Home" HeightRequest="20" Margin="59.5,306,280,14.5" Stroke="#FFFF2929" WidthRequest="20" Fill="#FFFF2929" IsVisible="False"></Ellipse>
+            <Ellipse x:Name="Piece14Home" HeightRequest="20" Margin="7.5,264.5,278.5,20" Stroke="#FFFF2929" WidthRequest="20" Fill="#FFFF2929" IsVisible="False"></Ellipse>
+            <Ellipse x:Name="Piece15Home" HeightRequest="20" Margin="9.5,237,316,43.5" Stroke="#FFFF2929" WidthRequest="20" Fill="#FFFF2929" IsVisible="False"></Ellipse>
+            <Ellipse x:Name="Piece16Home" HeightRequest="20" Margin="0,215.5,331.5,75" Stroke="#FFFF2929" WidthRequest="20" Fill="#FFFF2929" IsVisible="False"></Ellipse>
+            <Ellipse x:Name="Piece4Home" HeightRequest="20" Margin="65,10,270,310" Stroke="#FF38C340" WidthRequest="20" Fill="#FF38C340" IsVisible="False"></Ellipse>
+            <Ellipse x:Name="Piece5Home" HeightRequest="20" Margin="340,10,106.5,280" Stroke="#FFFFEE39" WidthRequest="20" Fill="#FFFFEE39" IsVisible="False"></Ellipse>
+            <Ellipse x:Name="Piece6Home" HeightRequest="20" Margin="354.5,26.5,81,254" Stroke="#FFFFEE39" WidthRequest="20" Fill="#FFFFEE39" IsVisible="False"></Ellipse>
 
-            </Ellipse>
-            <Ellipse x:Name="Piece2Home" HeightRequest="25"  Margin="98,70,573,452" Stroke="#FF38C340" WidthRequest="25"  Fill="#FF38C340" IsVisible="False">
-
-            </Ellipse>
-            <Ellipse x:Name="Piece3Home" HeightRequest="25" Margin="136,33,535,488" Stroke="#FF38C340" WidthRequest="25"  Fill="#FF38C340" IsVisible="False">
-
-            </Ellipse>
-            <Ellipse x:Name="Piece7Home" HeightRequest="25" Margin="566,69,104,452" Stroke="#FFFFEE39" WidthRequest="25"  Fill="#FFFFEE39" IsVisible="False">
-
-            </Ellipse>
-            <Ellipse x:Name="Piece8Home" HeightRequest="25" Margin="600,113,72,408" Stroke="#FFFFEE39" WidthRequest="25"  Fill="#FFFFEE39" IsVisible="False">
-
-            </Ellipse>
-            <Ellipse x:Name="Piece9Home" HeightRequest="25" Margin="602,411,68,110" Stroke="#FF2985FF" WidthRequest="25"  Fill="#FF2985FF" IsVisible="False">
-
-            </Ellipse>
-            <Ellipse x:Name="Piece10Home" HeightRequest="25" Margin="567,454,104,67" Stroke="#FF2985FF" WidthRequest="25"  Fill="#FF2985FF" IsVisible="False">
-
-            </Ellipse>
-            <Ellipse x:Name="Piece11Home" HeightRequest="25" Margin="530,489,142,32" Stroke="#FF2985FF" WidthRequest="25"  Fill="#FF2985FF" IsVisible="False">
-
-            </Ellipse>
-            <Ellipse x:Name="Piece12Home" HeightRequest="25"  Margin="487,512,185,9" Stroke="#FF2985FF" WidthRequest="25"  Fill="#FF2985FF" IsVisible="False">
-
-            </Ellipse>
-            <Ellipse x:Name="Piece13Home" HeightRequest="25" Margin="179,512,492,9" Stroke="#FFFF2929" WidthRequest="25"  Fill="#FFFF2929" IsVisible="False">
-
-            </Ellipse>
-            <Ellipse x:Name="Piece14Home" HeightRequest="25" Margin="135,489,537,32" Stroke="#FFFF2929" WidthRequest="25"  Fill="#FFFF2929" IsVisible="False">
-
-            </Ellipse>
-            <Ellipse x:Name="Piece15Home" HeightRequest="25" Margin="99,454,572,67" Stroke="#FFFF2929" WidthRequest="25"  Fill="#FFFF2929" IsVisible="False">
-
-            </Ellipse>
-            <Ellipse x:Name="Piece16Home" HeightRequest="25" Margin="68,411,603,110" Stroke="#FFFF2929" WidthRequest="25"  Fill="#FFFF2929" IsVisible="False">
-
-            </Ellipse>
-            <Ellipse x:Name="Piece4Home" HeightRequest="25" Margin="179,5,492,516" Stroke="#FF38C340" WidthRequest="25"  Fill="#FF38C340" IsVisible="False">
-
-            </Ellipse>
-            <Ellipse x:Name="Piece5Home" HeightRequest="25" Margin="478,5,193,516" Stroke="#FFFFEE39" WidthRequest="25"  Fill="#FFFFEE39" IsVisible="False">
-
-            </Ellipse>
-            <Ellipse x:Name="Piece6Home" HeightRequest="25" Margin="529,33,142,488" Stroke="#FFFFEE39" WidthRequest="25"  Fill="#FFFFEE39" IsVisible="False">
-
-            </Ellipse>
-            <Label x:Name="lblUser" Text="" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Start" Padding="20,0,0,0" FontSize="16"/>
+            <Label x:Name="lblUser" Text="" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Start" Padding="20,10,0,0" FontSize="16"/>
             <Button x:Name="btnSkip" Text="Skip Turn" Margin="0,650,0,0" HeightRequest="46" WidthRequest="108" FontSize="16" Clicked="btnSkip_Click"/>
-            <Button x:Name="btnRoll" Text="Roll" Margin="310,151,310,363" HeightRequest="46" WidthRequest="90" FontSize="16" Clicked="btnRoll_Click"/>
-            <Label x:Name="lblRoll" Text="Label" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" FontSize="16"/>
-            <Label x:Name="lblTurn" Text="Turn: Green" TextColor="Black" HorizontalOptions="End" VerticalOptions="Start" FontSize="16" Padding="0,0,20,0" />
-            <Label x:Name="lblDirections" Text="Roll The Dice" TextColor="Black" HorizontalOptions="Center"  FontSize="16"/>
+            <Button x:Name="btnRoll" Text="Roll" Margin="310,191,310,363" HeightRequest="46" WidthRequest="90" FontSize="16" Clicked="btnRoll_Click"/>
+            <Label x:Name="lblRoll" Text="0" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" FontSize="16"/>
+            <Label x:Name="lblTurn" Text="Turn: Green" TextColor="Black" HorizontalOptions="End" VerticalOptions="Start" FontSize="16" Padding="0,10,20,0" />
+            <Label x:Name="lblDirections" Text="Roll The Dice" TextColor="Black" HorizontalOptions="Center" Padding="0,100,0,0" FontSize="16"/>
         </Grid>
     </ScrollView>
 </ContentPage>
