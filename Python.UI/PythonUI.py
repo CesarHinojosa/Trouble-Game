@@ -102,6 +102,8 @@ class LoginScreen:
         self.password_entry.grid(row=2, column=1, pady=20)
         self.login_button.grid(row=3, column=0, columnspan=2, pady=30)        
         self.create_button.grid(row=4, column=0, columnspan=3, pady=30)   
+        
+        signalr.hub_connection.on("LoginResult", lambda msg: self.LoginResult(msg))       
 
     def login(self):
         #retrieve username and password by user
@@ -111,8 +113,7 @@ class LoginScreen:
         if username and password:
             signalr.hub_connection.send("Login", [username, password])
             #signalr.hub_connection.on("LoginResult", lambda msg: self.LoginResult(print(msg)))  
-            #
-            signalr.hub_connection.on("LoginResult", lambda msg: self.LoginResult(msg))       
+           
     
 
     def create_user(self):
@@ -132,10 +133,10 @@ class LoginScreen:
             #self.userId = ['Id' in msg [1]]
 
             messagebox.showinfo(title="Login Success", message="You successfully logged in")
-            self.master.withdraw()  # Hide login window
+            #self.master.withdraw()  # Hide login window
             options_window = tk.Toplevel(self.master)
             options_screen = OptionsScreen(options_window, self.user)
-        elif(msg == False):
+        else:
             messagebox.showinfo(title="Error", message="Invalid Login")
          
 class OptionsScreen():
